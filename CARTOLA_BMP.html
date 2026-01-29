@@ -97,7 +97,7 @@ body{margin:0;background:var(--bg);color:var(--text);}
 .slider{
   position:absolute;
   cursor:pointer;
-  top:0;left:0;right:0;bottom:0;
+  inset:0;
   background:#cbd5e1;
   border-radius:26px;
   transition:0.3s;
@@ -144,12 +144,17 @@ input:checked + .slider:before{
 .table th,.table td{
   padding:10px;
   border-bottom:1px solid var(--border);
-  font-size:14px;
+  font-size:clamp(11px,2.6vw,14px);
 }
 
 .table th{text-align:left;color:var(--muted);font-weight:600;}
 
-.team-cell{display:flex;align-items:center;gap:8px;}
+.team-cell{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:clamp(12px,3vw,14px);
+}
 
 .logo{width:28px;height:28px;border-radius:50%;border:2px dashed #cbd5e1;background:#f1f5f9;}
 
@@ -163,45 +168,13 @@ input:checked + .slider:before{
 .relegation{background:var(--relegation);}
 
 @media(max-width:700px){
+  .header{flex-direction:column;align-items:flex-start;}
+  .title-block h2{font-size:24px;}
 
-  .header{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .title-block h2{
-    font-size:24px;
-  }
-
-  /* esconde cabeçalhos C$ e RDD */
-  .table th:nth-child(3),
-  .table th:nth-child(4){
-    display:none;
-  }
-
-  /* transforma célula TIME em bloco vertical */
-  .team-cell{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:4px;
-  }
-
-  /* mostra infos extras abaixo do time */
-  .money,
-  .rdd{
-    display:block;
-    font-size:12px;
-    color:var(--muted);
-    padding-top:2px;
-  }
-
-  /* reduz espaçamento geral */
-  .table td{
-    padding:8px;
+  .table th,.table td{
+    padding:6px;
   }
 }
-
-
 
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
@@ -223,7 +196,6 @@ input:checked + .slider:before{
     </div>
   </div>
 
-  <!-- SWITCH -->
   <div class="switch-container">
     <span>🔅</span>
     <label class="switch">
@@ -333,6 +305,3 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
-
-
-
