@@ -163,11 +163,24 @@ input:checked + .slider:before{
 .relegation{background:var(--relegation);}
 
 @media(max-width:700px){
-  .table th:nth-child(3),.table td:nth-child(3),
-  .table th:nth-child(4),.table td:nth-child(4){display:none;}
-  .header{flex-direction:column;align-items:flex-start;}
-  .title-block h2{font-size:24px;}
+
+  /* tabela com rolagem horizontal */
+  .table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+
+  .header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .title-block h2{
+    font-size:24px;
+  }
 }
+
 
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
@@ -299,4 +312,5 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
