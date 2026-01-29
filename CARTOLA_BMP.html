@@ -183,18 +183,45 @@ tbody tr:hover{
 </div>
 
 <script>
-function gerarLinhas(idTabela){
-  const tbody = document.getElementById(idTabela);
+const timesSerieA = [
+  "NILTINF8_SLR",
+  "SUPER_MARIO_FUTEBOL",
+  "PINSHER_10",
+  "JOSA UNITED FC",
+  "ACGTD",
+  "PJRC11_FUTEBOL",
+  "ESMERALDINO",
+  "GRAN_ROYALLE_FC",
+  "NUCA_FINA",
+  "TIMON18_FC"
+];
 
-  for(let i=1;i<=10;i++){
+const timesSerieB = [
+  "GOLD_SOOLAR",
+  "BANZE_FC",
+  "DIOGO_BNF",
+  "WANTUIR_FC",
+  "TAC_ESPORTE_CLUBE",
+  "FURACAO_BMPZN",
+  "VELHO_BUIAS",
+  "WR ATLETICO CLUBE",
+  "C.R. EMBAIXADOR",
+  "PATYMEIRAS"
+];
+
+function gerarLinhas(idTabela, listaTimes){
+  const tbody = document.getElementById(idTabela);
+  tbody.innerHTML = "";
+
+  listaTimes.forEach((nome, index) => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td class="pos">${i}</td>
+      <td class="pos">${index + 1}</td>
       <td>
         <div class="team-cell">
           <div class="logo"></div>
-          Time ${i}
+          ${nome}
         </div>
       </td>
       <td class="money">100</td>
@@ -203,15 +230,17 @@ function gerarLinhas(idTabela){
     `;
 
     tbody.appendChild(tr);
-  }
+  });
 }
 
-gerarLinhas("serieA");
-gerarLinhas("serieB");
+gerarLinhas("serieA", timesSerieA);
+gerarLinhas("serieB", timesSerieB);
 </script>
 
 </body>
 </html>
+
+
 
 
 
