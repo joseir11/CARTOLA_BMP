@@ -108,7 +108,7 @@ body{
 
 .card-header{
   padding:12px 16px;
-  background:linear-gradient(90deg,var(--green),var(--green-dark));
+  background:linear-gradient(90deg,#f97316,#ea580c);
   color:#fff;
   font-weight:600;
 }
@@ -230,7 +230,7 @@ body{
 const serieAData = [
   "NILTINF8_SLR","SUPER_MARIO_FUTEBOL","PINSHER_10","JOSA UNITED FC","ACGTD",
   "PJRC11_FUTEBOL","ESMERALDINO","GRAN_ROYALLE_FC","NUCA_FINA","TIMON18_FC"
-].map(n=>({nome:n,total:Math.floor(Math.random()*200)}));
+].map(n=>({nome:n,total:Math.floor(Math.random()*200)})); // TEMPORÁRIO – substituir por CSV depois
 
 const serieBData = [
   "GOLD_SOOLAR","BANZE_FC","DIOGO_BNF","WANTUIR_FC","TAC_ESPORTE_CLUBE",
@@ -276,3 +276,4 @@ function toggleDark(){
 
 </body>
 </html>
+
