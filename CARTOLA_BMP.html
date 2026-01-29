@@ -164,13 +164,6 @@ input:checked + .slider:before{
 
 @media(max-width:700px){
 
-  /* tabela com rolagem horizontal */
-  .table{
-    display:block;
-    overflow-x:auto;
-    white-space:nowrap;
-  }
-
   .header{
     flex-direction:column;
     align-items:flex-start;
@@ -179,7 +172,35 @@ input:checked + .slider:before{
   .title-block h2{
     font-size:24px;
   }
+
+  /* esconde cabeçalhos C$ e RDD */
+  .table th:nth-child(3),
+  .table th:nth-child(4){
+    display:none;
+  }
+
+  /* transforma célula TIME em bloco vertical */
+  .team-cell{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+  }
+
+  /* mostra infos extras abaixo do time */
+  .money,
+  .rdd{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    padding-top:2px;
+  }
+
+  /* reduz espaçamento geral */
+  .table td{
+    padding:8px;
+  }
 }
+
 
 
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
@@ -312,5 +333,6 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
