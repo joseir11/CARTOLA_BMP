@@ -295,11 +295,11 @@ function render(id,data,access=false,releg=false){
 /* ===== DARK MODE SWITCH ===== */
 
 const darkSwitch=document.getElementById("darkSwitch");
-const pref=localStorage.getItem("modo-escuro");
+const pref = localStorage.getItem("modo-escuro");
 
-if(pref===null || pref==="1"){
+if(pref === "1"){
   document.body.classList.add("dark");
-  darkSwitch.checked=true;
+  darkSwitch.checked = true;
 }
 
 darkSwitch.addEventListener("change",()=>{
@@ -314,6 +314,7 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
 
