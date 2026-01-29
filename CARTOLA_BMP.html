@@ -5,7 +5,6 @@
 <title>TAÇA NATTOS - 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fonte estilo Cartola -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -39,17 +38,9 @@ body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
 
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-}
+body{margin:0;background:var(--bg);color:var(--text);}
 
-.container{
-  max-width:1000px;
-  margin:30px auto;
-  padding:0 16px;
-}
+.container{max-width:1000px;margin:30px auto;padding:0 16px;}
 
 .header{
   display:flex;
@@ -60,34 +51,15 @@ body{
   flex-wrap:wrap;
 }
 
-.left-head{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+.left-head{display:flex;align-items:center;gap:12px;}
 
-.logo-cartola{
-  width:128px;
-  height:128px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+.logo-cartola{width:128px;height:128px;display:flex;align-items:center;justify-content:center;}
+.logo-cartola img{width:128px;height:128px;object-fit:contain;}
 
-.logo-cartola img{
-  width:128px;
-  height:128px;
-  object-fit:contain;
-}
-
-.title-block{
-  display:flex;
-  flex-direction:column;
-  line-height:1.1;
-}
+.title-block{display:flex;flex-direction:column;line-height:1.1;}
 
 .title-block h2{
-  font-family:'Montserrat', Arial, sans-serif;
+  font-family:'Montserrat',Arial,sans-serif;
   font-weight:900;
   letter-spacing:1px;
   font-size:42px;
@@ -104,13 +76,51 @@ body{
   align-self:flex-start;
 }
 
-.toggle{
+/* ===== SWITCH iOS ===== */
+
+.switch-container{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.switch{
+  position:relative;
+  width:50px;
+  height:26px;
+}
+
+.switch input{display:none;}
+
+.slider{
+  position:absolute;
   cursor:pointer;
-  background:var(--card);
-  border:1px solid var(--orange);
-  border-radius:20px;
-  padding:6px 12px;
-  font-size:12px;
+  top:0;left:0;right:0;bottom:0;
+  background:#cbd5e1;
+  border-radius:26px;
+  transition:0.3s;
+}
+
+.slider:before{
+  position:absolute;
+  content:"";
+  height:20px;
+  width:20px;
+  left:3px;
+  bottom:3px;
+  background:white;
+  border-radius:50%;
+  transition:0.3s;
+}
+
+input:checked + .slider{
+  background:var(--orange);
+}
+
+input:checked + .slider:before{
+  transform:translateX(24px);
 }
 
 .card{
@@ -129,7 +139,7 @@ body{
   font-weight:600;
 }
 
-.table{width:100%;border-collapse:collapse}
+.table{width:100%;border-collapse:collapse;}
 
 .table th,.table td{
   padding:10px;
@@ -137,35 +147,29 @@ body{
   font-size:14px;
 }
 
-.table th{text-align:left;color:var(--muted);font-weight:600}
+.table th{text-align:left;color:var(--muted);font-weight:600;}
 
-.team-cell{display:flex;align-items:center;gap:8px}
+.team-cell{display:flex;align-items:center;gap:8px;}
 
-.logo{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  border:2px dashed #cbd5e1;
-  background:#f1f5f9;
-}
+.logo{width:28px;height:28px;border-radius:50%;border:2px dashed #cbd5e1;background:#f1f5f9;}
 
-.pos{width:32px;color:var(--muted)}
-.money,.total,.rdd{text-align:left}
+.pos{width:32px;color:var(--muted);}
+.money,.total,.rdd{text-align:left;}
 
-.up{color:var(--up);font-weight:700}
-.down{color:var(--down);font-weight:700}
+.up{color:var(--up);font-weight:700;}
+.down{color:var(--down);font-weight:700;}
 
-.access{background:var(--access)}
-.relegation{background:var(--relegation)}
+.access{background:var(--access);}
+.relegation{background:var(--relegation);}
 
 @media(max-width:700px){
   .table th:nth-child(3),.table td:nth-child(3),
-  .table th:nth-child(4),.table td:nth-child(4){display:none}
-  .header{flex-direction:column;align-items:flex-start}
+  .table th:nth-child(4),.table td:nth-child(4){display:none;}
+  .header{flex-direction:column;align-items:flex-start;}
   .title-block h2{font-size:24px;}
 }
 
-.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px}
+.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
 </head>
 
@@ -173,56 +177,64 @@ body{
 
 <div class="container">
 
-  <div class="header">
-    <div class="left-head">
-      <div class="logo-cartola">
-        <img src="CARTOLA.png" alt="Logo Taça Nattos">
-      </div>
-
-      <div class="title-block">
-        <h2>TAÇA NATTOS - 2026</h2>
-        <span class="badge">RODADA 01</span>
-      </div>
+<div class="header">
+  <div class="left-head">
+    <div class="logo-cartola">
+      <img src="CARTOLA.png" alt="Logo Taça Nattos">
     </div>
 
-    <div class="toggle" onclick="toggleDark()">🌙 Modo escuro</div>
+    <div class="title-block">
+      <h2>TAÇA NATTOS - 2026</h2>
+      <span class="badge">RODADA 01</span>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">SÉRIE A</div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="pos">POS</th>
-          <th>TIME</th>
-          <th class="money">C$</th>
-          <th class="rdd">RDD_ESPEC.</th>
-          <th class="total">TOTAL</th>
-          <th>↕</th>
-        </tr>
-      </thead>
-      <tbody id="serieA"></tbody>
-    </table>
+  <!-- SWITCH -->
+  <div class="switch-container">
+    <span>🌞</span>
+    <label class="switch">
+      <input type="checkbox" id="darkSwitch">
+      <span class="slider"></span>
+    </label>
+    <span>🌙</span>
   </div>
+</div>
 
-  <div class="card">
-    <div class="card-header">SÉRIE B</div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="pos">POS</th>
-          <th>TIME</th>
-          <th class="money">C$</th>
-          <th class="rdd">RDD_ESPEC.</th>
-          <th class="total">TOTAL</th>
-          <th>↕</th>
-        </tr>
-      </thead>
-      <tbody id="serieB"></tbody>
-    </table>
-  </div>
+<div class="card">
+  <div class="card-header">SÉRIE A</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="pos">POS</th>
+        <th>TIME</th>
+        <th class="money">C$</th>
+        <th class="rdd">RDD_ESPEC.</th>
+        <th class="total">TOTAL</th>
+        <th>↕</th>
+      </tr>
+    </thead>
+    <tbody id="serieA"></tbody>
+  </table>
+</div>
 
-  <div class="footer-note">TAÇA NATTOS - 2026</div>
+<div class="card">
+  <div class="card-header">SÉRIE B</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="pos">POS</th>
+        <th>TIME</th>
+        <th class="money">C$</th>
+        <th class="rdd">RDD_ESPEC.</th>
+        <th class="total">TOTAL</th>
+        <th>↕</th>
+      </tr>
+    </thead>
+    <tbody id="serieB"></tbody>
+  </table>
+</div>
+
+<div class="footer-note">TAÇA NATTOS - 2026</div>
 
 </div>
 
@@ -265,19 +277,24 @@ function render(id,data,access=false,releg=false){
   });
 }
 
-/* === MODO ESCURO PADRÃO + SALVO === */
-const preferencia = localStorage.getItem("modo-escuro");
-if(preferencia === null || preferencia === "1"){
+/* ===== DARK MODE SWITCH ===== */
+
+const darkSwitch=document.getElementById("darkSwitch");
+const pref=localStorage.getItem("modo-escuro");
+
+if(pref===null || pref==="1"){
   document.body.classList.add("dark");
+  darkSwitch.checked=true;
 }
+
+darkSwitch.addEventListener("change",()=>{
+  const ativo=darkSwitch.checked;
+  document.body.classList.toggle("dark",ativo);
+  localStorage.setItem("modo-escuro",ativo?"1":"0");
+});
 
 render("serieA",serieAData,false,true);
 render("serieB",serieBData,true,false);
-
-function toggleDark(){
-  const ativo = document.body.classList.toggle("dark");
-  localStorage.setItem("modo-escuro", ativo ? "1" : "0");
-}
 </script>
 
 </body>
