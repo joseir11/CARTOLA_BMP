@@ -81,8 +81,15 @@ body{
   object-fit:contain;
 }
 
+/* BLOCO DO TÍTULO + RODADA */
+.title-block{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+
 /* TÍTULO ESTILO CARTOLA */
-.header h2{
+.title-block h2{
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
   letter-spacing:1px;
@@ -90,12 +97,15 @@ body{
   margin:0;
 }
 
-.badge{
+/* BADGE DA RODADA */
+.title-block .badge{
+  margin-top:6px;
   background:var(--orange);
   color:#fff;
   padding:4px 12px;
   border-radius:20px;
   font-size:12px;
+  align-self:flex-start;
 }
 
 .toggle{
@@ -155,7 +165,10 @@ body{
 @media(max-width:700px){
   .table th:nth-child(3),.table td:nth-child(3),
   .table th:nth-child(4),.table td:nth-child(4){display:none}
+
   .header{flex-direction:column;align-items:flex-start}
+
+  .title-block h2{font-size:24px;}
 }
 
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px}
@@ -171,9 +184,14 @@ body{
       <div class="logo-cartola">
         <img src="CARTOLA.png" alt="Logo Taça Nattos">
       </div>
-      <h2>TAÇA NATTOS - 2026</h2>
-      <span class="badge">RODADA 01</span>
+
+      <!-- TÍTULO + RODADA -->
+      <div class="title-block">
+        <h2>TAÇA NATTOS - 2026</h2>
+        <span class="badge">RODADA 01</span>
+      </div>
     </div>
+
     <div class="toggle" onclick="toggleDark()">🌙 Modo escuro</div>
   </div>
 
@@ -235,6 +253,7 @@ function render(id,data,access=false,releg=false){
 
   data.forEach((t,i)=>{
     const tr=document.createElement("tr");
+
     if(access&&i<2)tr.classList.add("access");
     if(releg&&i>=data.length-2)tr.classList.add("relegation");
 
@@ -258,7 +277,9 @@ function render(id,data,access=false,releg=false){
 render("serieA",serieAData,false,true);
 render("serieB",serieBData,true,false);
 
-function toggleDark(){document.body.classList.toggle("dark")}
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
 </script>
 
 </body>
