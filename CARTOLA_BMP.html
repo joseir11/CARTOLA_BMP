@@ -77,7 +77,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
 }
 
 /* ===== SWITCH iOS ===== */
-
 .switch-container{
   display:flex;
   align-items:center;
@@ -156,7 +155,14 @@ input:checked + .slider:before{
   font-size:clamp(12px,3vw,14px);
 }
 
-.logo{width:28px;height:28px;border-radius:50%;border:2px dashed #cbd5e1;background:#f1f5f9;}
+.logo{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  object-fit:contain;
+  background:#f1f5f9;
+  border:1px solid var(--border);
+}
 
 .pos{width:32px;color:var(--muted);}
 .money,.total,.rdd{text-align:left;}
@@ -170,10 +176,7 @@ input:checked + .slider:before{
 @media(max-width:700px){
   .header{flex-direction:column;align-items:flex-start;}
   .title-block h2{font-size:24px;}
-
-  .table th,.table td{
-    padding:6px;
-  }
+  .table th,.table td{padding:6px;}
 }
 
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
@@ -273,7 +276,12 @@ function render(id,data,access=false,releg=false){
 
     tr.innerHTML=`
       <td class="pos">${i+1}</td>
-      <td><div class="team-cell"><div class="logo"></div>${t.nome}</div></td>
+      <td>
+        <div class="team-cell">
+          <img class="logo" src="${t.nome}.png" onerror="this.src='default.png'">
+          ${t.nome}
+        </div>
+      </td>
       <td class="money">100</td>
       <td class="rdd">0</td>
       <td class="total">${t.total}</td>
