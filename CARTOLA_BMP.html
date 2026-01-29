@@ -78,13 +78,19 @@ body{
   width:44px;
   height:44px;
   background:var(--orange);
-  color:#fff;
   border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:22px;
+  overflow:hidden;
 }
+
+.logo-cartola img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
+}
+
 
 .badge{
   background:var(--orange);
@@ -185,7 +191,9 @@ body{
 
   <div class="header">
     <div class="left-head">
-      <div class="logo-cartola">⚽</div>
+      <div class="logo-cartola">
+  <img src="CARTOLA.png" alt="Logo Taça Nattos">
+      </div>
       <h2>TAÇA NATTOS - 2026</h2>
       <span class="badge">RODADA 01</span>
     </div>
@@ -282,3 +290,4 @@ function toggleDark(){
 
 </body>
 </html>
+
