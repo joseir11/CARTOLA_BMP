@@ -7,16 +7,22 @@
 
 <style>
 :root{
-  --green:#00c46a;
-  --green-dark:#009e55;
+  --orange:#f97316;
+  --orange-dark:#ea580c;
+
   --bg:#f4f6f8;
   --card:#ffffff;
   --text:#1f2933;
   --muted:#6b7280;
   --border:#e3e6ea;
+
   --up:#16a34a;
   --down:#dc2626;
-  --access:#e6fff3;
+
+  /* zona de acesso (verde) */
+  --access:#dcfce7;
+
+  /* zona de rebaixamento */
   --relegation:#fff1f2;
 }
 
@@ -28,7 +34,7 @@ body.dark{
   --border:#1f2937;
 }
 
-/* Contraste corrigido no modo escuro */
+/* Contraste no modo escuro */
 body.dark .access{
   background:#064e3b;
   color:#d1fae5;
@@ -71,7 +77,7 @@ body{
 .logo-cartola{
   width:44px;
   height:44px;
-  background:var(--green);
+  background:var(--orange);
   color:#fff;
   border-radius:10px;
   display:flex;
@@ -81,7 +87,7 @@ body{
 }
 
 .badge{
-  background:var(--green);
+  background:var(--orange);
   color:#fff;
   padding:4px 12px;
   border-radius:20px;
@@ -91,7 +97,7 @@ body{
 .toggle{
   cursor:pointer;
   background:var(--card);
-  border:1px solid var(--border);
+  border:1px solid var(--orange);
   border-radius:20px;
   padding:6px 12px;
   font-size:12px;
@@ -108,7 +114,7 @@ body{
 
 .card-header{
   padding:12px 16px;
-  background:linear-gradient(90deg,#f97316,#ea580c);
+  background:linear-gradient(90deg,var(--orange),var(--orange-dark));
   color:#fff;
   font-weight:600;
 }
@@ -276,4 +282,3 @@ function toggleDark(){
 
 </body>
 </html>
-
