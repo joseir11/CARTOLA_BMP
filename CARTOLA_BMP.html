@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>TAÇA NATTOS - 2026</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
   --green:#00c46a;
@@ -13,6 +13,18 @@
   --text:#1f2933;
   --muted:#6b7280;
   --border:#e3e6ea;
+  --up:#16a34a;
+  --down:#dc2626;
+  --access:#e6fff3;
+  --relegation:#fff1f2;
+}
+
+body.dark{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
 }
 
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -25,15 +37,23 @@ body{
 
 .container{
   max-width:1000px;
-  margin:40px auto;
-  padding:0 20px;
+  margin:30px auto;
+  padding:0 16px;
 }
 
 .header{
   display:flex;
+  justify-content:space-between;
   align-items:center;
   gap:14px;
-  margin-bottom:28px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+
+.left-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .logo-cartola{
@@ -48,31 +68,35 @@ body{
   font-size:22px;
 }
 
-.header h1{
-  font-size:26px;
-  margin:0;
-}
-
 .badge{
   background:var(--green);
   color:#fff;
   padding:4px 12px;
   border-radius:20px;
   font-size:12px;
-  margin-left:8px;
+  margin-left:6px;
+}
+
+.toggle{
+  cursor:pointer;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:6px 12px;
+  font-size:12px;
 }
 
 .card{
   background:var(--card);
   border-radius:14px;
   box-shadow:0 6px 20px rgba(0,0,0,.06);
-  margin-bottom:30px;
+  margin-bottom:24px;
   overflow:hidden;
   border:1px solid var(--border);
 }
 
 .card-header{
-  padding:14px 18px;
+  padding:12px 16px;
   background:linear-gradient(90deg,var(--green),var(--green-dark));
   color:#fff;
   font-weight:600;
@@ -84,164 +108,140 @@ body{
 }
 
 .table th, .table td{
-  padding:10px 12px;
+  padding:10px 10px;
   border-bottom:1px solid var(--border);
-  text-align:left;
   font-size:14px;
 }
 
-.table th{
-  color:var(--muted);
-  font-weight:600;
-}
+.table th{color:var(--muted);font-weight:600;text-align:left}
 
-.team-cell{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+.team-cell{display:flex;align-items:center;gap:8px}
 
 .logo{
-  width:30px;
-  height:30px;
+  width:28px;
+  height:28px;
   border-radius:50%;
   border:2px dashed #cbd5e1;
   background:#f1f5f9;
   flex-shrink:0;
 }
 
-.pos{
-  width:36px;
-  color:var(--muted);
+.pos{width:32px;color:var(--muted)}
+.money,.total,.rdd{text-align:right}
+
+.up{color:var(--up);font-weight:700}
+.down{color:var(--down);font-weight:700}
+
+.access{background:var(--access)}
+.relegation{background:var(--relegation)}
+
+@media(max-width:700px){
+  .table th:nth-child(3),
+  .table td:nth-child(3),
+  .table th:nth-child(4),
+  .table td:nth-child(4){display:none}
+
+  .header{flex-direction:column;align-items:flex-start}
 }
 
-.money, .total, .rdd{
-  text-align:right;
-}
-
-tbody tr:hover{
-  background:#f8fafc;
-}
-
-.footer-note{
-  margin-top:30px;
-  color:#888;
-  font-size:13px;
-  text-align:center;
-}
+.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
   <div class="header">
-    <div class="logo-cartola">⚽</div>
-    <h1>TAÇA NATTOS - 2026</h1>
-    <span class="badge">RODADA 01</span>
+    <div class="left-head">
+      <div class="logo-cartola">⚽</div>
+      <h2>TAÇA NATTOS - 2026</h2>
+      <span class="badge">RODADA 01</span>
+    </div>
+    <div class="toggle" onclick="toggleDark()">🌙 Modo escuro</div>
   </div>
 
-  <!-- SÉRIE A -->
   <div class="card">
-    <div class="card-header">⚽ SÉRIE A</div>
+    <div class="card-header">SÉRIE A</div>
     <table class="table">
       <thead>
         <tr>
           <th class="pos">POS</th>
           <th>TIME</th>
           <th class="money">C$</th>
-          <th class="rdd">RDD. ESP.</th>
+          <th class="rdd">RDD</th>
           <th class="total">TOTAL</th>
+          <th>↕</th>
         </tr>
       </thead>
       <tbody id="serieA"></tbody>
     </table>
   </div>
 
-  <!-- SÉRIE B -->
   <div class="card">
-    <div class="card-header">⚽ SÉRIE B</div>
+    <div class="card-header">SÉRIE B</div>
     <table class="table">
       <thead>
         <tr>
           <th class="pos">POS</th>
           <th>TIME</th>
           <th class="money">C$</th>
-          <th class="rdd">RDD. ESP.</th>
+          <th class="rdd">RDD</th>
           <th class="total">TOTAL</th>
+          <th>↕</th>
         </tr>
       </thead>
       <tbody id="serieB"></tbody>
     </table>
   </div>
 
-  <div class="footer-note">
-    TAÇA NATTOS - 2026
-  </div>
-
+  <div class="footer-note">Zona verde = acesso | Zona vermelha = rebaixamento</div>
 </div>
 
 <script>
-const timesSerieA = [
-  "NILTINF8_SLR",
-  "SUPER_MARIO_FUTEBOL",
-  "PINSHER_10",
-  "JOSA UNITED FC",
-  "ACGTD",
-  "PJRC11_FUTEBOL",
-  "ESMERALDINO",
-  "GRAN_ROYALLE_FC",
-  "NUCA_FINA",
-  "TIMON18_FC"
-];
+const serieAData = [
+"NILTINF8_SLR","SUPER_MARIO_FUTEBOL","PINSHER_10","JOSA UNITED FC","ACGTD",
+"PJRC11_FUTEBOL","ESMERALDINO","GRAN_ROYALLE_FC","NUCA_FINA","TIMON18_FC"
+].map(n=>({nome:n,total:Math.floor(Math.random()*200)}));
 
-const timesSerieB = [
-  "GOLD_SOOLAR",
-  "BANZE_FC",
-  "DIOGO_BNF",
-  "WANTUIR_FC",
-  "TAC_ESPORTE_CLUBE",
-  "FURACAO_BMPZN",
-  "VELHO_BUIAS",
-  "WR ATLETICO CLUBE",
-  "C.R. EMBAIXADOR",
-  "PATYMEIRAS"
-];
+const serieBData = [
+"GOLD_SOOLAR","BANZE_FC","DIOGO_BNF","WANTUIR_FC","TAC_ESPORTE_CLUBE",
+"FURACAO_BMPZN","VELHO_BUIAS","WR ATLETICO CLUBE","C.R. EMBAIXADOR","PATYMEIRAS"
+].map(n=>({nome:n,total:Math.floor(Math.random()*200)}));
 
-function gerarLinhas(idTabela, listaTimes){
-  const tbody = document.getElementById(idTabela);
-  tbody.innerHTML = "";
+function render(tbodyId,data,access=false,relegation=false){
+  const tbody=document.getElementById(tbodyId);
+  tbody.innerHTML="";
 
-  listaTimes.forEach((nome, index) => {
-    const tr = document.createElement("tr");
+  data.sort((a,b)=>b.total-a.total);
 
-    tr.innerHTML = `
-      <td class="pos">${index + 1}</td>
-      <td>
-        <div class="team-cell">
-          <div class="logo"></div>
-          ${nome}
-        </div>
-      </td>
+  data.forEach((t,i)=>{
+    const tr=document.createElement("tr");
+
+    if(access && i<2) tr.classList.add("access");
+    if(relegation && i>=data.length-2) tr.classList.add("relegation");
+
+    const change=Math.floor(Math.random()*3)-1;
+    let arrow="–";
+    if(change>0) arrow="<span class='up'>▲</span>";
+    if(change<0) arrow="<span class='down'>▼</span>";
+
+    tr.innerHTML=`
+      <td class="pos">${i+1}</td>
+      <td><div class="team-cell"><div class="logo"></div>${t.nome}</div></td>
       <td class="money">100</td>
       <td class="rdd">0</td>
-      <td class="total">100</td>
+      <td class="total">${t.total}</td>
+      <td>${arrow}</td>
     `;
-
     tbody.appendChild(tr);
   });
 }
 
-gerarLinhas("serieA", timesSerieA);
-gerarLinhas("serieB", timesSerieB);
+render("serieA",serieAData,false,true);
+render("serieB",serieBData,true,false);
+
+function toggleDark(){document.body.classList.toggle("dark");}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
