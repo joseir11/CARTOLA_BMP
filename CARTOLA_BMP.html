@@ -69,7 +69,6 @@ body{
 .logo-cartola{
   width:128px;
   height:128px;
-  background:none;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -81,14 +80,12 @@ body{
   object-fit:contain;
 }
 
-/* BLOCO DO TÍTULO + RODADA */
 .title-block{
   display:flex;
   flex-direction:column;
   line-height:1.1;
 }
 
-/* TÍTULO ESTILO CARTOLA */
 .title-block h2{
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
@@ -97,7 +94,6 @@ body{
   margin:0;
 }
 
-/* BADGE DA RODADA */
 .title-block .badge{
   margin-top:6px;
   background:var(--orange);
@@ -141,11 +137,7 @@ body{
   font-size:14px;
 }
 
-  .table th{
-  text-align:left;
-}
-
-.table th{color:var(--muted);font-weight:600;text-align:left}
+.table th{text-align:left;color:var(--muted);font-weight:600}
 
 .team-cell{display:flex;align-items:center;gap:8px}
 
@@ -169,9 +161,7 @@ body{
 @media(max-width:700px){
   .table th:nth-child(3),.table td:nth-child(3),
   .table th:nth-child(4),.table td:nth-child(4){display:none}
-
   .header{flex-direction:column;align-items:flex-start}
-
   .title-block h2{font-size:24px;}
 }
 
@@ -189,7 +179,6 @@ body{
         <img src="CARTOLA.png" alt="Logo Taça Nattos">
       </div>
 
-      <!-- TÍTULO + RODADA -->
       <div class="title-block">
         <h2>TAÇA NATTOS - 2026</h2>
         <span class="badge">RODADA 01</span>
@@ -233,9 +222,7 @@ body{
     </table>
   </div>
 
-  <div class="footer-note">
-    TAÇA NATTOS - 2026
-  </div>
+  <div class="footer-note">TAÇA NATTOS - 2026</div>
 
 </div>
 
@@ -278,17 +265,20 @@ function render(id,data,access=false,releg=false){
   });
 }
 
+/* === MODO ESCURO PADRÃO + SALVO === */
+const preferencia = localStorage.getItem("modo-escuro");
+if(preferencia === null || preferencia === "1"){
+  document.body.classList.add("dark");
+}
+
 render("serieA",serieAData,false,true);
 render("serieB",serieBData,true,false);
 
 function toggleDark(){
-  document.body.classList.toggle("dark");
+  const ativo = document.body.classList.toggle("dark");
+  localStorage.setItem("modo-escuro", ativo ? "1" : "0");
 }
 </script>
 
 </body>
 </html>
-
-
-
-
