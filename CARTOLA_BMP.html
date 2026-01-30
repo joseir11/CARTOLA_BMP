@@ -249,15 +249,31 @@ input:checked + .slider:before{
 </div>
 
 <script>
-const serieAData=[
-"NILTIN_SLR","SUPER_MARIO","PINSHER_10","JOSA UNITED","ACGTD",
-"PJRC11","ESMERALDINO","GRAN_ROYALLE","NUCA_FINA","TIMON18"
-].map(n=>({nome:n,total:Math.floor(Math.random()*200)}));
+const serieAData = [
+  { nome: "NILTIN_SLR", total: 2.66, money: 2.66, rdd: 0 },
+  { nome: "SUPER_MARIO", total: 6.65, money: 6.65, rdd: 0 },
+  { nome: "PINSHER_10", total: 9.35, money: 9.35, rdd: 0 },
+  { nome: "JOSA UNITED", total: 7.01, money: 7.01, rdd: 0 },
+  { nome: "ACGTD", total: 8.27, money: 8.27, rdd: 0 },
+  { nome: "PJRC11", total: 2.99, money: 2.99, rdd: 0 },
+  { nome: "ESMERALDINO", total: 12.83, money: 12.83, rdd: 0 },
+  { nome: "GRAN_ROYALLE", total: 14.50, money: 14.50, rdd: 0 },
+  { nome: "NUCA_FINA", total: 9.47, money: 9.47, rdd: 0 },
+  { nome: "TIMON18", total: 9.76, money: 9.76, rdd: 0 }
+];
 
-const serieBData=[
-"GOLD_SOLAR","BANZE","DIOGO_BNF","WANTUIR_FC","TAC_E.C",
-"FURACAO_BMPZN","VELHO_BUIAS","WR ATLETICO CLUBE","C.R. EMBAIXADOR","PATYMEIRAS"
-].map(n=>({nome:n,total:Math.floor(Math.random()*200)}));
+const serieBData = [
+  { nome: "GOLD_SOLAR", total: 1.17, money: 1.17, rdd: 0 },
+  { nome: "BANZE", total: 7.91, money: 7.91, rdd: 0 },
+  { nome: "DIOGO_BNF", total: -1.24, money: -1.24, rdd: 0 },
+  { nome: "WANTUIR_FC", total: 11.44, money: 11.44, rdd: 0 },
+  { nome: "TAC_E.C", total: 14.20, money: 14.20, rdd: 0 },
+  { nome: "FURACAO_BMPZN", total: 7.45, money: 7.45, rdd: 0 },
+  { nome: "VELHO_BUIAS", total: 6.36, money: 6.36, rdd: 0 },
+  { nome: "WR ATLETICO CLUBE", total: 6.75, money: 6.75, rdd: 0 },
+  { nome: "C.R. EMBAIXADOR", total: 8.26, money: 8.26, rdd: 0 },
+  { nome: "PATYMEIRAS", total: 2.77, money: 2.77, rdd: 0 }
+];
 
 function render(id,data,access=false,releg=false){
   const tbody=document.getElementById(id);
@@ -283,9 +299,9 @@ function render(id,data,access=false,releg=false){
           ${t.nome}
         </div>
       </td>
-      <td class="money">100</td>
-      <td class="rdd">0</td>
-      <td class="total">${t.total}</td>
+      <td class="money">${t.money.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+      <td class="rdd">${t.rdd}</td>
+      <td class="total">${t.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
       <td>${arrow}</td>
     `;
     tbody.appendChild(tr);
@@ -314,6 +330,7 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
 
