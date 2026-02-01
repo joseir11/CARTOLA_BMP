@@ -149,14 +149,8 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-.icon-col{
-  text-align:center;
-}
-
-.icon-col img{
-  width:32px;
-  height:32px;
-}
+.icon-col{text-align:center;}
+.icon-col img{width:32px;height:32px;}
 
 .pos{width:32px;color:var(--muted);}
 
@@ -202,7 +196,7 @@ input:checked + .slider:before{transform:translateX(24px);}
         <th>C$</th>
         <th>R.E.</th>
         <th>TOTAL</th>
-        <th>🏅</th>
+        <th>C/G</th>
       </tr>
     </thead>
     <tbody id="serieA"></tbody>
@@ -219,7 +213,7 @@ input:checked + .slider:before{transform:translateX(24px);}
         <th>C$</th>
         <th>R.E.</th>
         <th>TOTAL</th>
-        <th>🏅</th>
+        <th>C/G</th>
       </tr>
     </thead>
     <tbody id="serieB"></tbody>
@@ -257,17 +251,21 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:2.77, money:2.77, rdd:0 }
 ];
 
-function render(id,data){
+function render(id,data,access=false,releg=false){
   const tbody=document.getElementById(id);
   tbody.innerHTML="";
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
+    const tr=document.createElement("tr");
+
+    if(access && i < 2) tr.classList.add("access");
+    if(releg && i >= data.length-2) tr.classList.add("relegation");
+
     let icon="";
     if(i===0) icon="CAMAROTE.png";
     if(i===data.length-1) icon="GARCON.png";
 
-    const tr=document.createElement("tr");
     tr.innerHTML=`
       <td class="pos">${i+1}</td>
       <td>
@@ -299,8 +297,8 @@ darkSwitch.addEventListener("change",()=>{
   localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
 });
 
-render("serieA",serieAData);
-render("serieB",serieBData);
+render("serieA",serieAData,false,true);
+render("serieB",serieBData,true,false);
 </script>
 
 </body>
