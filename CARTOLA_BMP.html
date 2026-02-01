@@ -270,7 +270,7 @@ function render(id,data,access=false,releg=false){
       <td class="pos">${i+1}</td>
       <td>
         <div class="team-cell">
-          <img class="logo" src="ESCUDOS/${t.nome}.png" onerror="this.src='ESCUDOS/default.png'">
+          <img class="logo" src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
           ${t.nome}
         </div>
       </td>
@@ -303,4 +303,5 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
