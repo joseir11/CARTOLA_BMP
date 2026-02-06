@@ -294,8 +294,11 @@ function render(id,data,access=false,releg=false){
 
 let icon = "";
 
-if (i === 0 || i === data.length - 1) {
+if (i === 0) {
+  icon = "CAMAROTE.png";
+} else if (i === data.length - 1) {
   icon = `./GARCONS/${t.nome}.png`;
+}
 }
     tr.innerHTML=`
       <td class="pos">${i+1}</td>
@@ -335,4 +338,5 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
