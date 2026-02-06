@@ -292,10 +292,11 @@ function render(id,data,access=false,releg=false){
     if(access && i < 2) tr.classList.add("access");
     if(releg && i >= data.length-2) tr.classList.add("relegation");
 
-    let icon="";
-    if(i===0) icon="CAMAROTE.png";
-    if(i===data.length-1) icon="GARCON.png";
+let icon = "";
 
+if (i === 0 || i === data.length - 1) {
+  icon = `./GARCONS/${t.nome}.png`;
+}
     tr.innerHTML=`
       <td class="pos">${i+1}</td>
       <td>
@@ -334,3 +335,4 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
