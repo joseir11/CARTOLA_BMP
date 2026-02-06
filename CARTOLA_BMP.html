@@ -164,22 +164,21 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-/* COLUNA C/G */
+/* COLUNA C/G — DEFINITIVA */
 th.icon-col,
 td.icon-col{
   text-align:center;
   vertical-align:middle;
+  width:42px;
+  min-width:42px;
+  max-width:42px;
+  padding:0;
 }
 
-
-/* ÍCONE */
 .icon-col img{
   width:32px;
   height:32px;
-  display:block;
-  margin:0 auto;
 }
-
 
 .pos{width:32px;color:var(--muted);}
 
@@ -244,7 +243,7 @@ td.icon-col{
         <th>R.E.</th>
         <th>PEN.</th>
         <th>TOTAL</th>
-        <th>C/G</th>
+        <th class="icon-col">C/G</th>
       </tr>
     </thead>
     <tbody id="serieB"></tbody>
@@ -335,9 +334,3 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
-
-
-
-
-
-
