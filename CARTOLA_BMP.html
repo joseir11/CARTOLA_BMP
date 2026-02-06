@@ -233,13 +233,16 @@ async function loadCSV(file){
 
   const lines = text.trim().split("\n");
 
-  // Primeira linha = texto livre da rodada (ex: "RODADA 2")
+  // Primeira linha: texto livre (ex: "RODADA 2")
   const rodada = lines.shift().trim();
 
-  const headers = lines.shift().split(",");
+  // Detecta separador automaticamente
+  const separator = lines[0].includes(";") ? ";" : ",";
+
+  const headers = lines.shift().split(separator);
 
   const data = lines.map(line=>{
-    const values = line.split(",");
+    const values = line.split(separator);
     const obj = {};
     headers.forEach((h,i)=>{
       const v = values[i];
@@ -304,7 +307,6 @@ darkSwitch.addEventListener("change",()=>{
 
 loadCSV("TABELA.csv").then(({ rodada, serieA, serieB })=>{
   document.getElementById("rodadaBadge").textContent = rodada;
-
   render("serieA", serieA, false, true);
   render("serieB", serieB, true, false);
 });
