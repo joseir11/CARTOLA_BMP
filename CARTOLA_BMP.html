@@ -164,13 +164,13 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-/* COLUNA C/G — CENTRALIZA HEADER E CONTEÚDO */
-.table th:last-child,
-.table td:last-child{
+/* COLUNA C/G — CENTRALIZA */
+th.icon-col,
+td.icon-col{
   text-align:center;
   vertical-align:middle;
-  width:70px;
 }
+
 
 /* ÍCONE */
 .icon-col img{
@@ -226,7 +226,7 @@ input:checked + .slider:before{transform:translateX(24px);}
         <th>R.E.</th>
         <th>PEN.</th>
         <th>TOTAL</th>
-        <th>C/G</th>
+        <th class="icon-col">C/G</th>
       </tr>
     </thead>
     <tbody id="serieA"></tbody>
@@ -335,6 +335,7 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
 
