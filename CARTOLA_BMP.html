@@ -1,3 +1,6 @@
+FUNCIONAL
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -172,7 +175,7 @@ input:checked + .slider:before{transform:translateX(24px);}
     </div>
     <div class="title-block">
       <h2>TAÇA NATTOS - 2026</h2>
-      <span class="badge" id="rodadaBadge">RODADA</span>
+      <span class="badge">RODADA 02</span>
     </div>
   </div>
 
@@ -195,7 +198,6 @@ input:checked + .slider:before{transform:translateX(24px);}
         <th>TIME</th>
         <th>C$</th>
         <th>R.E.</th>
-        <th>PEN</th>
         <th>TOTAL</th>
         <th>C/G</th>
       </tr>
@@ -213,7 +215,6 @@ input:checked + .slider:before{transform:translateX(24px);}
         <th>TIME</th>
         <th>C$</th>
         <th>R.E.</th>
-        <th>PEN</th>
         <th>TOTAL</th>
         <th>C/G</th>
       </tr>
@@ -227,36 +228,31 @@ input:checked + .slider:before{transform:translateX(24px);}
 </div>
 
 <script>
-async function loadCSV(file){
-  const res = await fetch(file);
-  const text = await res.text();
+const serieAData = [
+  { nome:"NILTIN_SLR", total:7.12, money:4.46, rdd:0 },
+  { nome:"SUPER_MARIO", total:14.92, money:8.27, rdd:0 },
+  { nome:"PINSHER_10", total:21.41, money:12.06, rdd:0 },
+  { nome:"JOSA UNITED", total:19, money:11.99, rdd:0 },
+  { nome:"ACGTD", total:20.73, money:12.46, rdd:0 },
+  { nome:"PJRC11", total:4.64, money:1.65, rdd:0 },
+  { nome:"ESMERALDINO", total:21.48, money:8.65, rdd:0 },
+  { nome:"GRAN_ROYALLE", total:18.90, money:9.43, rdd:0 },
+  { nome:"NUCA_FINA", total:8.50, money:4.48, rdd:0 },
+  { nome:"TIMON", total:17.53, money:7.77, rdd:0 }
+];
 
-  const lines = text.trim().split("\n");
-
-  // Primeira linha: texto livre (ex: "RODADA 2")
-  const rodada = lines.shift().trim();
-
-  // Detecta separador automaticamente
-  const separator = lines[0].includes(";") ? ";" : ",";
-
-  const headers = lines.shift().split(separator);
-
-  const data = lines.map(line=>{
-    const values = line.split(separator);
-    const obj = {};
-    headers.forEach((h,i)=>{
-      const v = values[i];
-      obj[h] = isNaN(v) ? v : Number(v);
-    });
-    return obj;
-  });
-
-  return {
-    rodada,
-    serieA: data.filter(t => t.SERIE === "SERIE_A"),
-    serieB: data.filter(t => t.SERIE === "SERIE_B")
-  };
-}
+const serieBData = [
+  { nome:"GOLD_SOLAR", total:10.23, money:9.06, rdd:0 },
+  { nome:"BANZE", total:21.81, money:13.90, rdd:0 },
+  { nome:"DIOGO_BNF", total:-3.34, money:-2.10, rdd:0 },
+  { nome:"WANTUIR_FC", total:19.81, money:8.37, rdd:0 },
+  { nome:"TAC_E.C", total:16.34, money:8.89, rdd:0 },
+  { nome:"FURACAO_BMPZN", total:9.91, money:5.96, rdd:0 },
+  { nome:"VELHO_BUIAS", total:10.80, money:4.44, rdd:0 },
+  { nome:"WR_ATLETICO CLUBE", total:12.39, money:5.64, rdd:0 },
+  { nome:"EMBAIXADOR", total:9.13, money:0.87, rdd:0 },
+  { nome:"PATYMEIRAS", total:13.45, money:10.68, rdd:0 }
+];
 
 function render(id,data,access=false,releg=false){
   const tbody=document.getElementById(id);
@@ -281,9 +277,8 @@ function render(id,data,access=false,releg=false){
           ${t.nome}
         </div>
       </td>
-      <td>${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
-      <td>${t.re}</td>
-      <td>${t.pen}</td>
+      <td>${t.money.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+      <td>${t.rdd}</td>
       <td>${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
       <td class="icon-col">${icon ? `<img src="${icon}">` : ""}</td>
     `;
@@ -305,12 +300,16 @@ darkSwitch.addEventListener("change",()=>{
   localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
 });
 
-loadCSV("TABELA.csv").then(({ rodada, serieA, serieB })=>{
-  document.getElementById("rodadaBadge").textContent = rodada;
-  render("serieA", serieA, false, true);
-  render("serieB", serieB, true, false);
-});
+render("serieA",serieAData,false,true);
+render("serieB",serieBData,true,false);
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
