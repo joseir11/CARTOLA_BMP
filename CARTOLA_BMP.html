@@ -164,15 +164,20 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-.icon-col{
+/* COLUNA C/G — CENTRALIZA HEADER E CONTEÚDO */
+.table th:last-child,
+.table td:last-child{
   text-align:center;
   vertical-align:middle;
+  width:70px;
 }
 
+/* ÍCONE */
 .icon-col img{
   width:32px;
   height:32px;
-  display:inline-block;
+  display:block;
+  margin:0 auto;
 }
 
 
@@ -330,6 +335,7 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
 
