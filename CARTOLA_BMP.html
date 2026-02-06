@@ -164,8 +164,17 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-.icon-col{text-align:center;}
-.icon-col img{width:32px;height:32px;}
+.icon-col{
+  text-align:center;
+  vertical-align:middle;
+}
+
+.icon-col img{
+  width:32px;
+  height:32px;
+  display:inline-block;
+}
+
 
 .pos{width:32px;color:var(--muted);}
 
@@ -321,5 +330,6 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
 
 
