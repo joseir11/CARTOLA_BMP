@@ -16,164 +16,205 @@
   --card:#ffffff;
   --text:#1f2933;
   --muted:#6b7280;
-  --border:#eef0f3;
+  --border:#e3e6ea;
 
   --access:#dcfce7;
   --relegation:#fff1f2;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,Arial,sans-serif;
+body.dark{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#1f2937;
 }
 
-.container{
-  max-width:420px;
-  margin:0 auto;
-  min-height:100vh;
-}
+body.dark .access{background:#064e3b;color:#d1fae5;}
+body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
 
-/* HEADER ORIGINAL */
+*{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);}
+
+.container{max-width:1000px;margin:30px auto;padding:0 16px;}
+
 .header{
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  gap:12px;
-  padding:20px 16px;
+  gap:14px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
 }
 
-.logo-cartola img {
-  width: auto;
-  height: 64px;
-  object-fit: contain;
+.left-head{display:flex;align-items:center;gap:12px;}
+
+.logo-cartola{
+  width:64px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-cartola img{
+  width:auto;      /* largura automática para manter proporção */
+  height:64px;     /* altura fixa */
+  object-fit:contain;
+}
+
+.title-block{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
 }
 
 .title-block h2{
-  margin:0;
   font-family:'Montserrat',Arial,sans-serif;
-  font-size:26px;
   font-weight:900;
+  letter-spacing:1px;
+  font-size:42px;
+  margin:0;
 }
 
-.badge{
-  margin-top:4px;
-  display:inline-block;
+.title-block .badge{
+  margin-top:6px;
   background:var(--orange);
   color:#fff;
   padding:4px 12px;
   border-radius:20px;
-  font-size:12px;
-  font-weight:800;
-}
-
-/* SECTION */
-.section{
-  padding:0 16px 20px;
-}
-
-/* CARD */
-.card{
-  background:var(--card);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-}
-
-/* CARD HEADER (FAIXA LARANJA) */
-.card-header{
-  background:linear-gradient(90deg,var(--orange-dark),var(--orange));
-  color:#fff;
-  text-align:center;
-  padding:12px;
-  font-family:'Montserrat',Arial,sans-serif;
+  font-size:24px;
+  align-self:flex-start;
+  font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
   letter-spacing:1px;
 }
 
+/* SWITCH */
+.switch-container{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.switch{position:relative;width:50px;height:26px;}
+.switch input{display:none;}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#cbd5e1;
+  border-radius:26px;
+  transition:.3s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  height:20px;
+  width:20px;
+  left:3px;
+  bottom:3px;
+  background:white;
+  border-radius:50%;
+  transition:.3s;
+}
+
+input:checked + .slider{background:var(--orange);}
+input:checked + .slider:before{transform:translateX(24px);}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.06);
+  margin-bottom:24px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.card-header{
+  padding:14px 16px;
+  background:linear-gradient(90deg,var(--orange-dark),var(--orange));
+  color:#fff;
+  font-family:'Montserrat', Arial, sans-serif;
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  text-align:center;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.25),
+    0 2px 6px rgba(0,0,0,.35);
+}
+
 /* ITEM */
 .item{
-  padding:14px 12px;
+  padding:14px 16px;
   border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
 }
 
 .item:last-child{border-bottom:none}
 
-.item.access{background:var(--access)}
-.item.relegation{background:var(--relegation)}
+.item.access{background:var(--access);}
+.item.relegation{background:var(--relegation);}
 
-/* TOP ROW */
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.left-side{
+/* TIME + ÍCONE */
+.team-info{
   display:flex;
   align-items:center;
   gap:8px;
+  width:100%;
 }
 
 .rank{
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  background:#e5e7eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  font-size:13px;
-  color:#374151;
+  width:32px;
+  text-align:center;
+  color:var(--muted);
+  font-weight:600;
 }
 
-.team{
+.team-cell{
   display:flex;
   align-items:center;
   gap:6px;
 }
 
-.team img{
-  width:36px;
-  height:36px;
+.team-cell .logo{
+  width:48px;
+  height:48px;
   object-fit:contain;
-}
-
-.name{
-  font-size:14px;
-  font-weight:700;
 }
 
 .special-icon img{
-  width:36px;
-  height:36px;
+  width:48px;
+  height:48px;
   object-fit:contain;
 }
 
-/* TOTAL */
+/* TOTAL E DETALHES */
 .total-container{
+  margin-left:auto; /* empurra para direita */
   text-align:right;
 }
 
 .total{
-  font-size:18px;
   font-weight:900;
-  color:#16a34a;
+  font-size:18px;
 }
-
-.total.neg{color:#dc2626}
 
 .details{
   font-size:12px;
   color:var(--muted);
-  text-align:right;
   margin-top:4px;
 }
 
-.details span{margin-left:8px}
+/* RODAPÉ */
+.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
 </head>
 
@@ -181,8 +222,8 @@ body{
 
 <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
+<div class="header">
+  <div class="left-head">
     <div class="logo-cartola">
       <img src="CARTOLA.png">
     </div>
@@ -192,21 +233,27 @@ body{
     </div>
   </div>
 
-  <!-- SÉRIE A -->
-  <div class="section">
-    <div class="card">
-      <div class="card-header">SÉRIE A</div>
-      <div id="serieA"></div>
-    </div>
+  <div class="switch-container">
+    <span>🔅</span>
+    <label class="switch">
+      <input type="checkbox" id="darkSwitch">
+      <span class="slider"></span>
+    </label>
+    <span>🌘</span>
   </div>
+</div>
 
-  <!-- SÉRIE B -->
-  <div class="section">
-    <div class="card">
-      <div class="card-header">SÉRIE B</div>
-      <div id="serieB"></div>
-    </div>
-  </div>
+<div class="card">
+  <div class="card-header">SÉRIE A</div>
+  <div id="serieA"></div>
+</div>
+
+<div class="card">
+  <div class="card-header">SÉRIE B</div>
+  <div id="serieB"></div>
+</div>
+
+<div class="footer-note">TAÇA NATTOS - 2026</div>
 
 </div>
 
@@ -253,19 +300,15 @@ function render(id,data,access,releg){
     if(releg && i>=data.length-2) div.classList.add("relegation");
 
     div.innerHTML=`
-      <div class="top">
-        <div class="left-side">
-          <div class="rank">${i+1}</div>
-          <div class="team">
-            <img src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
-            <div class="name">${t.nome}</div>
-          </div>
+      <div class="team-info">
+        <div class="rank">${i+1}</div>
+        <div class="team-cell">
+          <img class="logo" src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
+          <div class="name">${t.nome}</div>
           <div class="special-icon">${icon}</div>
         </div>
         <div class="total-container">
-          <div class="total ${t.total<0?'neg':''}">
-            ${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}
-          </div>
+          <div class="total">${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
           <div class="details">
             <span>C$ ${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
             <span>R.E. ${t.re}</span>
@@ -278,10 +321,23 @@ function render(id,data,access,releg){
   });
 }
 
+/* DARK MODE */
+const darkSwitch=document.getElementById("darkSwitch");
+const pref=localStorage.getItem("modo-escuro");
+
+if(pref==="1"){
+  document.body.classList.add("dark");
+  darkSwitch.checked=true;
+}
+
+darkSwitch.addEventListener("change",()=>{
+  document.body.classList.toggle("dark",darkSwitch.checked);
+  localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
+});
+
 render("serieA",serieAData,false,true);
 render("serieB",serieBData,true,false);
 </script>
 
 </body>
 </html>
-
