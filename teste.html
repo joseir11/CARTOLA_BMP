@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>TAÇA NATTOS - 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --orange:#f97316;
+  --orange-dark:#ea580c;
+
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#1f2933;
+  --muted:#6b7280;
+  --border:#eef0f3;
+
+  --access:#dcfce7;
+  --relegation:#fff1f2;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+}
+
+.container{
+  max-width:420px;
+  margin:0 auto;
+  min-height:100vh;
+}
+
+/* HEADER ORIGINAL */
+.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:20px 16px;
+}
+
+.logo-cartola img{
+  width:64px;
+  height:64px;
+}
+
+.title-block h2{
+  margin:0;
+  font-family:'Montserrat',Arial,sans-serif;
+  font-size:26px;
+  font-weight:900;
+}
+
+.badge{
+  margin-top:4px;
+  display:inline-block;
+  background:var(--orange);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* SECTION */
+.section{
+  padding:0 16px 20px;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+/* CARD HEADER (FAIXA LARANJA) */
+.card-header{
+  background:linear-gradient(90deg,var(--orange-dark),var(--orange));
+  color:#fff;
+  text-align:center;
+  padding:12px;
+  font-family:'Montserrat',Arial,sans-serif;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+/* ITEM */
+.item{
+  padding:14px 12px;
+  border-bottom:1px solid var(--border);
+}
+
+.item:last-child{border-bottom:none}
+
+.item.access{background:var(--access)}
+.item.relegation{background:var(--relegation)}
+
+/* TOP ROW */
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.left-side{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.rank{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:#e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:13px;
+  color:#374151;
+}
+
+.team{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.team img{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+}
+
+.name{
+  font-size:14px;
+  font-weight:700;
+}
+
+.special-icon img{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+}
+
+/* TOTAL */
+.total-container{
+  text-align:right;
+}
+
+.total{
+  font-size:18px;
+  font-weight:900;
+  color:#16a34a;
+}
+
+.total.neg{color:#dc2626}
+
+.details{
+  font-size:12px;
+  color:var(--muted);
+  text-align:right;
+  margin-top:4px;
+}
+
+.details span{margin-left:8px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-cartola">
+      <img src="CARTOLA.png">
+    </div>
+    <div class="title-block">
+      <h2>TAÇA NATTOS - 2026</h2>
+      <span class="badge">RODADA 02</span>
+    </div>
+  </div>
+
+  <!-- SÉRIE A -->
+  <div class="section">
+    <div class="card">
+      <div class="card-header">SÉRIE A</div>
+      <div id="serieA"></div>
+    </div>
+  </div>
+
+  <!-- SÉRIE B -->
+  <div class="section">
+    <div class="card">
+      <div class="card-header">SÉRIE B</div>
+      <div id="serieB"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const serieAData = [
+  { nome:"NILTIN_SLR", total:7.12, rdd:4.46, re:0, pen:0 },
+  { nome:"SUPER_MARIO", total:14.92, rdd:8.27, re:0, pen:0 },
+  { nome:"PINSHER_10", total:21.41, rdd:12.06, re:0, pen:0 },
+  { nome:"JOSA UNITED", total:19, rdd:11.99, re:0, pen:0 },
+  { nome:"ACGTD", total:20.73, rdd:12.46, re:0, pen:0 },
+  { nome:"PJRC11", total:4.64, rdd:1.65, re:0, pen:0 },
+  { nome:"ESMERALDINO", total:21.48, rdd:8.65, re:0, pen:0 },
+  { nome:"GRAN_ROYALLE", total:18.90, rdd:9.43, re:0, pen:0 },
+  { nome:"NUCA_FINA", total:8.50, rdd:4.48, re:0, pen:0 },
+  { nome:"TIMON", total:17.53, rdd:7.77, re:0, pen:0 }
+];
+
+const serieBData = [
+  { nome:"GOLD_SOLAR", total:10.23, rdd:9.06, re:0, pen:0 },
+  { nome:"BANZE", total:21.81, rdd:13.90, re:0, pen:0 },
+  { nome:"DIOGO_BNF", total:-3.34, rdd:-2.10, re:0, pen:0 },
+  { nome:"WANTUIR_FC", total:19.81, rdd:8.37, re:0, pen:0 },
+  { nome:"TAC_E.C", total:16.34, rdd:8.89, re:0, pen:0 },
+  { nome:"FURACAO_BMP", total:9.91, rdd:5.96, re:0, pen:0 },
+  { nome:"VELHO_BUIAS", total:10.80, rdd:4.44, re:0, pen:0 },
+  { nome:"WR_A.C", total:12.39, rdd:5.64, re:0, pen:0 },
+  { nome:"EMBAIXADOR", total:9.13, rdd:0.87, re:0, pen:0 },
+  { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
+];
+
+function render(id,data,access,releg){
+  const el=document.getElementById(id);
+  el.innerHTML="";
+  data.sort((a,b)=>b.total-a.total);
+
+  data.forEach((t,i)=>{
+    let icon="";
+    if(i===0) icon="<img src='CAMAROTE.png'>";
+    else if(i===data.length-1) icon=`<img src='./GARCONS/${t.nome}.png'>`;
+
+    const div=document.createElement("div");
+    div.className="item";
+    if(access && i<2) div.classList.add("access");
+    if(releg && i>=data.length-2) div.classList.add("relegation");
+
+    div.innerHTML=`
+      <div class="top">
+        <div class="left-side">
+          <div class="rank">${i+1}</div>
+          <div class="team">
+            <img src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
+            <div class="name">${t.nome}</div>
+          </div>
+          <div class="special-icon">${icon}</div>
+        </div>
+        <div class="total-container">
+          <div class="total ${t.total<0?'neg':''}">
+            ${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}
+          </div>
+          <div class="details">
+            <span>C$ ${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            <span>R.E. ${t.re}</span>
+            <span>PEN ${t.pen}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    el.appendChild(div);
+  });
+}
+
+render("serieA",serieAData,false,true);
+render("serieB",serieBData,true,false);
+</script>
+
+</body>
+</html>
