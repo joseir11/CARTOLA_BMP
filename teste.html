@@ -51,26 +51,44 @@ body{margin:0;background:var(--bg);color:var(--text);}
   z-index:1;
 }
 
-/* ===== FUNDO TOPO COM DEGRADÊ ===== */
+/* ===== FUNDO TOPO TRANSPARENTE COM DEGRADÊ SUAVE ===== */
 .container::before{
   content:"";
   position:absolute;
   top:0;
   left:0;
   width:100%;
-  height:380px;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.30) 0%,
-      rgba(0,0,0,0.18) 50%,
-      rgba(0,0,0,0.08) 70%,
-      rgba(0,0,0,0) 100%
-    ),
-    url("FUNDO.png") center top / cover no-repeat;
+  height:360px;
+
+  background: url("FUNDO.png") center top / cover no-repeat;
+
+  /* transparência geral (bem sutil) */
+  opacity:0.18;
+
+  /* degradê real de cima para baixo */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 40%,
+    rgba(0,0,0,0.45) 60%,
+    rgba(0,0,0,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+
+  /* compatibilidade Chrome / Safari */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 40%,
+    rgba(0,0,0,0.45) 60%,
+    rgba(0,0,0,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+
   pointer-events:none;
   z-index:-1;
 }
+
 
 /* ===== HEADER ===== */
 .header{
@@ -389,3 +407,4 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
+
