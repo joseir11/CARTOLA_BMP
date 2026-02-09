@@ -28,9 +28,6 @@ body.dark{
   --border:#1f2937;
 }
 
-body.dark .access{background:#064e3b;color:#d1fae5;}
-body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
-
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text);}
 
@@ -66,18 +63,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
 }
-
-/* SWITCH */
-.switch-container{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);}
-.switch{position:relative;width:50px;height:26px;}
-.switch input{display:none;}
-.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:26px;transition:.3s;}
-.slider:before{
-  content:"";position:absolute;height:20px;width:20px;left:3px;bottom:3px;
-  background:white;border-radius:50%;transition:.3s;
-}
-input:checked + .slider{background:var(--orange);}
-input:checked + .slider:before{transform:translateX(24px);}
 
 /* CARD */
 .card{
@@ -133,6 +118,13 @@ input:checked + .slider:before{transform:translateX(24px);}
 
 .rank.no-bg{background:none;}
 
+/* >>> AJUSTE FINAL <<< */
+.rank-camarote{
+  width:28px;
+  height:28px;
+  object-fit:contain;
+}
+
 .team-cell{
   display:flex;
   align-items:center;
@@ -170,27 +162,6 @@ input:checked + .slider:before{transform:translateX(24px);}
 
 <div class="container">
 
-<div class="header">
-  <div class="left-head">
-    <div class="logo-cartola">
-      <img src="CARTOLA.png">
-    </div>
-    <div class="title-block">
-      <h2>TAÇA NATTOS - 2026</h2>
-      <span class="badge">RODADA 02</span>
-    </div>
-  </div>
-
-  <div class="switch-container">
-    <span>🔅</span>
-    <label class="switch">
-      <input type="checkbox" id="darkSwitch">
-      <span class="slider"></span>
-    </label>
-    <span>🌘</span>
-  </div>
-</div>
-
 <div class="card">
   <div class="card-header">SÉRIE A</div>
   <div id="serieA"></div>
@@ -200,8 +171,6 @@ input:checked + .slider:before{transform:translateX(24px);}
   <div class="card-header">SÉRIE B</div>
   <div id="serieB"></div>
 </div>
-
-<div class="footer-note">TAÇA NATTOS - 2026</div>
 
 </div>
 
@@ -238,25 +207,25 @@ function render(id,data){
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
-let icon="";
-let rankHtml = i + 1;
-let rankClass="rank";
+    let icon="";
+    let rankHtml = i + 1;
+    let rankClass="rank";
 
-if(i===0){
-  rankHtml = "<img src='CAMAROTE.png' class='rank-camarote'>";
-  rankClass += " no-bg";
-}else if(i===data.length-1){
-  icon = `<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
-}
+    if(i===0){
+      rankHtml = "<img src='CAMAROTE.png' class='rank-camarote'>";
+      rankClass += " no-bg";
+    }else if(i===data.length-1){
+      icon = `<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
+    }
 
     const div=document.createElement("div");
     div.className="item";
 
     div.innerHTML=`
       <div class="team-info">
-        <div class="${rankClass}">${i+1}</div>
+        <div class="${rankClass}">${rankHtml}</div>
         <div class="team-cell">
-          <img class="logo" src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
+          <img class="logo" src="./ESCUDOS/${t.nome}.png">
           <div class="name">${t.nome}</div>
           ${icon}
         </div>
@@ -274,24 +243,9 @@ if(i===0){
   });
 }
 
-/* DARK MODE */
-const darkSwitch=document.getElementById("darkSwitch");
-const pref=localStorage.getItem("modo-escuro");
-
-if(pref==="1"){
-  document.body.classList.add("dark");
-  darkSwitch.checked=true;
-}
-
-darkSwitch.addEventListener("change",()=>{
-  document.body.classList.toggle("dark",darkSwitch.checked);
-  localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
-});
-
 render("serieA",serieAData);
 render("serieB",serieBData);
 </script>
 
 </body>
 </html>
-
