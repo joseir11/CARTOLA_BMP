@@ -201,7 +201,7 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
 ];
 
-function render(id,data){
+function render(id, data, access, releg){
   const el=document.getElementById(id);
   el.innerHTML="";
   data.sort((a,b)=>b.total-a.total);
@@ -218,8 +218,11 @@ function render(id,data){
       icon = `<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
     }
 
-    const div=document.createElement("div");
-    div.className="item";
+const div=document.createElement("div");
+div.className="item";
+
+if(access && i < 2) div.classList.add("access");
+if(releg && i >= data.length - 2) div.classList.add("relegation");
 
     div.innerHTML=`
       <div class="team-info">
@@ -243,9 +246,10 @@ function render(id,data){
   });
 }
 
-render("serieA",serieAData);
-render("serieB",serieBData);
+render("serieA", serieAData, false, true);  // Série A: últimos 2 caem
+render("serieB", serieBData, true, false);  // Série B: primeiros 2 sobem
 </script>
 
 </body>
 </html>
+
