@@ -42,7 +42,35 @@ body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text);}
 
-.container{max-width:1000px;margin:30px auto;padding:0 16px;}
+/* ===== CONTAINER ===== */
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 16px;
+  position:relative;
+  z-index:1;
+}
+
+/* ===== FUNDO TOPO COM DEGRADÊ ===== */
+.container::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:380px;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.30) 0%,
+      rgba(0,0,0,0.18) 50%,
+      rgba(0,0,0,0.08) 70%,
+      rgba(0,0,0,0) 100%
+    ),
+    url("FUNDO.png") center top / cover no-repeat;
+  pointer-events:none;
+  z-index:-1;
+}
 
 /* ===== HEADER ===== */
 .header{
@@ -200,7 +228,6 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-/* >>> APLICAÇÃO DA FONTE FREIBURG NO NOME DOS TIMES <<< */
 .team-cell .name{
   font-family:"Freiburg", Inter, Arial, sans-serif;
   font-size:24px;
@@ -362,12 +389,3 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
