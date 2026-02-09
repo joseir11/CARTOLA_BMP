@@ -238,15 +238,16 @@ function render(id,data){
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
-    let icon="";
-    let rankClass="rank";
+let icon="";
+let rankHtml = i + 1;
+let rankClass="rank";
 
-    if(i===0){
-      icon="<img src='CAMAROTE.png' class='icon-camarote'>";
-      rankClass+=" no-bg";
-    }else if(i===data.length-1){
-      icon=`<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
-    }
+if(i===0){
+  rankHtml = "<img src='CAMAROTE.png' class='rank-camarote'>";
+  rankClass += " no-bg";
+}else if(i===data.length-1){
+  icon = `<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
+}
 
     const div=document.createElement("div");
     div.className="item";
@@ -293,3 +294,4 @@ render("serieB",serieBData);
 
 </body>
 </html>
+
