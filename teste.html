@@ -8,6 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+/* FONTE PERSONALIZADA – NOMES DOS TIMES */
+@font-face {
+  font-family: "Freiburg";
+  src: url("./Freiburg.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root{
   --orange:#f97316;
   --orange-dark:#ea580c;
@@ -190,6 +198,11 @@ input:checked + .slider:before{transform:translateX(24px);}
   width:48px;
   height:48px;
   object-fit:contain;
+}
+
+/* >>> APLICAÇÃO DA FONTE FREIBURG NO NOME DOS TIMES <<< */
+.team-cell .name{
+  font-family:"Freiburg", Inter, Arial, sans-serif;
 }
 
 .icon-camarote{
