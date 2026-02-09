@@ -28,41 +28,13 @@ body.dark{
   --border:#1f2937;
 }
 
+body.dark .access{background:#064e3b;color:#d1fae5;}
+body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
+
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text);}
 
 .container{max-width:1000px;margin:30px auto;padding:0 16px;}
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:14px;
-  margin-bottom:24px;
-  flex-wrap:wrap;
-}
-
-.left-head{display:flex;align-items:center;gap:12px;}
-
-.logo-cartola img{height:64px;object-fit:contain;}
-
-.title-block h2{
-  font-family:'Montserrat',Arial,sans-serif;
-  font-weight:900;
-  font-size:42px;
-  margin:0;
-}
-
-.title-block .badge{
-  margin-top:6px;
-  background:var(--orange);
-  color:#fff;
-  padding:4px 12px;
-  border-radius:20px;
-  font-size:24px;
-  font-family:'Montserrat', Arial, sans-serif;
-  font-weight:900;
-}
 
 /* CARD */
 .card{
@@ -92,8 +64,11 @@ body{margin:0;background:var(--bg);color:var(--text);}
   display:flex;
   align-items:center;
 }
-
 .item:last-child{border-bottom:none}
+
+/* >>> DESTAQUES (NUNCA REMOVIDOS) <<< */
+.item.access{background:var(--access);}
+.item.relegation{background:var(--relegation);}
 
 /* TEAM INFO */
 .team-info{
@@ -118,7 +93,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
 
 .rank.no-bg{background:none;}
 
-/* >>> AJUSTE FINAL <<< */
 .rank-camarote{
   width:28px;
   height:28px;
@@ -137,7 +111,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
   object-fit:contain;
 }
 
-/* CAMAROTE MENOR */
 .icon-camarote{
   width:28px;
   height:28px;
@@ -153,8 +126,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
 
 .total{font-weight:900;font-size:18px;}
 .details{font-size:12px;color:var(--muted);margin-top:4px;}
-
-.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
 </head>
 
@@ -201,28 +172,28 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
 ];
 
-function render(id, data, access, releg){
+function render(id,data,access,releg){
   const el=document.getElementById(id);
   el.innerHTML="";
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
     let icon="";
-    let rankHtml = i + 1;
+    let rankHtml=i+1;
     let rankClass="rank";
 
     if(i===0){
-      rankHtml = "<img src='CAMAROTE.png' class='rank-camarote'>";
-      rankClass += " no-bg";
+      rankHtml="<img src='CAMAROTE.png' class='rank-camarote'>";
+      rankClass+=" no-bg";
     }else if(i===data.length-1){
-      icon = `<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
+      icon=`<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
     }
 
-const div=document.createElement("div");
-div.className="item";
+    const div=document.createElement("div");
+    div.className="item";
 
-if(access && i < 2) div.classList.add("access");
-if(releg && i >= data.length - 2) div.classList.add("relegation");
+    if(access && i<2) div.classList.add("access");
+    if(releg && i>=data.length-2) div.classList.add("relegation");
 
     div.innerHTML=`
       <div class="team-info">
@@ -246,10 +217,9 @@ if(releg && i >= data.length - 2) div.classList.add("relegation");
   });
 }
 
-render("serieA", serieAData, false, true);  // Série A: últimos 2 caem
-render("serieB", serieBData, true, false);  // Série B: primeiros 2 sobem
+render("serieA",serieAData,false,true);
+render("serieB",serieBData,true,false);
 </script>
 
 </body>
 </html>
-
