@@ -5,19 +5,25 @@
 <title>TAÇA NATTOS - 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+/* FONTE PERSONALIZADA – NOMES DOS TIMES */
+@font-face {
+  font-family: "Freiburg";
+  src: url("./Freiburg.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root{
   --orange:#f97316;
   --orange-dark:#ea580c;
-
   --bg:#f4f6f8;
   --card:#ffffff;
   --text:#1f2933;
   --muted:#6b7280;
   --border:#e3e6ea;
-
   --access:#dcfce7;
   --relegation:#fff1f2;
 }
@@ -34,11 +40,57 @@ body.dark .access{background:#064e3b;color:#d1fae5;}
 body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
 
 *{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-
 body{margin:0;background:var(--bg);color:var(--text);}
 
-.container{max-width:1000px;margin:30px auto;padding:0 16px;}
+/* ===== CONTAINER ===== */
+.container{
+  max-width:1000px;
+  margin:0 auto 30px;
+  padding:0 16px;
+  position:relative;
+  z-index:1;
+}
 
+/* ===== FUNDO TOPO TRANSPARENTE COM DEGRADÊ SUAVE ===== */
+.container::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:360px;
+
+  background: url("FUNDO.png") center top / cover no-repeat;
+
+  /* transparência geral (bem sutil) */
+  opacity:0.18;
+
+  /* degradê real de cima para baixo */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 40%,
+    rgba(0,0,0,0.45) 60%,
+    rgba(0,0,0,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+
+  /* compatibilidade Chrome / Safari */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 40%,
+    rgba(0,0,0,0.45) 60%,
+    rgba(0,0,0,0.15) 75%,
+    rgba(0,0,0,0) 100%
+  );
+
+  pointer-events:none;
+  z-index:-1;
+}
+
+
+/* ===== HEADER ===== */
 .header{
   display:flex;
   justify-content:space-between;
@@ -48,18 +100,13 @@ body{margin:0;background:var(--bg);color:var(--text);}
   flex-wrap:wrap;
 }
 
-.left-head{display:flex;align-items:center;gap:12px;}
-
-.logo-cartola{
-  width:128px;
-  height:128px;
+.left-head{
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:12px;
 }
 
 .logo-cartola img{
-  width:128px;
   height:128px;
   object-fit:contain;
 }
@@ -73,7 +120,6 @@ body{margin:0;background:var(--bg);color:var(--text);}
 .title-block h2{
   font-family:'Montserrat',Arial,sans-serif;
   font-weight:900;
-  letter-spacing:1px;
   font-size:42px;
   margin:0;
 }
@@ -85,13 +131,12 @@ body{margin:0;background:var(--bg);color:var(--text);}
   padding:4px 12px;
   border-radius:20px;
   font-size:24px;
-  align-self:flex-start;
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
-  letter-spacing:1px;
+  align-self:flex-start;
 }
 
-/* SWITCH */
+/* ===== SWITCH DARK ===== */
 .switch-container{
   display:flex;
   align-items:center;
@@ -118,7 +163,7 @@ body{margin:0;background:var(--bg);color:var(--text);}
   width:20px;
   left:3px;
   bottom:3px;
-  background:white;
+  background:#fff;
   border-radius:50%;
   transition:.3s;
 }
@@ -126,6 +171,7 @@ body{margin:0;background:var(--bg);color:var(--text);}
 input:checked + .slider{background:var(--orange);}
 input:checked + .slider:before{transform:translateX(24px);}
 
+/* ===== CARD ===== */
 .card{
   background:var(--card);
   border-radius:14px;
@@ -139,71 +185,94 @@ input:checked + .slider:before{transform:translateX(24px);}
   padding:14px 16px;
   background:linear-gradient(90deg,var(--orange-dark),var(--orange));
   color:#fff;
-
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
   font-size:22px;
   letter-spacing:2px;
-  text-transform:uppercase;
   text-align:center;
-
-  text-shadow:
-    0 1px 0 rgba(0,0,0,.25),
-    0 2px 6px rgba(0,0,0,.35);
 }
 
-.table{width:100%;border-collapse:collapse;}
-
-.table th,.table td{
-  padding:6px 8px;
+/* ===== ITEM ===== */
+.item{
+  padding:14px 16px;
   border-bottom:1px solid var(--border);
-  font-size:clamp(11px,2.6vw,14px);
-}
-
-.table th{text-align:left;color:var(--muted);font-weight:600;}
-
-.team-cell{
   display:flex;
   align-items:center;
-  gap:8px;
-  justify-content:flex-start;
+}
+.item:last-child{border-bottom:none}
+
+.item.access{background:var(--access);}
+.item.relegation{background:var(--relegation);}
+
+/* ===== TEAM INFO ===== */
+.team-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
 }
 
-.team-cell .logo{
-  flex-shrink:0;
+/* ===== RANK ===== */
+.rank{
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(249,115,22,0.08);
+  font-weight:700;
+  color:var(--muted);
 }
 
+.rank.no-bg{background:none;}
 
-.logo{
-  width:48px;
-  height:48px;
+.rank-camarote{
+  width:32px;
+  height:32px;
   object-fit:contain;
 }
 
-/* COLUNA C/G — DEFINITIVA */
-th.icon-col,
-td.icon-col{
+/* ===== TEAM ===== */
+.team-cell{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.team-cell .logo{
+  width:auto;
+  height:60px;
+  object-fit:contain;
+}
+
+.team-cell .name{
+  font-family:"Freiburg", Inter, Arial, sans-serif;
+  font-size:24px;
+}
+
+.icon-camarote{
+  height:40px;
+  width:auto;
+  object-fit:contain;
+  opacity:.85;
+}
+
+/* ===== TOTAL ===== */
+.total-container{
+  margin-left:auto;
+  text-align:right;
+}
+
+.total{font-weight:900;font-size:18px;}
+.details{font-size:12px;color:var(--muted);margin-top:4px;}
+
+.footer-note{
   text-align:center;
-  vertical-align:middle;
-  width:42px;
-  min-width:42px;
-  max-width:42px;
-  padding:0;
+  color:var(--muted);
+  font-size:13px;
+  margin:20px;
 }
-/* TAMANHO IMAGEM C/G */
-.icon-col img{
-  width:36px;
-  height:auto;
-}
-
-}
-
-.pos{width:32px;color:var(--muted);}
-
-.access{background:var(--access);}
-.relegation{background:var(--relegation);}
-
-.footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
 </head>
 
@@ -234,38 +303,12 @@ td.icon-col{
 
 <div class="card">
   <div class="card-header">SÉRIE A</div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="pos">POS</th>
-        <th>TIME</th>
-        <th>C$</th>
-        <th>R.E.</th>
-        <th>PEN.</th>
-        <th>TOTAL</th>
-        <th class="icon-col">C/G</th>
-      </tr>
-    </thead>
-    <tbody id="serieA"></tbody>
-  </table>
+  <div id="serieA"></div>
 </div>
 
 <div class="card">
   <div class="card-header">SÉRIE B</div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="pos">POS</th>
-        <th>TIME</th>
-        <th>C$</th>
-        <th>R.E.</th>
-        <th>PEN.</th>
-        <th>TOTAL</th>
-        <th class="icon-col">C/G</th>
-      </tr>
-    </thead>
-    <tbody id="serieB"></tbody>
-  </table>
+  <div id="serieB"></div>
 </div>
 
 <div class="footer-note">TAÇA NATTOS - 2026</div>
@@ -299,39 +342,48 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
 ];
 
-function render(id,data,access=false,releg=false){
-  const tbody=document.getElementById(id);
-  tbody.innerHTML="";
+function render(id,data,access,releg){
+  const el=document.getElementById(id);
+  el.innerHTML="";
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
-    const tr=document.createElement("tr");
+    let icon="";
+    let rankHtml=i+1;
+    let rankClass="rank";
 
-    if(access && i < 2) tr.classList.add("access");
-    if(releg && i >= data.length-2) tr.classList.add("relegation");
+    if(i===0){
+      rankHtml="<img src='CAMAROTE.png' class='rank-camarote'>";
+      rankClass+=" no-bg";
+    }else if(i===data.length-1){
+      icon=`<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
+    }
 
-let icon = "";
+    const div=document.createElement("div");
+    div.className="item";
 
-if (i === 0) {
-  icon = "CAMAROTE.png";
-} else if (i === data.length - 1) {
-  icon = `./GARCONS/${t.nome}.png`;
-}
-    tr.innerHTML=`
-      <td class="pos">${i+1}</td>
-      <td>
+    if(access && i<2) div.classList.add("access");
+    if(releg && i>=data.length-2) div.classList.add("relegation");
+
+    div.innerHTML=`
+      <div class="team-info">
+        <div class="${rankClass}">${rankHtml}</div>
         <div class="team-cell">
-          <img class="logo" src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
-          ${t.nome}
+          <img class="logo" src="./ESCUDOS/${t.nome}.png">
+          <div class="name">${t.nome}</div>
+          ${icon}
         </div>
-      </td>
-      <td>${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
-      <td>${t.re}</td>
-      <td>${t.pen}</td>
-      <td>${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
-      <td class="icon-col">${icon ? `<img src="${icon}">` : ""}</td>
+        <div class="total-container">
+          <div class="total">${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+          <div class="details">
+            <span>C$ ${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+            <span> R.E. ${t.re}</span>
+            <span> PEN ${t.pen}</span>
+          </div>
+        </div>
+      </div>
     `;
-    tbody.appendChild(tr);
+    el.appendChild(div);
   });
 }
 
@@ -355,8 +407,6 @@ render("serieB",serieBData,true,false);
 
 </body>
 </html>
-
-
 
 
 
