@@ -11,13 +11,11 @@
 :root{
   --orange:#f97316;
   --orange-dark:#ea580c;
-
   --bg:#f4f6f8;
   --card:#ffffff;
   --text:#1f2933;
   --muted:#6b7280;
   --border:#e3e6ea;
-
   --access:#dcfce7;
   --relegation:#fff1f2;
 }
@@ -49,30 +47,11 @@ body{margin:0;background:var(--bg);color:var(--text);}
 
 .left-head{display:flex;align-items:center;gap:12px;}
 
-.logo-cartola{
-  width:64px;
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.logo-cartola img{
-  width:auto;      /* largura automática para manter proporção */
-  height:64px;     /* altura fixa */
-  object-fit:contain;
-}
-
-.title-block{
-  display:flex;
-  flex-direction:column;
-  line-height:1.1;
-}
+.logo-cartola img{height:64px;object-fit:contain;}
 
 .title-block h2{
   font-family:'Montserrat',Arial,sans-serif;
   font-weight:900;
-  letter-spacing:1px;
   font-size:42px;
   margin:0;
 }
@@ -84,44 +63,19 @@ body{margin:0;background:var(--bg);color:var(--text);}
   padding:4px 12px;
   border-radius:20px;
   font-size:24px;
-  align-self:flex-start;
   font-family:'Montserrat', Arial, sans-serif;
   font-weight:900;
-  letter-spacing:1px;
 }
 
 /* SWITCH */
-.switch-container{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:13px;
-  color:var(--muted);
-}
-
+.switch-container{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);}
 .switch{position:relative;width:50px;height:26px;}
 .switch input{display:none;}
-
-.slider{
-  position:absolute;
-  inset:0;
-  background:#cbd5e1;
-  border-radius:26px;
-  transition:.3s;
-}
-
+.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:26px;transition:.3s;}
 .slider:before{
-  content:"";
-  position:absolute;
-  height:20px;
-  width:20px;
-  left:3px;
-  bottom:3px;
-  background:white;
-  border-radius:50%;
-  transition:.3s;
+  content:"";position:absolute;height:20px;width:20px;left:3px;bottom:3px;
+  background:white;border-radius:50%;transition:.3s;
 }
-
 input:checked + .slider{background:var(--orange);}
 input:checked + .slider:before{transform:translateX(24px);}
 
@@ -143,11 +97,7 @@ input:checked + .slider:before{transform:translateX(24px);}
   font-weight:900;
   font-size:22px;
   letter-spacing:2px;
-  text-transform:uppercase;
   text-align:center;
-  text-shadow:
-    0 1px 0 rgba(0,0,0,.25),
-    0 2px 6px rgba(0,0,0,.35);
 }
 
 /* ITEM */
@@ -160,23 +110,28 @@ input:checked + .slider:before{transform:translateX(24px);}
 
 .item:last-child{border-bottom:none}
 
-.item.access{background:var(--access);}
-.item.relegation{background:var(--relegation);}
-
-/* TIME + ÍCONE */
+/* TEAM INFO */
 .team-info{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
   width:100%;
 }
 
+/* RANK */
 .rank{
   width:32px;
-  text-align:center;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(249,115,22,0.08);
+  font-weight:700;
   color:var(--muted);
-  font-weight:600;
 }
+
+.rank.no-bg{background:none;}
 
 .team-cell{
   display:flex;
@@ -190,30 +145,23 @@ input:checked + .slider:before{transform:translateX(24px);}
   object-fit:contain;
 }
 
-.special-icon img{
-  width:48px;
-  height:48px;
+/* CAMAROTE MENOR */
+.icon-camarote{
+  width:28px;
+  height:28px;
   object-fit:contain;
+  opacity:.85;
 }
 
-/* TOTAL E DETALHES */
+/* TOTAL */
 .total-container{
-  margin-left:auto; /* empurra para direita */
+  margin-left:auto;
   text-align:right;
 }
 
-.total{
-  font-weight:900;
-  font-size:18px;
-}
+.total{font-weight:900;font-size:18px;}
+.details{font-size:12px;color:var(--muted);margin-top:4px;}
 
-.details{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:4px;
-}
-
-/* RODAPÉ */
 .footer-note{text-align:center;color:var(--muted);font-size:13px;margin:20px;}
 </style>
 </head>
@@ -284,35 +232,39 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
 ];
 
-function render(id,data,access,releg){
+function render(id,data){
   const el=document.getElementById(id);
   el.innerHTML="";
   data.sort((a,b)=>b.total-a.total);
 
   data.forEach((t,i)=>{
     let icon="";
-    if(i===0) icon="<img src='CAMAROTE.png'>";
-    else if(i===data.length-1) icon=`<img src='./GARCONS/${t.nome}.png'>`;
+    let rankClass="rank";
+
+    if(i===0){
+      icon="<img src='CAMAROTE.png' class='icon-camarote'>";
+      rankClass+=" no-bg";
+    }else if(i===data.length-1){
+      icon=`<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
+    }
 
     const div=document.createElement("div");
     div.className="item";
-    if(access && i<2) div.classList.add("access");
-    if(releg && i>=data.length-2) div.classList.add("relegation");
 
     div.innerHTML=`
       <div class="team-info">
-        <div class="rank">${i+1}</div>
+        <div class="${rankClass}">${i+1}</div>
         <div class="team-cell">
           <img class="logo" src="./ESCUDOS/${t.nome}.png" onerror="this.src='./ESCUDOS/default.png'">
           <div class="name">${t.nome}</div>
-          <div class="special-icon">${icon}</div>
+          ${icon}
         </div>
         <div class="total-container">
           <div class="total">${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
           <div class="details">
             <span>C$ ${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-            <span>R.E. ${t.re}</span>
-            <span>PEN ${t.pen}</span>
+            <span> R.E. ${t.re}</span>
+            <span> PEN ${t.pen}</span>
           </div>
         </div>
       </div>
@@ -335,8 +287,8 @@ darkSwitch.addEventListener("change",()=>{
   localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
 });
 
-render("serieA",serieAData,false,true);
-render("serieB",serieBData,true,false);
+render("serieA",serieAData);
+render("serieB",serieBData);
 </script>
 
 </body>
