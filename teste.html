@@ -29,9 +29,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ==========================================
-   HEADER MOBILE
-   ========================================== */
+/* HEADER */
 .header {
   display: flex;
   flex-direction: column;
@@ -41,84 +39,35 @@ body {
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.header-topo-mobile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.titulo-principal {
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: var(--text-light);
-}
-
+.header-topo-mobile { display: flex; align-items: center; gap: 12px; }
+.titulo-principal { font-size: 26px; font-weight: 900; color: var(--text-light); }
 .logo-campeonato { height: 55px; width: auto; }
 
-.header-controles-mobile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.header-controles-mobile { display: flex; align-items: center; justify-content: space-between; }
+.toggle-visual { width: 90px; background: rgba(255,255,255,0.1); border-radius: 999px; padding: 3px; display: flex; }
 
-.toggle-visual {
-  width: 90px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 999px;
-  padding: 3px;
-  display: flex;
-}
-
-.toggle-btn {
-  flex: 1;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: .3s;
-  color: #9ca3af;
-  border: none;
-  background: transparent;
+.toggle-btn { 
+  flex: 1; 
+  height: 36px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  border: none; 
+  background: transparent; 
+  color: #9ca3af; 
 }
 
 .toggle-btn svg { width: 20px; height: 20px; }
-
-.toggle-btn.ativo {
-  background: rgba(0,0,0,0.5);
-  color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
+.toggle-btn.ativo { background: rgba(0,0,0,0.5); color: #fff; }
 .icon-vertical { transform: rotate(90deg); }
 
-.badge-rdd {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.06);
-  padding: 0 12px;
-  border-radius: 999px;
-  height: 38px;
-}
-
-.bola-rdd {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--orange);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900; color: #000; font-size: 10px;
-}
-
+.badge-rdd { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); padding: 0 12px; border-radius: 999px; height: 38px; }
+.bola-rdd { width: 28px; height: 28px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 10px; }
 .texto-rdd { font-weight: 800; font-size: 16px; color: var(--text-light); }
 
-/* ==========================================
-   VISÃO CAMPO
-   ========================================== */
+/* CAMPO */
 .campo {
   position: relative;
   margin: 0 auto;
@@ -141,11 +90,7 @@ body {
   z-index: 10;
 }
 
-.logo-campo {
-  width: 78px; height: 78px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
-}
+.logo-campo { width: 78px; height: 78px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
 
 .badge-pontos-campo {
   background: var(--orange);
@@ -162,12 +107,26 @@ body {
   cursor: pointer;
 }
 
+/* CORES DOS BADGES NO CAMPO */
+.badge-lider { background: var(--green) !important; color: white !important; }
+.badge-rebaixamento { background: var(--red) !important; color: white !important; }
+
 .posicao-campo {
   position: absolute;
-  top: -8px; right: 00px;
-  font-family: 'Teko'; font-size: 28px;
+  top: -10px; 
+  right: -5px; 
+  font-family: 'Teko'; 
+  font-size: 28px; 
   text-shadow: 2px 2px 3px #000;
-  z-index: 20; /* Garante que fique por cima de tudo */	
+  z-index: 20;
+}
+
+.trofeu-campo {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  z-index: 20;
+  pointer-events: none;
 }
 
 .garcom {
@@ -178,15 +137,7 @@ body {
   z-index: 5;
 }
 
-.icon-olho { width: 14px; height: 14px; opacity: 0.8; pointer-events: none; }
-
-.trofeu-campo {
-  font-size: 22px;
-  margin-bottom: -0px;
-  z-index: 15;
-}
-
-/* CARD FLUTUANTE (POP-OVER) */
+/* CARD FLUTUANTE */
 .pop-detalhes {
   position: absolute;
   bottom: 110%;
@@ -201,58 +152,25 @@ body {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
   z-index: 100;
   display: none;
-  pointer-events: none;
 }
+.pop-detalhes b { color: #000; display: block; border-bottom: 1px solid #eee; margin-bottom: 4px; }
+.pop-item { display: flex; justify-content: space-between; font-weight: 600; }
 
-.pop-detalhes::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: white transparent transparent transparent;
-}
-
-.pop-detalhes b { color: #000; display: block; margin-bottom: 4px; border-bottom: 1px solid #eee; padding-bottom: 2px; }
-.pop-item { display: flex; justify-content: space-between; margin-bottom: 2px; font-weight: 600; }
-
-/* ==========================================
-   VISÃO LISTA
-   ========================================== */
-.lista-container {
-  width: 95%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  color: #1f2937;
-}
-
+/* LISTA */
+.lista-container { width: 95%; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; color: #1f2937; }
 .tabela-times { width: 100%; border-collapse: collapse; }
-.tabela-times tr { border-bottom: 1px solid #f1f5f9; }
-.tabela-times td { padding: 12px 10px; vertical-align: middle; }
-.td-posicao { width: 45px; text-align: center; font-family: 'Teko'; font-size: 22px; font-weight: 700; color: #94a3b8; }
-.td-escudo { width: 50px; }
+.tabela-times td { padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f1f5f9; }
+.td-posicao { font-family: 'Teko'; font-size: 22px; font-weight: 700; color: #94a3b8; text-align: center; width: 45px; }
 .td-escudo img { width: 42px; height: 42px; object-fit: contain; }
-.td-nome { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.td-nome { font-weight: 800; font-size: 14px; text-transform: uppercase; }
 .td-pontos { text-align: right; padding-right: 15px !important; }
 .pontuacao-total { font-weight: 900; font-size: 17px; display: block; }
-.detalhes-lista { display: block; font-size: 10px; color: #64748b; font-weight: 600; margin-top: 2px; }
+.detalhes-lista { font-size: 10px; color: #64748b; font-weight: 600; }
 
-/* STATUS */
 .status-lider { background: #dcfce7 !important; }
 .status-rebaixamento { background: #fee2e2 !important; }
-.badge-lider { background: var(--green) !important; }
-.badge-rebaixamento { background: var(--red) !important; color: #fff !important; }
-
 .titulo-serie { text-align: center; margin: 30px 0 15px; }
-.badge-serie {
-  display: inline-block; background: var(--orange); color: #000;
-  font-weight: 900; font-size: 18px; padding: 6px 20px; border-radius: 999px;
-}
+.badge-serie { display: inline-block; background: var(--orange); color: #000; font-weight: 900; font-size: 18px; padding: 6px 20px; border-radius: 999px; }
 </style>
 </head>
 <body onclick="fecharTodosCards()">
@@ -262,7 +180,6 @@ body {
     <img src="./CARTOLA.png" class="logo-campeonato">
     <div class="titulo-principal">TAÇA NATTOS 2026</div>
   </div>
-
   <div class="header-controles-mobile">
     <div class="toggle-visual">
       <button class="toggle-btn ativo" id="btnCampo" onclick="mudarVisual('campo')">
@@ -281,7 +198,6 @@ body {
         </svg>
       </button>
     </div>
-
     <div class="badge-rdd">
       <div class="bola-rdd">RDD</div>
       <div class="texto-rdd">03 / 38</div>
@@ -289,20 +205,20 @@ body {
   </div>
 </div>
 
-<div class="container-serie">
+<div id="containerA">
   <div class="titulo-serie"><span class="badge-serie">SÉRIE A</span></div>
   <div id="displayA"></div>
 </div>
 
-<div class="container-serie">
+<div id="containerB">
   <div class="titulo-serie"><span class="badge-serie">SÉRIE B</span></div>
   <div id="displayB"></div>
 </div>
 
 <script>
-/* ==========================================
-   CONFIGURAÇÕES E DADOS
-   ========================================== */
+// TROFEU - Ajuste aqui a posição fixa da taça no campo
+const posTrofeu = { t: 7, l: 50 }; 
+
 const posCampo = [
   { t: 15, l: 50 }, // 1º Colocado
   { t: 18, l: 25 }, // 2º Colocado
@@ -342,23 +258,17 @@ const serieBData = [
   { nome:"DIOGO_BNF", total:2.10, rdd:5.44, re:0, pen:0 }
 ];
 
-let modoAtivo = 'campo'; 
+let modoAtivo = 'campo';
 
-function atualizarTela() {
-  renderSeção("displayA", serieAData, true);
-  renderSeção("displayB", serieBData, false);
-}
-
-function alternarCard(e, idTime) {
+function alternarCard(e, id) {
   e.stopPropagation();
   fecharTodosCards();
-  const card = document.getElementById('pop-' + idTime);
-  if (card) card.style.display = 'block';
+  const card = document.getElementById('pop-' + id);
+  if(card) card.style.display = 'block';
 }
 
 function fecharTodosCards() {
-  const cards = document.querySelectorAll('.pop-detalhes');
-  cards.forEach(c => c.style.display = 'none');
+  document.querySelectorAll('.pop-detalhes').forEach(c => c.style.display = 'none');
 }
 
 function renderSeção(id, data, isA) {
@@ -369,14 +279,20 @@ function renderSeção(id, data, isA) {
   if(modoAtivo === 'campo') {
     const campoDiv = document.createElement("div");
     campoDiv.className = "campo";
+
+    // TROFEU - Renderiza na posição fixa para ambas as séries
+    campoDiv.innerHTML += `<div class="trofeu-campo" style="top:${posTrofeu.t}%; left:${posTrofeu.l}%">🏆</div>`;
+
     data.forEach((time, i) => {
       const p = posCampo[i];
-      let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
       const idUnico = id + i;
+      
+      let bClass = "";
+      if (isA && i >= 8) bClass = "badge-rebaixamento"; 
+      if (!isA && i <= 1) bClass = "badge-lider";       
 
-      // Lógica do Garçom Restaurada
       if(i === 9) {
-          campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
+        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
       }
 
       campoDiv.innerHTML += `
@@ -387,23 +303,17 @@ function renderSeção(id, data, isA) {
              <div class="pop-item"><span>R.E.</span> <span>${time.re.toFixed(2)}</span></div>
              <div class="pop-item"><span>PEN</span> <span>${time.pen}</span></div>
           </div>
-          ${i === 0 ? '<div class="trofeu-campo">🏆</div>' : ''}
           <div class="posicao-campo">${i+1}</div>
           <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
           <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
             ${time.total.toFixed(2)}
-            <svg class="icon-olho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+            <svg class="icon-olho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width:14px;height:14px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
           </div>
         </div>`;
     });
     container.appendChild(campoDiv);
   } else {
-    const listaDiv = document.createElement("div");
-    listaDiv.className = "lista-container";
-    let tabela = `<table class="tabela-times">`;
+    let tabela = `<div class="lista-container"><table class="tabela-times">`;
     data.forEach((time, i) => {
       let rClass = (isA && i >= 8) ? "status-rebaixamento" : (!isA && i <= 1) ? "status-lider" : "";
       tabela += `<tr class="${rClass}">
@@ -411,12 +321,11 @@ function renderSeção(id, data, isA) {
         <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
         <td class="td-pontos">
-            <span class="pontuacao-total">${time.total.toFixed(2)}</span>
-            <span class="detalhes-lista">C$ ${time.rdd.toFixed(2)} R.E. ${time.re.toFixed(2)} PEN ${time.pen}</span>
+          <span class="pontuacao-total">${time.total.toFixed(2)}</span>
+          <span class="detalhes-lista">C$ ${time.rdd.toFixed(2)} R.E. ${time.re.toFixed(2)} PEN ${time.pen}</span>
         </td></tr>`;
     });
-    listaDiv.innerHTML = tabela + `</table>`;
-    container.appendChild(listaDiv);
+    container.innerHTML = tabela + `</table></div>`;
   }
 }
 
@@ -425,6 +334,11 @@ function mudarVisual(tipo) {
   document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
   document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
   atualizarTela();
+}
+
+function atualizarTela() {
+  renderSeção("displayA", serieAData, true);
+  renderSeção("displayB", serieBData, false);
 }
 
 atualizarTela();
