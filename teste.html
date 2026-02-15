@@ -31,25 +31,42 @@ body{
 }
 
 /* HEADER */
-.header{
-  display:flex;
-  flex-direction:column;
-  padding:18px 18px 20px;
-  background:var(--topo-grad);
-  border-bottom:1px solid rgba(255,255,255,0.05);
+.header {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 10px;
+  background: var(--topo-grad);
+  gap: 12px;
 }
 
-.topo-linha{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+.header-topo-mobile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.topo-esquerda{
-  display:flex;
-  align-items:center;
-  gap:14px;
+.header-controles-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.titulo-principal {
+  font-size: 26px; /* Ajustado para mobile */
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #e5e7eb;
+}
+
+.logo-campeonato {
+  height: 55px; /* Reduzido para equilibrar com o título */
+  width: auto;
+}
+
+.badge-rdd {
+  padding: 4px 12px;
+  height: 46px; /* Alinhado com a altura do toggle-btn */
 }
 
 .logo-campeonato{
@@ -276,33 +293,33 @@ body{
 <body>
 
 <div class="header">
-  <div class="topo-linha">
-    <div class="topo-esquerda">
-      <img src="./CARTOLA.png" class="logo-campeonato">
-      <div class="titulo-principal">TAÇA NATTOS 2026</div>
+  <div class="header-topo-mobile">
+    <img src="./CARTOLA.png" class="logo-campeonato">
+    <div class="titulo-principal">TAÇA NATTOS 2026</div>
+  </div>
+
+  <div class="header-controles-mobile">
+    <div class="toggle-visual">
+      <div class="toggle-btn ativo">
+        <svg class="icon-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <circle cx="12" cy="12" r="2.5"></circle>
+        </svg>
+      </div>
+      <div class="toggle-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+          <rect x="9" y="1" width="6" height="4" rx="1"></rect>
+          <line x1="8" y1="10" x2="16" y2="10"></line>
+          <line x1="8" y1="14" x2="16" y2="14"></line>
+        </svg>
+      </div>
     </div>
 
     <div class="badge-rdd">
       <div class="bola-rdd">RDD</div>
       <div class="texto-rdd">03 / 38</div>
-    </div>
-  </div>
-
-  <div class="toggle-visual">
-    <div class="toggle-btn ativo">
-      <svg class="icon-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <circle cx="12" cy="12" r="2.5"></circle>
-      </svg>
-    </div>
-    <div class="toggle-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-        <rect x="9" y="1" width="6" height="4" rx="1"></rect>
-        <line x1="8" y1="10" x2="16" y2="10"></line>
-        <line x1="8" y1="14" x2="16" y2="14"></line>
-      </svg>
     </div>
   </div>
 </div>
@@ -428,3 +445,4 @@ document.addEventListener("click", () => fecharModal());
 
 </body>
 </html>
+
