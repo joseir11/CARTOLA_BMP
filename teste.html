@@ -96,10 +96,10 @@ body{
   letter-spacing:1px;
 }
 
-/* CHAVE VISUAL (TOGGLE) - AJUSTADO */
+/* SELETOR (TOGGLE) CIRCULAR */
 .toggle-visual{
   margin-top:18px;
-  width:110px; /* Largura reduzida */
+  width:110px;
   background:rgba(255,255,255,0.1);
   border-radius:999px;
   padding:4px;
@@ -109,9 +109,9 @@ body{
 }
 
 .toggle-btn{
-  width:46px; /* Tamanho fixo para ser circular */
+  width:46px;
   height:46px;
-  border-radius:50%; /* Redondo */
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -121,11 +121,10 @@ body{
 }
 
 .toggle-btn svg{
-  width:28px; /* Ícones maiores */
+  width:28px;
   height:28px;
 }
 
-/* Ícone do campo na vertical */
 .icon-vertical {
   transform: rotate(90deg);
 }
@@ -186,6 +185,13 @@ body{
   z-index:10;
 }
 
+.trofeu-card{
+  position:absolute;
+  top:3px;
+  left:4px;
+  font-size:14px;
+}
+
 .logo{
   width:54px;
   height:54px;
@@ -226,7 +232,7 @@ body{
 .lider{ background:#dcfce7; border:1.5px solid #86efac; }
 .rebaixamento{ background:#fee2e2; border:1.5px solid #fca5a5; }
 
-/* MODAL DE DETALHES */
+/* MODAL */
 .modal-detalhes{
   position:absolute;
   background:#ffffff;
@@ -356,7 +362,7 @@ function fecharModal(){
 }
 
 function abrirDetalhes(e, timeData){
-  e.stopPropagation(); // Essencial para o clique funcionar
+  e.stopPropagation();
   fecharModal();
   
   const card = e.currentTarget.closest(".card-time");
@@ -398,7 +404,11 @@ function renderCampo(id, data, isSerieA){
 
     const tJson = JSON.stringify(time).replace(/'/g, "&apos;");
 
+    // Lógica da Taça no 1º colocado:
+    const iconeTaca = (index === 0) ? '<div class="trofeu-card">🏆</div>' : '';
+
     card.innerHTML = `
+      ${iconeTaca}
       <div class="posicao">${index+1}</div>
       <img class="logo" src="./ESCUDOS/${time.nome}.png">
       <div class="badge-pontos">
@@ -418,5 +428,3 @@ document.addEventListener("click", () => fecharModal());
 
 </body>
 </html>
-
-
