@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAÇA NATTOS 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b1220;
+  --card:#111827;
+  --green:#22c55e;
+  --green-dark:#15803d;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);
+  color:var(--text);
+}
+
+/* HEADER */
+.header{
+  padding:20px;
+  text-align:center;
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:2px;
+  background:#0f172a;
+  border-bottom:1px solid #1f2937;
+}
+
+/* CAMPO */
+.campo{
+  position:relative;
+  padding:20px 10px 40px;
+  background:
+  linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+  url("https://i.imgur.com/5uQZ6XH.png");
+  background-size:cover;
+  border-top:3px solid var(--green);
+}
+
+/* GRID 3-4-3 */
+.grid{
+  display:grid;
+  gap:18px;
+  justify-items:center;
+}
+
+.linha{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+/* CARTA */
+.card-time{
+  width:100px;
+  background:linear-gradient(160deg,#111827,#1f2937);
+  border-radius:18px;
+  padding:10px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 0 0 1px rgba(34,197,94,.1),
+             0 10px 20px rgba(0,0,0,.6);
+  transition:.3s;
+}
+
+.card-time:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 20px rgba(34,197,94,.3);
+}
+
+/* LÍDER */
+.lider{
+  animation:glow 1.8s infinite alternate;
+}
+@keyframes glow{
+  from{box-shadow:0 0 10px rgba(34,197,94,.3)}
+  to{box-shadow:0 0 25px rgba(34,197,94,.7)}
+}
+
+/* MEDALHA */
+.medalha{
+  position:absolute;
+  top:-12px;
+  right:-12px;
+  font-size:20px;
+}
+
+/* ESCUDO */
+.logo{
+  width:60px;
+  height:60px;
+  object-fit:contain;
+  margin-bottom:6px;
+  filter:drop-shadow(0 0 8px rgba(34,197,94,.4));
+}
+
+/* NOME */
+.nome{
+  font-size:11px;
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* PONTOS */
+.pontos{
+  font-weight:900;
+  font-size:16px;
+  margin-top:6px;
+  color:var(--green);
+}
+
+/* BADGE C$ */
+.badge-cs{
+  position:absolute;
+  top:8px;
+  left:8px;
+  background:var(--green);
+  color:#000;
+  font-weight:800;
+  font-size:10px;
+  padding:4px 6px;
+  border-radius:50px;
+}
+
+/* DETALHES */
+.detalhes{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+/* SÉRIE */
+.titulo-serie{
+  text-align:center;
+  margin:30px 0 10px;
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:2px;
+  color:var(--green);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+TAÇA NATTOS 2026 • RODADA 02
+</div>
+
+<div class="titulo-serie">SÉRIE A</div>
+<div class="campo">
+  <div id="serieA"></div>
+</div>
+
+<div class="titulo-serie">SÉRIE B</div>
+<div class="campo">
+  <div id="serieB"></div>
+</div>
+
+<script>
+const serieAData = [
+  { nome:"NILTIN_SLR", total:7.12, rdd:4.46, re:0, pen:0 },
+  { nome:"SUPER_MARIO", total:14.92, rdd:8.27, re:0, pen:0 },
+  { nome:"PINSHER_10", total:21.41, rdd:12.06, re:0, pen:0 },
+  { nome:"JOSA UNITED", total:19, rdd:11.99, re:0, pen:0 },
+  { nome:"ACGTD", total:20.73, rdd:12.46, re:0, pen:0 },
+  { nome:"PJRC11", total:4.64, rdd:1.65, re:0, pen:0 },
+  { nome:"ESMERALDINO", total:21.48, rdd:8.65, re:0, pen:0 },
+  { nome:"GRAN_ROYALLE", total:18.90, rdd:9.43, re:0, pen:0 },
+  { nome:"NUCA_FINA", total:8.50, rdd:4.48, re:0, pen:0 },
+  { nome:"TIMON", total:17.53, rdd:7.77, re:0, pen:0 }
+];
+
+const serieBData = [
+  { nome:"GOLD_SOLAR", total:10.23, rdd:9.06, re:0, pen:0 },
+  { nome:"BANZE", total:21.81, rdd:13.90, re:0, pen:0 },
+  { nome:"DIOGO_BNF", total:-3.34, rdd:-2.10, re:0, pen:0 },
+  { nome:"WANTUIR_FC", total:19.81, rdd:8.37, re:0, pen:0 },
+  { nome:"TAC_E.C", total:16.34, rdd:8.89, re:0, pen:0 },
+  { nome:"FURACAO_BMP", total:9.91, rdd:5.96, re:0, pen:0 },
+  { nome:"VELHO_BUIAS", total:10.80, rdd:4.44, re:0, pen:0 },
+  { nome:"WR_A.C", total:12.39, rdd:5.64, re:0, pen:0 },
+  { nome:"EMBAIXADOR", total:9.13, rdd:0.87, re:0, pen:0 },
+  { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
+];
+
+function renderCampo(id,data){
+  const container=document.getElementById(id);
+  container.innerHTML="";
+  data.sort((a,b)=>b.total-a.total);
+
+  const linhas=[3,4,3]; 
+  let index=0;
+
+  linhas.forEach((qtd,linhaIndex)=>{
+    const linha=document.createElement("div");
+    linha.className="linha";
+
+    for(let i=0;i<qtd;i++){
+      if(!data[index]) break;
+      const t=data[index];
+
+      const card=document.createElement("div");
+      card.className="card-time";
+      if(index===0) card.classList.add("lider");
+
+      card.innerHTML=`
+        ${index===0?'<div class="medalha">🏆</div>':''}
+        <div class="badge-cs">C$ ${t.rdd.toFixed(2)}</div>
+        <img class="logo" src="./ESCUDOS/${t.nome}.png">
+        <div class="nome">${t.nome}</div>
+        <div class="pontos">${t.total.toFixed(2)}</div>
+        <div class="detalhes">R.E ${t.re} • PEN ${t.pen}</div>
+      `;
+
+      linha.appendChild(card);
+      index++;
+    }
+
+    container.appendChild(linha);
+  });
+}
+
+renderCampo("serieA",serieAData);
+renderCampo("serieB",serieBData);
+</script>
+
+</body>
+</html>
