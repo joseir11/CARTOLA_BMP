@@ -2,417 +2,347 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>TAÇA NATTOS - 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAÇA NATTOS 2026</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-/* FONTE PERSONALIZADA – NOMES DOS TIMES */
-@font-face {
-  font-family: "Freiburg";
-  src: url("./Freiburg.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+/* ==========================================
+   CONFIGURAÇÕES GERAIS E CORES
+   ========================================== */
+:root {
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f59e0b;
+  --bg: #1f2937;
+  --topo-grad: linear-gradient(135deg, #111827, #1f2937);
+  --text-light: #e5e7eb;
 }
 
-:root{
-  --orange:#f97316;
-  --orange-dark:#ea580c;
-  --bg:#f4f6f8;
-  --card:#ffffff;
-  --text:#1f2933;
-  --muted:#6b7280;
-  --border:#e3e6ea;
-  --access:#dcfce7;
-  --relegation:#fff1f2;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body.dark{
-  --bg:#0f172a;
-  --card:#111827;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --border:#1f2937;
+/* HEADER */
+.header {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: var(--topo-grad);
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-body.dark .access{background:#064e3b;color:#d1fae5;}
-body.dark .relegation{background:#7f1d1d;color:#fee2e2;}
+.header-topo-mobile { display: flex; align-items: center; gap: 12px; }
+.titulo-principal { font-size: 26px; font-weight: 900; color: var(--text-light); }
+.logo-campeonato { height: 55px; width: auto; }
 
-*{box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{margin:0;background:var(--bg);color:var(--text);}
+.header-controles-mobile { display: flex; align-items: center; justify-content: space-between; }
+.toggle-visual { width: 90px; background: rgba(255,255,255,0.1); border-radius: 999px; padding: 3px; display: flex; }
 
-/* ===== CONTAINER ===== */
-.container{
-  max-width:1000px;
-  margin:0 auto 30px;
-  padding:0 16px;
-  position:relative;
-  z-index:1;
+.toggle-btn { 
+  flex: 1; 
+  height: 36px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  border: none; 
+  background: transparent; 
+  color: #9ca3af; 
 }
 
-/* ===== FUNDO TOPO TRANSPARENTE COM DEGRADÊ SUAVE ===== */
-.container::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:360px;
+.toggle-btn svg { width: 20px; height: 20px; }
+.toggle-btn.ativo { background: rgba(0,0,0,0.5); color: #fff; }
+.icon-vertical { transform: rotate(90deg); }
 
-  background: url("FUNDO.png") center top / cover no-repeat;
+.badge-rdd { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); padding: 0 12px; border-radius: 999px; height: 38px; }
+.bola-rdd { width: 28px; height: 28px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 10px; }
+.texto-rdd { font-weight: 800; font-size: 16px; color: var(--text-light); }
 
-  /* transparência geral (bem sutil) */
-  opacity:0.18;
-
-  /* degradê real de cima para baixo */
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0,0,0,1) 0%,
-    rgba(0,0,0,0.85) 40%,
-    rgba(0,0,0,0.45) 60%,
-    rgba(0,0,0,0.15) 75%,
-    rgba(0,0,0,0) 100%
-  );
-
-  /* compatibilidade Chrome / Safari */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    rgba(0,0,0,1) 0%,
-    rgba(0,0,0,0.85) 40%,
-    rgba(0,0,0,0.45) 60%,
-    rgba(0,0,0,0.15) 75%,
-    rgba(0,0,0,0) 100%
-  );
-
-  pointer-events:none;
-  z-index:-1;
+/* CAMPO */
+.campo {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 520px;
+  aspect-ratio: 9/14;
+  border-radius: 20px;
+  overflow: visible;
+  background: #0f172a url("./campo.png") center/cover no-repeat;
+  border: 2px solid rgba(34,197,94,0.2);
 }
 
-
-/* ===== HEADER ===== */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:14px;
-  margin-bottom:24px;
-  flex-wrap:wrap;
+.card-time {
+  position: absolute;
+  width: 100px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
 }
 
-.left-head{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.logo-campo { width: 78px; height: 78px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+
+.badge-pontos-campo {
+  background: var(--orange);
+  color: #000;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-top: 2px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
-.logo-cartola img{
-  height:128px;
-  object-fit:contain;
+/* CORES DOS BADGES NO CAMPO */
+.badge-lider { background: var(--green) !important; color: white !important; }
+.badge-rebaixamento { background: var(--red) !important; color: white !important; }
+
+.posicao-campo {
+  position: absolute;
+  top: -10px; 
+  right: -5px; 
+  font-family: 'Teko'; 
+  font-size: 28px; 
+  text-shadow: 2px 2px 3px #000;
+  z-index: 20;
 }
 
-.title-block{
-  display:flex;
-  flex-direction:column;
-  line-height:1.1;
+.trofeu-campo {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  z-index: 20;
+  pointer-events: none;
 }
 
-.title-block h2{
-  font-family:'Montserrat',Arial,sans-serif;
-  font-weight:900;
-  font-size:42px;
-  margin:0;
+.garcom {
+  position: absolute;
+  width: 65px;
+  transform: translate(-180%, -40%);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  z-index: 5;
 }
 
-.title-block .badge{
-  margin-top:6px;
-  background:var(--orange);
-  color:#fff;
-  padding:4px 12px;
-  border-radius:20px;
-  font-size:24px;
-  font-family:'Montserrat', Arial, sans-serif;
-  font-weight:900;
-  align-self:flex-start;
+/* CARD FLUTUANTE */
+.pop-detalhes {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #1f2937;
+  padding: 10px;
+  border-radius: 8px;
+  width: 130px;
+  font-size: 11px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: none;
 }
+.pop-detalhes b { color: #000; display: block; border-bottom: 1px solid #eee; margin-bottom: 4px; }
+.pop-item { display: flex; justify-content: space-between; font-weight: 600; }
 
-/* ===== SWITCH DARK ===== */
-.switch-container{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:13px;
-  color:var(--muted);
-}
+/* LISTA */
+.lista-container { width: 95%; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; color: #1f2937; }
+.tabela-times { width: 100%; border-collapse: collapse; }
+.tabela-times td { padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f1f5f9; }
+.td-posicao { font-family: 'Teko'; font-size: 22px; font-weight: 700; color: #94a3b8; text-align: center; width: 45px; }
+.td-escudo img { width: 42px; height: 42px; object-fit: contain; }
+.td-nome { font-weight: 800; font-size: 14px; text-transform: uppercase; }
+.td-pontos { text-align: right; padding-right: 15px !important; }
+.pontuacao-total { font-weight: 900; font-size: 17px; display: block; }
+.detalhes-lista { font-size: 10px; color: #64748b; font-weight: 600; }
 
-.switch{position:relative;width:50px;height:26px;}
-.switch input{display:none;}
-
-.slider{
-  position:absolute;
-  inset:0;
-  background:#cbd5e1;
-  border-radius:26px;
-  transition:.3s;
-}
-
-.slider:before{
-  content:"";
-  position:absolute;
-  height:20px;
-  width:20px;
-  left:3px;
-  bottom:3px;
-  background:#fff;
-  border-radius:50%;
-  transition:.3s;
-}
-
-input:checked + .slider{background:var(--orange);}
-input:checked + .slider:before{transform:translateX(24px);}
-
-/* ===== CARD ===== */
-.card{
-  background:var(--card);
-  border-radius:14px;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-  margin-bottom:24px;
-  overflow:hidden;
-  border:1px solid var(--border);
-}
-
-.card-header{
-  padding:14px 16px;
-  background:linear-gradient(90deg,var(--orange-dark),var(--orange));
-  color:#fff;
-  font-family:'Montserrat', Arial, sans-serif;
-  font-weight:900;
-  font-size:22px;
-  letter-spacing:2px;
-  text-align:center;
-}
-
-/* ===== ITEM ===== */
-.item{
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-}
-.item:last-child{border-bottom:none}
-
-.item.access{background:var(--access);}
-.item.relegation{background:var(--relegation);}
-
-/* ===== TEAM INFO ===== */
-.team-info{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  width:100%;
-}
-
-/* ===== RANK ===== */
-.rank{
-  width:32px;
-  height:32px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:rgba(249,115,22,0.08);
-  font-weight:700;
-  color:var(--muted);
-}
-
-.rank.no-bg{background:none;}
-
-.rank-camarote{
-  width:32px;
-  height:32px;
-  object-fit:contain;
-}
-
-/* ===== TEAM ===== */
-.team-cell{
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.team-cell .logo{
-  width:auto;
-  height:60px;
-  object-fit:contain;
-}
-
-.team-cell .name{
-  font-family:"Freiburg", Inter, Arial, sans-serif;
-  font-size:24px;
-}
-
-.icon-camarote{
-  height:40px;
-  width:auto;
-  object-fit:contain;
-  opacity:.85;
-}
-
-/* ===== TOTAL ===== */
-.total-container{
-  margin-left:auto;
-  text-align:right;
-}
-
-.total{font-weight:900;font-size:18px;}
-.details{font-size:12px;color:var(--muted);margin-top:4px;}
-
-.footer-note{
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  margin:20px;
-}
+.status-lider { background: #dcfce7 !important; }
+.status-rebaixamento { background: #fee2e2 !important; }
+.titulo-serie { text-align: center; margin: 30px 0 15px; }
+.badge-serie { display: inline-block; background: var(--orange); color: #000; font-weight: 900; font-size: 18px; padding: 6px 20px; border-radius: 999px; }
 </style>
 </head>
-
-<body>
-
-<div class="container">
+<body onclick="fecharTodosCards()">
 
 <div class="header">
-  <div class="left-head">
-    <div class="logo-cartola">
-      <img src="CARTOLA.png">
+  <div class="header-topo-mobile">
+    <img src="./CARTOLA.png" class="logo-campeonato">
+    <div class="titulo-principal">TAÇA NATTOS 2026</div>
+  </div>
+  <div class="header-controles-mobile">
+    <div class="toggle-visual">
+      <button class="toggle-btn ativo" id="btnCampo" onclick="mudarVisual('campo')">
+        <svg class="icon-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <circle cx="12" cy="12" r="2.5"></circle>
+        </svg>
+      </button>
+      <button class="toggle-btn" id="btnLista" onclick="mudarVisual('lista')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+          <rect x="9" y="1" width="6" height="4" rx="1"></rect>
+          <line x1="8" y1="10" x2="16" y2="10"></line>
+          <line x1="8" y1="14" x2="16" y2="14"></line>
+        </svg>
+      </button>
     </div>
-    <div class="title-block">
-      <h2>TAÇA NATTOS - 2026</h2>
-      <span class="badge">RODADA 03</span>
+    <div class="badge-rdd">
+      <div class="bola-rdd">RDD</div>
+      <div class="texto-rdd">03 / 38</div>
     </div>
   </div>
-
-  <div class="switch-container">
-    <span>🔅</span>
-    <label class="switch">
-      <input type="checkbox" id="darkSwitch">
-      <span class="slider"></span>
-    </label>
-    <span>🌘</span>
-  </div>
 </div>
 
-<div class="card">
-  <div class="card-header">SÉRIE A</div>
-  <div id="serieA"></div>
+<div id="containerA">
+  <div class="titulo-serie"><span class="badge-serie">SÉRIE A</span></div>
+  <div id="displayA"></div>
 </div>
 
-<div class="card">
-  <div class="card-header">SÉRIE B</div>
-  <div id="serieB"></div>
-</div>
-
-<div class="footer-note">TAÇA NATTOS - 2026</div>
-
+<div id="containerB">
+  <div class="titulo-serie"><span class="badge-serie">SÉRIE B</span></div>
+  <div id="displayB"></div>
 </div>
 
 <script>
+// TROFEU - Ajuste aqui a posição fixa da taça no campo
+const posTrofeu = { t: 5, l: 50 }; 
+
+const posCampo = [
+  { t: 15, l: 50 }, // 1º Colocado
+  { t: 18, l: 25 }, // 2º Colocado
+  { t: 20, l: 75 }, // 3º Colocado
+  { t: 40, l: 50 }, // 4º Colocado
+  { t: 45, l: 20 }, // 5º Colocado
+  { t: 45, l: 80 }, // 6º Colocado
+  { t: 68, l: 15 }, // 7º Colocado
+  { t: 70, l: 50 }, // 8º Colocado
+  { t: 68, l: 85 }, // 9º Colocado
+  { t: 92, l: 50 }  // 10º Colocado
+];
+
 const serieAData = [
-  { nome:"ESMERALDINO", total:30.20, rdd:8.72, re:0.00, pen:0.00 },
-  { nome:"TIMON", total:20.81, rdd:3.28, re:0.00, pen:0.00 },
-  { nome:"GRAN_ROYALLE", total:30.25, rdd:11.35, re:0.00, pen:0.00 },
-  { nome:"PINSHER_10", total:34.87, rdd:13.46, re:0.00, pen:0.00 },
-  { nome:"ACGTD", total:36.69, rdd:15.96, re:0.00, pen:0.00 },
-  { nome:"JOSA UNITED", total:34.00, rdd:15.00, re:0.00, pen:0.00 },
-  { nome:"SUPER_MARIO", total:25.04, rdd:10.12, re:0.00, pen:0.00 },
-  { nome:"NUCA_FINA", total:17.47, rdd:8.97, re:0.00, pen:0.00 },
-  { nome:"PJRC11", total:18.98, rdd:14.34, re:0.00, pen:0.00 },
-  { nome:"NILTIN_SLR", total:16.89, rdd:9.77, re:0.00, pen:0.00 }
+  { nome:"ACGTD", total:36.69, rdd:15.96, re:0, pen:0 },
+  { nome:"PINSHER_10", total:34.87, rdd:13.46, re:0, pen:0 },
+  { nome:"JOSA UNITED", total:34.00, rdd:15.00, re:0, pen:0 },
+  { nome:"GRAN_ROYALLE", total:30.25, rdd:11.35, re:0, pen:0 },
+  { nome:"ESMERALDINO", total:30.20, rdd:8.72, re:0, pen:0 },
+  { nome:"SUPER_MARIO", total:25.04, rdd:10.12, re:0, pen:0 },
+  { nome:"TIMON", total:20.81, rdd:3.28, re:0, pen:0 },
+  { nome:"PJRC11", total:18.98, rdd:14.34, re:0, pen:0 },
+  { nome:"NUCA_FINA", total:17.47, rdd:8.97, re:0, pen:0 },
+  { nome:"NILTIN_SLR", total:16.89, rdd:9.77, re:0, pen:0 }
 ];
 
 const serieBData = [
-  { nome:"VELHO_BUIAS", total:5.98, rdd:-4.82, re:0.00, pen:0.00 },
-  { nome:"PATYMEIRAS", total:23.59, rdd:10.14, re:0.00, pen:0.00 },
-  { nome:"WR_A.C", total:20.22, rdd:7.83, re:0.00, pen:0.00 },
-  { nome:"DIOGO_BNF", total:2.10, rdd:5.44, re:0.00, pen:0.00 },
-  { nome:"TAC_E.C", total:25.79, rdd:9.45, re:0.00, pen:0.00 },
-  { nome:"WANTUIR_FC", total:22.50, rdd:2.69, re:0.00, pen:0.00 },
-  { nome:"BANZE", total:35.83, rdd:14.02, re:0.00, pen:0.00 },
-  { nome:"EMBAIXADOR", total:9.94, rdd:0.81, re:0.00, pen:0.00 },
-  { nome:"FURACAO_BMP", total:24.26, rdd:14.35, re:0.00, pen:0.00 },
-  { nome:"GOLD_SOLAR", total:6.14, rdd:-4.09, re:0.00, pen:0.00 }
+  { nome:"BANZE", total:35.83, rdd:14.02, re:0, pen:0 },
+  { nome:"TAC_E.C", total:25.79, rdd:9.45, re:0, pen:0 },
+  { nome:"FURACAO_BMP", total:24.26, rdd:14.35, re:0, pen:0 },
+  { nome:"PATYMEIRAS", total:23.59, rdd:10.14, re:0, pen:0 },
+  { nome:"WANTUIR_FC", total:22.50, rdd:2.69, re:0, pen:0 },
+  { nome:"WR_A.C", total:20.22, rdd:7.83, re:0, pen:0 },
+  { nome:"EMBAIXADOR", total:9.94, rdd:0.81, re:0, pen:0 },
+  { nome:"GOLD_SOLAR", total:6.14, rdd:-4.09, re:0, pen:0 },
+  { nome:"VELHO_BUIAS", total:5.98, rdd:-4.82, re:0, pen:0 },
+  { nome:"DIOGO_BNF", total:2.10, rdd:5.44, re:0, pen:0 }
 ];
 
-function render(id,data,access,releg){
-  const el=document.getElementById(id);
-  el.innerHTML="";
-  data.sort((a,b)=>b.total-a.total);
+let modoAtivo = 'campo';
 
-  data.forEach((t,i)=>{
-    let icon="";
-    let rankHtml=i+1;
-    let rankClass="rank";
+function alternarCard(e, id) {
+  e.stopPropagation();
+  fecharTodosCards();
+  const card = document.getElementById('pop-' + id);
+  if(card) card.style.display = 'block';
+}
 
-    if(i===0){
-      rankHtml="<img src='CAMAROTE.png' class='rank-camarote'>";
-      rankClass+=" no-bg";
-    }else if(i===data.length-1){
-      icon=`<img src="./GARCONS/${t.nome}.png" class="icon-camarote">`;
-    }
+function fecharTodosCards() {
+  document.querySelectorAll('.pop-detalhes').forEach(c => c.style.display = 'none');
+}
 
-    const div=document.createElement("div");
-    div.className="item";
+function renderSeção(id, data, isA) {
+  const container = document.getElementById(id);
+  container.innerHTML = "";
+  data.sort((a,b) => b.total - a.total);
 
-    if(access && i<2) div.classList.add("access");
-    if(releg && i>=data.length-2) div.classList.add("relegation");
+  if(modoAtivo === 'campo') {
+    const campoDiv = document.createElement("div");
+    campoDiv.className = "campo";
 
-    div.innerHTML=`
-      <div class="team-info">
-        <div class="${rankClass}">${rankHtml}</div>
-        <div class="team-cell">
-          <img class="logo" src="./ESCUDOS/${t.nome}.png">
-          <div class="name">${t.nome}</div>
-          ${icon}
-        </div>
-        <div class="total-container">
-          <div class="total">${t.total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
-          <div class="details">
-            <span>C$ ${t.rdd.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-            <span> R.E. ${t.re}</span>
-            <span> PEN ${t.pen}</span>
+    // TROFEU - Renderiza na posição fixa para ambas as séries
+    campoDiv.innerHTML += `<div class="trofeu-campo" style="top:${posTrofeu.t}%; left:${posTrofeu.l}%">🏆</div>`;
+
+    data.forEach((time, i) => {
+      const p = posCampo[i];
+      const idUnico = id + i;
+      
+      let bClass = "";
+      if (isA && i >= 8) bClass = "badge-rebaixamento"; 
+      if (!isA && i <= 1) bClass = "badge-lider";       
+
+      if(i === 9) {
+        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
+      }
+
+      campoDiv.innerHTML += `
+        <div class="card-time" style="top:${p.t}%; left:${p.l}%">
+          <div class="pop-detalhes" id="pop-${idUnico}">
+             <b>${time.nome.replace(/_/g, ' ')}</b>
+             <div class="pop-item"><span>C$ RDD</span> <span>${time.rdd.toFixed(2)}</span></div>
+             <div class="pop-item"><span>R.E.</span> <span>${time.re.toFixed(2)}</span></div>
+             <div class="pop-item"><span>PEN</span> <span>${time.pen}</span></div>
           </div>
-        </div>
-      </div>
-    `;
-    el.appendChild(div);
-  });
+          <div class="posicao-campo">${i+1}</div>
+          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
+          <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
+            ${time.total.toFixed(2)}
+            <svg class="icon-olho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width:14px;height:14px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+        </div>`;
+    });
+    container.appendChild(campoDiv);
+  } else {
+    let tabela = `<div class="lista-container"><table class="tabela-times">`;
+    data.forEach((time, i) => {
+      let rClass = (isA && i >= 8) ? "status-rebaixamento" : (!isA && i <= 1) ? "status-lider" : "";
+      tabela += `<tr class="${rClass}">
+        <td class="td-posicao">${i === 0 ? '🏆' : i+1}</td>
+        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
+        <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
+        <td class="td-pontos">
+          <span class="pontuacao-total">${time.total.toFixed(2)}</span>
+          <span class="detalhes-lista">C$ ${time.rdd.toFixed(2)} R.E. ${time.re.toFixed(2)} PEN ${time.pen}</span>
+        </td></tr>`;
+    });
+    container.innerHTML = tabela + `</table></div>`;
+  }
 }
 
-/* DARK MODE */
-const darkSwitch=document.getElementById("darkSwitch");
-const pref=localStorage.getItem("modo-escuro");
-
-if(pref==="1"){
-  document.body.classList.add("dark");
-  darkSwitch.checked=true;
+function mudarVisual(tipo) {
+  modoAtivo = tipo;
+  document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
+  document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
+  atualizarTela();
 }
 
-darkSwitch.addEventListener("change",()=>{
-  document.body.classList.toggle("dark",darkSwitch.checked);
-  localStorage.setItem("modo-escuro",darkSwitch.checked?"1":"0");
-});
+function atualizarTela() {
+  renderSeção("displayA", serieAData, true);
+  renderSeção("displayB", serieBData, false);
+}
 
-render("serieA",serieAData,false,true);
-render("serieB",serieBData,true,false);
+atualizarTela();
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
 
