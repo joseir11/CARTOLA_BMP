@@ -11,6 +11,7 @@
 :root{
   --green:#22c55e;
   --red:#ef4444;
+  --orange:#f59e0b;
   --bg:#e9eff6;
   --card:#ffffff;
   --text:#0f172a;
@@ -27,25 +28,66 @@ body{
   background:var(--bg);
 }
 
-/* HEADER */
+/* HEADER COM LOGO */
 .header{
-  padding:20px 10px;
-  text-align:center;
-  font-weight:900;
-  font-size:22px;
-  letter-spacing:2px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:18px 16px;
   background:#ffffff;
   border-bottom:2px solid #dbe3ef;
 }
 
-/* TITULO */
+/* LOGO CAMPEONATO */
+.logo-campeonato{
+  height:128px;
+  width:auto;
+  object-fit:contain;
+}
+
+/* BLOCO DE TÍTULOS */
+.header-titulos{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* TÍTULO PRINCIPAL */
+.titulo-principal{
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#0f172a;
+}
+
+/* BADGE RODADA */
+.badge-rodada{
+  margin-top:8px;
+  display:inline-block;
+  background:var(--orange);
+  color:#000;
+  font-weight:900;
+  font-size:16px;
+  padding:6px 16px;
+  border-radius:999px;
+  width:fit-content;
+}
+
+/* BADGE SÉRIES */
 .titulo-serie{
   text-align:center;
   margin:28px 0 14px;
+}
+
+.badge-serie{
+  display:inline-block;
+  background:var(--orange);
+  color:#000;
   font-weight:900;
-  font-size:18px;
-  letter-spacing:2px;
-  color:#16a34a;
+  font-size:20px;
+  padding:8px 22px;
+  border-radius:999px;
+  letter-spacing:1px;
 }
 
 /* CAMPO */
@@ -61,13 +103,13 @@ body{
   background:#0f172a;
 }
 
-/* CAMPO 50% TRANSPARENTE */
+/* CAMPO SEM TRANSPARÊNCIA */
 .campo::before{
   content:"";
   position:absolute;
   inset:0;
   background:url("./campo.png") center/cover no-repeat;
-  opacity:0.5;
+  opacity:1;
 }
 
 /* CARD */
@@ -85,7 +127,7 @@ body{
   z-index:2;
 }
 
-/* TROFÉU DENTRO DO CARD (NOVO POSICIONAMENTO) */
+/* TROFÉU NO CARD */
 .trofeu-card{
   position:absolute;
   top:3px;
@@ -93,32 +135,24 @@ body{
   font-size:14px;
 }
 
-/* GARÇOM FORA DO CARD (MAIS AFASTADO) */
+/* GARÇOM (FORA DO CARD) */
 .garcom{
   position:absolute;
   width:60px;
   height:60px;
   object-fit:contain;
-  transform:translate(-180%, -50%); /* bem fora do card */
+  transform:translate(-190%, -50%);
   z-index:1;
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.4));
 }
 
-/* ESCUDO */
+/* ESCUDO MAIOR */
 .logo{
-  width:42px;
-  height:42px;
+  width:54px;
+  height:54px;
   object-fit:contain;
-  margin-bottom:2px;
-}
-
-/* NOME */
-.nome{
-  font-size:10px;
-  font-weight:800;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  margin-bottom:4px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));
 }
 
 /* BADGE PONTOS */
@@ -158,18 +192,16 @@ body{
   color:#94a3b8;
 }
 
-/* 🟢 ACESSO — 2 primeiros da SÉRIE B */
+/* ACESSO SÉRIE B (VERDE SUAVE OPACO) */
 .lider{
-  background:#dcfce7;           /* verde suave opaco */
-  border:1.5px solid #86efac;   /* borda verde clara */
-  box-shadow:0 8px 18px rgba(0,0,0,.18);
+  background:#dcfce7;
+  border:1.5px solid #86efac;
 }
 
-/* 🔴 REBAIXAMENTO — 2 últimos da SÉRIE A */
+/* REBAIXAMENTO SÉRIE A (VERMELHO SUAVE OPACO) */
 .rebaixamento{
-  background:#fee2e2;           /* vermelho suave opaco */
-  border:1.5px solid #fca5a5;   /* borda vermelha clara */
-  box-shadow:0 8px 18px rgba(0,0,0,.18);
+  background:#fee2e2;
+  border:1.5px solid #fca5a5;
 }
 
 /* MODAL DETALHES */
@@ -180,22 +212,32 @@ body{
   padding:10px 12px;
   box-shadow:0 15px 35px rgba(0,0,0,.35);
   border:1px solid #e2e8f0;
-  width:150px;
+  width:170px;
   z-index:999;
 }
 
 .modal-header{
   display:flex;
   justify-content:space-between;
-  font-weight:800;
-  font-size:12px;
+  align-items:center;
   margin-bottom:6px;
+}
+
+.nome-time-modal{
+  font-weight:900;
+  font-size:14px;
+  color:#0f172a;
+  max-width:130px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .fechar{
   cursor:pointer;
   color:#ef4444;
   font-weight:900;
+  font-size:15px;
 }
 
 .dado{
@@ -209,13 +251,21 @@ body{
 <body>
 
 <div class="header">
-TAÇA NATTOS 2026 • RODADA 02
+  <img src="./CARTOLA.png" class="logo-campeonato" alt="Logo Campeonato">
+  <div class="header-titulos">
+    <div class="titulo-principal">TAÇA NATTOS 2026</div>
+    <div class="badge-rodada">RODADA 03</div>
+  </div>
 </div>
 
-<div class="titulo-serie">SÉRIE A</div>
+<div class="titulo-serie">
+  <span class="badge-serie">SÉRIE A</span>
+</div>
 <div class="campo" id="serieA"></div>
 
-<div class="titulo-serie">SÉRIE B</div>
+<div class="titulo-serie">
+  <span class="badge-serie">SÉRIE B</span>
+</div>
 <div class="campo" id="serieB"></div>
 
 <script>
@@ -258,7 +308,6 @@ const serieBData = [
   { nome:"GOLD_SOLAR", total:6.14, rdd:-4.09, re:0.00, pen:0.00 }
 ];
 
-
 function fecharModal(){
   document.querySelectorAll(".modal-detalhes").forEach(m => m.remove());
 }
@@ -270,13 +319,13 @@ function abrirDetalhes(e, time){
 
   const modal = document.createElement("div");
   modal.className = "modal-detalhes";
-  modal.style.top = (card.offsetTop - 65) + "px";
+  modal.style.top = (card.offsetTop - 70) + "px";
   modal.style.left = (card.offsetLeft) + "px";
   modal.style.transform = "translate(-50%, -50%)";
 
   modal.innerHTML = `
     <div class="modal-header">
-      <span>${time.nome}</span>
+      <span class="nome-time-modal">${time.nome}</span>
       <span class="fechar" onclick="fecharModal()">✕</span>
     </div>
     <div class="dado">RDD: C$ ${time.rdd.toFixed(2)}</div>
@@ -295,7 +344,6 @@ function renderCampo(id, data, isSerieA){
   data.forEach((time, index)=>{
     const pos = posicoes[index];
 
-    // GARÇOM (ÚLTIMO COLOCADO) - FORA DO CARD
     if(index === data.length - 1){
       const garcom = document.createElement("img");
       garcom.className = "garcom";
@@ -310,12 +358,10 @@ function renderCampo(id, data, isSerieA){
     card.style.top = pos.top + "%";
     card.style.left = pos.left + "%";
 
-    // 🔴 REBAIXAMENTO — últimos 2 da Série A
     if(isSerieA && index >= data.length - 2){
       card.classList.add("rebaixamento");
     }
 
-    // 🟢 ACESSO — primeiros 2 da Série B
     if(!isSerieA && index <= 1){
       card.classList.add("lider");
     }
@@ -324,7 +370,6 @@ function renderCampo(id, data, isSerieA){
       ${index===0 ? '<div class="trofeu-card">🏆</div>' : ''}
       <div class="posicao">${index+1}</div>
       <img class="logo" src="./ESCUDOS/${time.nome}.png">
-      <div class="nome">${time.nome}</div>
       <div class="badge-pontos">
         ${time.total.toFixed(2)}
         <span class="ver-detalhes" onclick='abrirDetalhes(event, ${JSON.stringify(time)})'>👁</span>
@@ -334,7 +379,6 @@ function renderCampo(id, data, isSerieA){
     campo.appendChild(card);
   });
 }
-
 
 renderCampo("serieA", serieAData, true);
 renderCampo("serieB", serieBData, false);
@@ -348,4 +392,3 @@ document.addEventListener("click", (e)=>{
 
 </body>
 </html>
-
