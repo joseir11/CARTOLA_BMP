@@ -30,13 +30,14 @@ body{
   color:#fff;
 }
 
-/* HEADER */
+/* HEADER MOBILE */
 .header {
   display: flex;
   flex-direction: column;
   padding: 15px 15px 10px;
   background: var(--topo-grad);
   gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .header-topo-mobile {
@@ -53,239 +54,230 @@ body{
 }
 
 .titulo-principal {
-  font-size: 26px; /* Ajustado para mobile */
+  font-size: 26px;
   font-weight: 900;
   letter-spacing: 1px;
   color: #e5e7eb;
 }
 
 .logo-campeonato {
-  height: 55px; /* Reduzido para equilibrar com o título */
+  height: 55px;
   width: auto;
-}
-
-.badge-rdd {
-  padding: 4px 12px;
-  height: 46px; /* Alinhado com a altura do toggle-btn */
-}
-
-.logo-campeonato{
-  height:72px;
-  width:auto;
-  object-fit:contain;
-}
-
-.titulo-principal{
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  color:#e5e7eb;
-}
-
-/* BADGE RDD */
-.badge-rdd{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:rgba(255,255,255,0.06);
-  padding:10px 16px;
-  border-radius:999px;
-  backdrop-filter:blur(6px);
-}
-
-.bola-rdd{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:var(--orange);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  color:#000;
-  font-size:14px;
-}
-
-.texto-rdd{
-  font-weight:800;
-  font-size:22px;
-  color:#e5e7eb;
-  letter-spacing:1px;
+  object-fit: contain;
 }
 
 /* SELETOR (TOGGLE) CIRCULAR */
-.toggle-visual{
-  margin-top:18px;
-  width:110px;
-  background:rgba(255,255,255,0.1);
-  border-radius:999px;
-  padding:4px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.toggle-visual {
+  width: 110px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.toggle-btn{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:.25s;
-  color:#9ca3af;
+.toggle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .25s;
+  color: #9ca3af;
 }
 
-.toggle-btn svg{
-  width:28px;
-  height:28px;
+.toggle-btn svg {
+  width: 26px;
+  height: 26px;
 }
 
 .icon-vertical {
   transform: rotate(90deg);
 }
 
-.toggle-btn.ativo{
-  background:rgba(0,0,0,0.5);
-  color:#ffffff;
-  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+.toggle-btn.ativo {
+  background: rgba(0,0,0,0.5);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* BADGE RDD */
+.badge-rdd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  padding: 4px 12px;
+  border-radius: 999px;
+  height: 46px;
+  backdrop-filter: blur(6px);
+}
+
+.bola-rdd {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #000;
+  font-size: 12px;
+}
+
+.texto-rdd {
+  font-weight: 800;
+  font-size: 18px;
+  color: #e5e7eb;
 }
 
 /* SÉRIES E CAMPO */
-.titulo-serie{
-  text-align:center;
-  margin:28px 0 14px;
+.titulo-serie {
+  text-align: center;
+  margin: 28px 0 14px;
 }
 
-.badge-serie{
-  display:inline-block;
-  background:var(--orange);
-  color:#000;
-  font-weight:900;
-  font-size:20px;
-  padding:8px 22px;
-  border-radius:999px;
+.badge-serie {
+  display: inline-block;
+  background: var(--orange);
+  color: #000;
+  font-weight: 900;
+  font-size: 20px;
+  padding: 8px 22px;
+  border-radius: 999px;
 }
 
-.campo{
-  position:relative;
-  margin:0 auto 40px;
-  width:100%;
-  max-width:520px;
-  aspect-ratio:9/14;
-  border-radius:22px;
-  overflow:hidden;
-  border:2px solid rgba(34,197,94,.25);
-  background:#0f172a;
+.campo {
+  position: relative;
+  margin: 0 auto 40px;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 9/14;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 2px solid rgba(34,197,94,.25);
+  background: #0f172a;
 }
 
-.campo::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("./campo.png") center/cover no-repeat;
+.campo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./campo.png") center/cover no-repeat;
 }
 
-/* CARDS DOS TIMES */
-.card-time{
-  position:absolute;
-  width:92px;
-  background:var(--card);
-  border-radius:16px;
-  padding:8px 6px;
-  text-align:center;
-  transform:translate(-50%, -50%);
-  box-shadow:0 8px 18px rgba(0,0,0,.25);
-  color:var(--text);
-  border:1px solid #e2e8f0;
-  z-index:10;
+/* CARDS E GARÇOM */
+.card-time {
+  position: absolute;
+  width: 92px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 8px 6px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+  color: var(--text);
+  border: 1px solid #e2e8f0;
+  z-index: 10;
 }
 
-.trofeu-card{
-  position:absolute;
-  top:3px;
-  left:4px;
-  font-size:14px;
+.garcom {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transform: translate(-190%, -50%);
+  z-index: 5;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4));
+  pointer-events: none;
 }
 
-.logo{
-  width:54px;
-  height:54px;
-  object-fit:contain;
-  margin-bottom:4px;
+.trofeu-card {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  font-size: 14px;
 }
 
-.badge-pontos{
-  margin-top:5px;
-  background:var(--green);
-  color:#000;
-  font-weight:900;
-  font-size:13px;
-  padding:3px 8px;
-  border-radius:20px;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
+.logo {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  margin-bottom: 4px;
 }
 
-.ver-detalhes{
-  font-size:14px;
-  cursor:pointer;
-  transition:.2s;
+.badge-pontos {
+  margin-top: 5px;
+  background: var(--green);
+  color: #000;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.ver-detalhes:hover{ transform:scale(1.2); }
-
-.posicao{
-  position:absolute;
-  top:3px;
-  right:6px;
-  font-family:'Teko',sans-serif;
-  font-size:18px;
-  color:#94a3b8;
+.ver-detalhes {
+  font-size: 14px;
+  cursor: pointer;
+  transition: .2s;
 }
 
-.lider{ background:#dcfce7; border:1.5px solid #86efac; }
-.rebaixamento{ background:#fee2e2; border:1.5px solid #fca5a5; }
-
-/* MODAL */
-.modal-detalhes{
-  position:absolute;
-  background:#ffffff;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.5);
-  border:1px solid #cbd5e1;
-  width:160px;
-  z-index:9999;
+.posicao {
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  font-family: 'Teko', sans-serif;
+  font-size: 18px;
+  color: #94a3b8;
 }
 
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:6px;
-  border-bottom:1px solid #eee;
+.lider { background: #dcfce7; border: 1.5px solid #86efac; }
+.rebaixamento { background: #fee2e2; border: 1.5px solid #fca5a5; }
+
+/* MODAL DETALHES */
+.modal-detalhes {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  border: 1px solid #cbd5e1;
+  width: 160px;
+  z-index: 9999;
 }
 
-.nome-time-modal{
-  font-weight:900;
-  font-size:13px;
-  color:#0f172a;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #eee;
 }
 
-.fechar{
-  cursor:pointer;
-  color:var(--red);
-  font-weight:900;
+.nome-time-modal {
+  font-weight: 900;
+  font-size: 13px;
+  color: #0f172a;
 }
 
-.dado{
-  font-size:12px;
-  margin-top:4px;
-  font-weight:700;
-  color:#334155;
+.fechar {
+  cursor: pointer;
+  color: var(--red);
+  font-weight: 900;
+}
+
+.dado {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 700;
+  color: #334155;
 }
 </style>
 </head>
@@ -336,15 +328,9 @@ body{
 
 <script>
 const posicoes = [
-  { top: 15, left: 50 },
-  { top: 18, left: 25 },
-  { top: 20, left: 75 },
-  { top: 40, left: 50 },
-  { top: 45, left: 20 },
-  { top: 45, left: 80 },
-  { top: 68, left: 15 },
-  { top: 70, left: 50 },
-  { top: 68, left: 85 },
+  { top: 15, left: 50 }, { top: 18, left: 25 }, { top: 20, left: 75 },
+  { top: 40, left: 50 }, { top: 45, left: 20 }, { top: 45, left: 80 },
+  { top: 68, left: 15 }, { top: 70, left: 50 }, { top: 68, left: 85 },
   { top: 92, left: 50 }
 ];
 
@@ -381,7 +367,6 @@ function fecharModal(){
 function abrirDetalhes(e, timeData){
   e.stopPropagation();
   fecharModal();
-  
   const card = e.currentTarget.closest(".card-time");
   const campo = e.currentTarget.closest(".campo");
   const time = typeof timeData === 'string' ? JSON.parse(timeData) : timeData;
@@ -411,6 +396,17 @@ function renderCampo(id, data, isSerieA){
 
   data.forEach((time, index)=>{
     const pos = posicoes[index];
+
+    // Lógica do Garçom (Último colocado)
+    if(index === data.length - 1){
+      const garcom = document.createElement("img");
+      garcom.className = "garcom";
+      garcom.src = `./GARCONS/${time.nome}.png`;
+      garcom.style.top = pos.top + "%";
+      garcom.style.left = pos.left + "%";
+      campo.appendChild(garcom);
+    }
+
     const card = document.createElement("div");
     card.className = "card-time";
     card.style.top = pos.top + "%";
@@ -420,8 +416,6 @@ function renderCampo(id, data, isSerieA){
     if(!isSerieA && index <= 1) card.classList.add("lider");
 
     const tJson = JSON.stringify(time).replace(/'/g, "&apos;");
-
-    // Lógica da Taça no 1º colocado:
     const iconeTaca = (index === 0) ? '<div class="trofeu-card">🏆</div>' : '';
 
     card.innerHTML = `
@@ -439,10 +433,8 @@ function renderCampo(id, data, isSerieA){
 
 renderCampo("serieA", serieAData, true);
 renderCampo("serieB", serieBData, false);
-
 document.addEventListener("click", () => fecharModal());
 </script>
 
 </body>
 </html>
-
