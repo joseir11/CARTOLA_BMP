@@ -9,183 +9,199 @@
 
 <style>
 :root{
-  --bg:#0b1220;
-  --card:#111827;
   --green:#22c55e;
   --red:#ef4444;
-  --text:#f1f5f9;
-  --muted:#94a3b8;
+  --bg:#e9eff6;
+  --card:#ffffff;
+  --text:#0f172a;
 }
 
-*{box-sizing:border-box}
-body{
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
+}
+
+body{
   font-family:Inter,sans-serif;
-  background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);
-  color:var(--text);
+  background:var(--bg);
 }
 
 /* HEADER */
 .header{
-  padding:20px;
+  padding:20px 10px;
   text-align:center;
   font-weight:900;
   font-size:22px;
   letter-spacing:2px;
-  background:#0f172a;
-  border-bottom:1px solid #1f2937;
+  background:#ffffff;
+  border-bottom:2px solid #dbe3ef;
 }
 
-/* TÍTULO */
+/* TITULO */
 .titulo-serie{
   text-align:center;
-  margin:30px 0 10px;
+  margin:28px 0 14px;
   font-weight:900;
   font-size:18px;
   letter-spacing:2px;
-  color:var(--green);
+  color:#16a34a;
 }
 
 /* CAMPO */
 .campo{
   position:relative;
-  margin:0 12px 30px;
-  aspect-ratio: 9 / 14; /* proporção estilo app */
-  padding:30px 10px 40px;
-  border-radius:20px;
+  margin:0 auto 40px;
+  width:100%;
+  max-width:520px;
+  aspect-ratio:9/14;
+  border-radius:22px;
   overflow:hidden;
-  border:1px solid rgba(34,197,94,.2);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-around;
+  border:2px solid rgba(34,197,94,.25);
+  background:#0f172a;
 }
 
-/* IMAGEM CAMPO */
+/* CAMPO 50% TRANSPARENTE */
 .campo::before{
   content:"";
   position:absolute;
   inset:0;
-  background:url("./campo.png") center center / cover no-repeat;
-  opacity:0.10;
-  filter:blur(2px);
-  z-index:0;
-}
-
-/* LUZ PASSANDO */
-.campo::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-50%;
-  width:50%;
-  height:100%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 50%,
-    transparent 100%
-  );
-  animation:luz 6s infinite linear;
-  z-index:1;
-}
-
-@keyframes luz{
-  0%{left:-50%}
-  100%{left:120%}
-}
-
-.campo > *{
-  position:relative;
-  z-index:2;
-}
-
-/* LINHAS */
-.linha{
-  display:flex;
-  justify-content:center;
-  gap:18px;
+  background:url("./campo.png") center/cover no-repeat;
+  opacity:0.5;
 }
 
 /* CARD */
 .card-time{
-  width:110px;
-  background:linear-gradient(160deg,#111827,#1f2937);
-  border-radius:18px;
-  padding:14px 10px 12px;
+  position:absolute;
+  width:92px;
+  background:var(--card);
+  border-radius:16px;
+  padding:8px 6px 8px;
   text-align:center;
-  position:relative;
-  box-shadow:0 8px 20px rgba(0,0,0,.6);
-  transition:.3s;
+  transform:translate(-50%, -50%);
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
+  color:var(--text);
+  border:1px solid #e2e8f0;
+  z-index:2;
 }
 
-.card-time:hover{
-  transform:translateY(-4px);
-}
-
-/* LÍDER */
-.lider{
-  box-shadow:0 0 25px rgba(34,197,94,.7);
-}
-
-/* ZONA REBAIXAMENTO */
-.rebaixamento{
-  box-shadow:0 0 20px rgba(239,68,68,.6);
-  border:1px solid rgba(239,68,68,.6);
-}
-
-/* MEDALHA */
-.medalha{
+/* TROFÉU DENTRO DO CARD (NOVO POSICIONAMENTO) */
+.trofeu-card{
   position:absolute;
-  top:-12px;
-  right:-12px;
-  font-size:20px;
+  top:3px;
+  left:4px;
+  font-size:14px;
 }
 
-/* POSIÇÃO ESTILO CAMISA */
-.posicao{
+/* GARÇOM FORA DO CARD (MAIS AFASTADO) */
+.garcom{
   position:absolute;
-  top:8px;
-  right:10px;
-  font-family:'Teko',sans-serif;
-  font-size:24px;
-  color:rgba(255,255,255,.7);
+  width:60px;
+  height:60px;
+  object-fit:contain;
+  transform:translate(-180%, -50%); /* bem fora do card */
+  z-index:1;
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,.4));
 }
 
 /* ESCUDO */
 .logo{
-  width:60px;
-  height:60px;
+  width:42px;
+  height:42px;
   object-fit:contain;
-  margin-bottom:6px;
-  filter:drop-shadow(0 0 8px rgba(34,197,94,.4));
+  margin-bottom:2px;
 }
 
 /* NOME */
 .nome{
-  font-size:11px;
+  font-size:10px;
   font-weight:800;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* PONTOS BADGE */
-.pontos{
-  margin-top:8px;
+/* BADGE PONTOS */
+.badge-pontos{
+  margin-top:5px;
   background:var(--green);
   color:#000;
   font-weight:900;
-  font-size:16px;
-  padding:4px 12px;
+  font-size:13px;
+  padding:3px 8px;
   border-radius:20px;
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
 }
 
-/* DETALHES */
-.detalhes{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:6px;
+/* OLHO */
+.ver-detalhes{
+  font-size:13px;
+  cursor:pointer;
+  opacity:0.85;
+  transition:.2s;
+}
+
+.ver-detalhes:hover{
+  transform:scale(1.15);
+  opacity:1;
+}
+
+/* POSIÇÃO */
+.posicao{
+  position:absolute;
+  top:3px;
+  right:6px;
+  font-family:'Teko',sans-serif;
+  font-size:18px;
+  color:#94a3b8;
+}
+
+/* 🟢 ACESSO — 2 primeiros da SÉRIE B */
+.lider{
+  background:#dcfce7;           /* verde suave opaco */
+  border:1.5px solid #86efac;   /* borda verde clara */
+  box-shadow:0 8px 18px rgba(0,0,0,.18);
+}
+
+/* 🔴 REBAIXAMENTO — 2 últimos da SÉRIE A */
+.rebaixamento{
+  background:#fee2e2;           /* vermelho suave opaco */
+  border:1.5px solid #fca5a5;   /* borda vermelha clara */
+  box-shadow:0 8px 18px rgba(0,0,0,.18);
+}
+
+/* MODAL DETALHES */
+.modal-detalhes{
+  position:absolute;
+  background:#ffffff;
+  border-radius:12px;
+  padding:10px 12px;
+  box-shadow:0 15px 35px rgba(0,0,0,.35);
+  border:1px solid #e2e8f0;
+  width:150px;
+  z-index:999;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  font-weight:800;
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.fechar{
+  cursor:pointer;
+  color:#ef4444;
+  font-weight:900;
+}
+
+.dado{
+  font-size:12px;
+  margin-top:3px;
+  font-weight:700;
 }
 </style>
 </head>
@@ -197,16 +213,25 @@ TAÇA NATTOS 2026 • RODADA 02
 </div>
 
 <div class="titulo-serie">SÉRIE A</div>
-<div class="campo">
-  <div id="serieA"></div>
-</div>
+<div class="campo" id="serieA"></div>
 
 <div class="titulo-serie">SÉRIE B</div>
-<div class="campo">
-  <div id="serieB"></div>
-</div>
+<div class="campo" id="serieB"></div>
 
 <script>
+const posicoes = [
+  { top: 8, left: 50 },
+  { top: 22, left: 25 },
+  { top: 22, left: 75 },
+  { top: 40, left: 50 },
+  { top: 58, left: 25 },
+  { top: 58, left: 75 },
+  { top: 76, left: 20 },
+  { top: 76, left: 50 },
+  { top: 76, left: 80 },
+  { top: 92, left: 50 }
+];
+
 const serieAData = [
   { nome:"NILTIN_SLR", total:7.12, rdd:4.46, re:0, pen:0 },
   { nome:"SUPER_MARIO", total:14.92, rdd:8.27, re:0, pen:0 },
@@ -233,53 +258,91 @@ const serieBData = [
   { nome:"PATYMEIRAS", total:13.45, rdd:10.68, re:0, pen:0 }
 ];
 
-function renderCampo(id,data,isSerieA){
-  const container=document.getElementById(id);
-  container.innerHTML="";
+function fecharModal(){
+  document.querySelectorAll(".modal-detalhes").forEach(m => m.remove());
+}
+
+function abrirDetalhes(e, time){
+  fecharModal();
+  const campo = e.target.closest(".campo");
+  const card = e.target.closest(".card-time");
+
+  const modal = document.createElement("div");
+  modal.className = "modal-detalhes";
+  modal.style.top = (card.offsetTop - 65) + "px";
+  modal.style.left = (card.offsetLeft) + "px";
+  modal.style.transform = "translate(-50%, -50%)";
+
+  modal.innerHTML = `
+    <div class="modal-header">
+      <span>${time.nome}</span>
+      <span class="fechar" onclick="fecharModal()">✕</span>
+    </div>
+    <div class="dado">RDD: C$ ${time.rdd.toFixed(2)}</div>
+    <div class="dado">R.E: ${time.re}</div>
+    <div class="dado">PEN: ${time.pen}</div>
+  `;
+
+  campo.appendChild(modal);
+}
+
+function renderCampo(id, data, isSerieA){
+  const campo = document.getElementById(id);
+  campo.innerHTML = "";
   data.sort((a,b)=>b.total-a.total);
 
-  const linhas=[3,4,3];
-  let index=0;
+  data.forEach((time, index)=>{
+    const pos = posicoes[index];
 
-  linhas.forEach(qtd=>{
-    const linha=document.createElement("div");
-    linha.className="linha";
-
-    for(let i=0;i<qtd;i++){
-      if(!data[index]) break;
-      const t=data[index];
-
-      const card=document.createElement("div");
-      card.className="card-time";
-
-      if(index===0) card.classList.add("lider");
-
-      // zona rebaixamento (últimos 2 da série A)
-      if(isSerieA && index>=data.length-2){
-        card.classList.add("rebaixamento");
-      }
-
-      card.innerHTML=`
-        ${index===0?'<div class="medalha">🏆</div>':''}
-        <div class="posicao">${index+1}</div>
-        <img class="logo" src="./ESCUDOS/${t.nome}.png">
-        <div class="nome">${t.nome}</div>
-        <div class="pontos">${t.total.toFixed(2)}</div>
-        <div class="detalhes">
-          C$ ${t.rdd.toFixed(2)} • R.E ${t.re} • PEN ${t.pen}
-        </div>
-      `;
-
-      linha.appendChild(card);
-      index++;
+    // GARÇOM (ÚLTIMO COLOCADO) - FORA DO CARD
+    if(index === data.length - 1){
+      const garcom = document.createElement("img");
+      garcom.className = "garcom";
+      garcom.src = `./GARCONS/${time.nome}.png`;
+      garcom.style.top = pos.top + "%";
+      garcom.style.left = pos.left + "%";
+      campo.appendChild(garcom);
     }
 
-    container.appendChild(linha);
+    const card = document.createElement("div");
+    card.className = "card-time";
+    card.style.top = pos.top + "%";
+    card.style.left = pos.left + "%";
+
+    // 🔴 REBAIXAMENTO — últimos 2 da Série A
+    if(isSerieA && index >= data.length - 2){
+      card.classList.add("rebaixamento");
+    }
+
+    // 🟢 ACESSO — primeiros 2 da Série B
+    if(!isSerieA && index <= 1){
+      card.classList.add("lider");
+    }
+
+    card.innerHTML = `
+      ${index===0 ? '<div class="trofeu-card">🏆</div>' : ''}
+      <div class="posicao">${index+1}</div>
+      <img class="logo" src="./ESCUDOS/${time.nome}.png">
+      <div class="nome">${time.nome}</div>
+      <div class="badge-pontos">
+        ${time.total.toFixed(2)}
+        <span class="ver-detalhes" onclick='abrirDetalhes(event, ${JSON.stringify(time)})'>👁</span>
+      </div>
+    `;
+
+    campo.appendChild(card);
   });
 }
 
-renderCampo("serieA",serieAData,true);
-renderCampo("serieB",serieBData,false);
+
+renderCampo("serieA", serieAData, true);
+renderCampo("serieB", serieBData, false);
+
+document.addEventListener("click", (e)=>{
+  if(!e.target.closest(".ver-detalhes") && !e.target.closest(".modal-detalhes")){
+    fecharModal();
+  }
+});
 </script>
 
 </body>
