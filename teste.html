@@ -8,33 +8,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --green:#22c55e;
-  --red:#ef4444;
-  --orange:#f59e0b;
-  --bg:#1f2937;
-  --card:#ffffff;
-  --text:#0f172a;
-  --topo-grad:linear-gradient(135deg,#111827,#1f2937);
+/* ==========================================
+   CONFIGURAÇÕES GERAIS E CORES
+   ========================================== */
+:root {
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f59e0b;
+  --bg: #1f2937;
+  --topo-grad: linear-gradient(135deg, #111827, #1f2937);
+  --text-light: #e5e7eb;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body{
-  font-family:Inter,sans-serif;
-  background:var(--bg);
-  color:#fff;
-}
-
-/* HEADER MOBILE */
+/* ==========================================
+   HEADER MOBILE
+   ========================================== */
 .header {
   display: flex;
   flex-direction: column;
-  padding: 15px 15px 10px;
+  padding: 15px;
   background: var(--topo-grad);
   gap: 12px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -46,243 +47,215 @@ body{
   gap: 12px;
 }
 
-.header-controles-mobile {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
 .titulo-principal {
   font-size: 26px;
   font-weight: 900;
   letter-spacing: 1px;
-  color: #e5e7eb;
+  color: var(--text-light);
 }
 
-.logo-campeonato {
-  height: 55px;
-  width: auto;
-  object-fit: contain;
-}
+.logo-campeonato { height: 55px; width: auto; }
 
-/* SELETOR (TOGGLE) CIRCULAR */
-.toggle-visual {
-  width: 110px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 999px;
-  padding: 4px;
+.header-controles-mobile {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.toggle-visual {
+  width: 90px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 3px;
+  display: flex;
+}
+
 .toggle-btn {
-  width: 42px;
-  height: 42px;
+  flex: 1;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: .25s;
+  transition: .3s;
   color: #9ca3af;
+  border: none;
+  background: transparent;
 }
 
-.toggle-btn svg {
-  width: 26px;
-  height: 26px;
-}
-
-.icon-vertical {
-  transform: rotate(90deg);
-}
+.toggle-btn svg { width: 20px; height: 20px; }
 
 .toggle-btn.ativo {
   background: rgba(0,0,0,0.5);
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* BADGE RDD */
+.icon-vertical { transform: rotate(90deg); }
+
 .badge-rdd {
   display: flex;
   align-items: center;
   gap: 8px;
   background: rgba(255,255,255,0.06);
-  padding: 4px 12px;
+  padding: 0 12px;
   border-radius: 999px;
-  height: 46px;
-  backdrop-filter: blur(6px);
+  height: 38px;
 }
 
 .bola-rdd {
-  width: 32px;
-  height: 32px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--orange);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  color: #000;
-  font-size: 12px;
+  font-weight: 900; color: #000; font-size: 10px;
 }
 
-.texto-rdd {
-  font-weight: 800;
-  font-size: 18px;
-  color: #e5e7eb;
-}
+.texto-rdd { font-weight: 800; font-size: 16px; color: var(--text-light); }
 
-/* SÉRIES E CAMPO */
-.titulo-serie {
-  text-align: center;
-  margin: 28px 0 14px;
-}
-
-.badge-serie {
-  display: inline-block;
-  background: var(--orange);
-  color: #000;
-  font-weight: 900;
-  font-size: 20px;
-  padding: 8px 22px;
-  border-radius: 999px;
-}
-
+/* ==========================================
+   VISÃO CAMPO
+   ========================================== */
 .campo {
   position: relative;
-  margin: 0 auto 40px;
-  width: 100%;
+  margin: 0 auto;
+  width: 95%;
   max-width: 520px;
   aspect-ratio: 9/14;
-  border-radius: 22px;
-  overflow: hidden;
-  border: 2px solid rgba(34,197,94,.25);
-  background: #0f172a;
+  border-radius: 20px;
+  overflow: visible;
+  background: #0f172a url("./campo.png") center/cover no-repeat;
+  border: 2px solid rgba(34,197,94,0.2);
 }
 
-.campo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("./campo.png") center/cover no-repeat;
-}
-
-/* CARDS E GARÇOM */
 .card-time {
   position: absolute;
-  width: 92px;
-  background: var(--card);
-  border-radius: 16px;
-  padding: 8px 6px;
-  text-align: center;
+  width: 100px;
   transform: translate(-50%, -50%);
-  box-shadow: 0 8px 18px rgba(0,0,0,.25);
-  color: var(--text);
-  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: 10;
 }
 
-.garcom {
-  position: absolute;
-  width: 60px;
-  height: 60px;
+.logo-campo {
+  width: 78px; height: 78px;
   object-fit: contain;
-  transform: translate(-190%, -50%);
-  z-index: 5;
-  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4));
-  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
 }
 
-.trofeu-card {
-  position: absolute;
-  top: 3px;
-  left: 4px;
-  font-size: 14px;
-}
-
-.logo {
-  width: 54px;
-  height: 54px;
-  object-fit: contain;
-  margin-bottom: 4px;
-}
-
-.badge-pontos {
-  margin-top: 5px;
-  background: var(--green);
+.badge-pontos-campo {
+  background: var(--orange);
   color: #000;
   font-weight: 900;
   font-size: 13px;
   padding: 3px 8px;
   border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ver-detalhes {
-  font-size: 14px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.posicao {
-  position: absolute;
-  top: 3px;
-  right: 6px;
-  font-family: 'Teko', sans-serif;
-  font-size: 18px;
-  color: #94a3b8;
-}
-
-.lider { background: #dcfce7; border: 1.5px solid #86efac; }
-.rebaixamento { background: #fee2e2; border: 1.5px solid #fca5a5; }
-
-/* MODAL DETALHES */
-.modal-detalhes {
-  position: absolute;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  border: 1px solid #cbd5e1;
-  width: 160px;
-  z-index: 9999;
-}
-
-.modal-header {
+  margin-top: 2px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #eee;
-}
-
-.nome-time-modal {
-  font-weight: 900;
-  font-size: 13px;
-  color: #0f172a;
-}
-
-.fechar {
+  gap: 5px;
   cursor: pointer;
-  color: var(--red);
-  font-weight: 900;
 }
 
-.dado {
-  font-size: 12px;
-  margin-top: 4px;
-  font-weight: 700;
-  color: #334155;
+.posicao-campo {
+  position: absolute;
+  top: -8px; right: 00px;
+  font-family: 'Teko'; font-size: 28px;
+  text-shadow: 2px 2px 3px #000;
+  z-index: 20; /* Garante que fique por cima de tudo */	
+}
+
+.garcom {
+  position: absolute;
+  width: 65px;
+  transform: translate(-180%, -40%);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  z-index: 5;
+}
+
+.icon-olho { width: 14px; height: 14px; opacity: 0.8; pointer-events: none; }
+
+.trofeu-campo {
+  font-size: 22px;
+  margin-bottom: -0px;
+  z-index: 15;
+}
+
+/* CARD FLUTUANTE (POP-OVER) */
+.pop-detalhes {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #1f2937;
+  padding: 10px;
+  border-radius: 8px;
+  width: 130px;
+  font-size: 11px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: none;
+  pointer-events: none;
+}
+
+.pop-detalhes::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.pop-detalhes b { color: #000; display: block; margin-bottom: 4px; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+.pop-item { display: flex; justify-content: space-between; margin-bottom: 2px; font-weight: 600; }
+
+/* ==========================================
+   VISÃO LISTA
+   ========================================== */
+.lista-container {
+  width: 95%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #1f2937;
+}
+
+.tabela-times { width: 100%; border-collapse: collapse; }
+.tabela-times tr { border-bottom: 1px solid #f1f5f9; }
+.tabela-times td { padding: 12px 10px; vertical-align: middle; }
+.td-posicao { width: 45px; text-align: center; font-family: 'Teko'; font-size: 22px; font-weight: 700; color: #94a3b8; }
+.td-escudo { width: 50px; }
+.td-escudo img { width: 42px; height: 42px; object-fit: contain; }
+.td-nome { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.td-pontos { text-align: right; padding-right: 15px !important; }
+.pontuacao-total { font-weight: 900; font-size: 17px; display: block; }
+.detalhes-lista { display: block; font-size: 10px; color: #64748b; font-weight: 600; margin-top: 2px; }
+
+/* STATUS */
+.status-lider { background: #dcfce7 !important; }
+.status-rebaixamento { background: #fee2e2 !important; }
+.badge-lider { background: var(--green) !important; }
+.badge-rebaixamento { background: var(--red) !important; color: #fff !important; }
+
+.titulo-serie { text-align: center; margin: 30px 0 15px; }
+.badge-serie {
+  display: inline-block; background: var(--orange); color: #000;
+  font-weight: 900; font-size: 18px; padding: 6px 20px; border-radius: 999px;
 }
 </style>
 </head>
-
-<body>
+<body onclick="fecharTodosCards()">
 
 <div class="header">
   <div class="header-topo-mobile">
@@ -292,21 +265,21 @@ body{
 
   <div class="header-controles-mobile">
     <div class="toggle-visual">
-      <div class="toggle-btn ativo">
-        <svg class="icon-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button class="toggle-btn ativo" id="btnCampo" onclick="mudarVisual('campo')">
+        <svg class="icon-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <rect x="2" y="5" width="20" height="14" rx="2"></rect>
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <circle cx="12" cy="12" r="2.5"></circle>
         </svg>
-      </div>
-      <div class="toggle-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      </button>
+      <button class="toggle-btn" id="btnLista" onclick="mudarVisual('lista')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <rect x="4" y="3" width="16" height="18" rx="2"></rect>
           <rect x="9" y="1" width="6" height="4" rx="1"></rect>
           <line x1="8" y1="10" x2="16" y2="10"></line>
           <line x1="8" y1="14" x2="16" y2="14"></line>
         </svg>
-      </div>
+      </button>
     </div>
 
     <div class="badge-rdd">
@@ -316,125 +289,145 @@ body{
   </div>
 </div>
 
-<div class="titulo-serie">
-  <span class="badge-serie">SÉRIE A</span>
+<div class="container-serie">
+  <div class="titulo-serie"><span class="badge-serie">SÉRIE A</span></div>
+  <div id="displayA"></div>
 </div>
-<div class="campo" id="serieA"></div>
 
-<div class="titulo-serie">
-  <span class="badge-serie">SÉRIE B</span>
+<div class="container-serie">
+  <div class="titulo-serie"><span class="badge-serie">SÉRIE B</span></div>
+  <div id="displayB"></div>
 </div>
-<div class="campo" id="serieB"></div>
 
 <script>
-const posicoes = [
-  { top: 15, left: 50 }, { top: 18, left: 25 }, { top: 20, left: 75 },
-  { top: 40, left: 50 }, { top: 45, left: 20 }, { top: 45, left: 80 },
-  { top: 68, left: 15 }, { top: 70, left: 50 }, { top: 68, left: 85 },
-  { top: 92, left: 50 }
+/* ==========================================
+   CONFIGURAÇÕES E DADOS
+   ========================================== */
+const posCampo = [
+  { t: 15, l: 50 }, // 1º Colocado
+  { t: 18, l: 25 }, // 2º Colocado
+  { t: 20, l: 75 }, // 3º Colocado
+  { t: 40, l: 50 }, // 4º Colocado
+  { t: 45, l: 20 }, // 5º Colocado
+  { t: 45, l: 80 }, // 6º Colocado
+  { t: 68, l: 15 }, // 7º Colocado
+  { t: 70, l: 50 }, // 8º Colocado
+  { t: 68, l: 85 }, // 9º Colocado
+  { t: 92, l: 50 }  // 10º Colocado
 ];
 
 const serieAData = [
-  { nome:"ESMERALDINO", total:30.20, rdd:8.72, re:0.00, pen:0.00 },
-  { nome:"TIMON", total:20.81, rdd:3.28, re:0.00, pen:0.00 },
-  { nome:"GRAN_ROYALLE", total:30.25, rdd:11.35, re:0.00, pen:0.00 },
-  { nome:"PINSHER_10", total:34.87, rdd:13.46, re:0.00, pen:0.00 },
-  { nome:"ACGTD", total:36.69, rdd:15.96, re:0.00, pen:0.00 },
-  { nome:"JOSA UNITED", total:34.00, rdd:15.00, re:0.00, pen:0.00 },
-  { nome:"SUPER_MARIO", total:25.04, rdd:10.12, re:0.00, pen:0.00 },
-  { nome:"NUCA_FINA", total:17.47, rdd:8.97, re:0.00, pen:0.00 },
-  { nome:"PJRC11", total:18.98, rdd:14.34, re:0.00, pen:0.00 },
-  { nome:"NILTIN_SLR", total:16.89, rdd:9.77, re:0.00, pen:0.00 }
+  { nome:"ACGTD", total:36.69, rdd:15.96, re:0, pen:0 },
+  { nome:"PINSHER_10", total:34.87, rdd:13.46, re:0, pen:0 },
+  { nome:"JOSA UNITED", total:34.00, rdd:15.00, re:0, pen:0 },
+  { nome:"GRAN_ROYALLE", total:30.25, rdd:11.35, re:0, pen:0 },
+  { nome:"ESMERALDINO", total:30.20, rdd:8.72, re:0, pen:0 },
+  { nome:"SUPER_MARIO", total:25.04, rdd:10.12, re:0, pen:0 },
+  { nome:"TIMON", total:20.81, rdd:3.28, re:0, pen:0 },
+  { nome:"PJRC11", total:18.98, rdd:14.34, re:0, pen:0 },
+  { nome:"NUCA_FINA", total:17.47, rdd:8.97, re:0, pen:0 },
+  { nome:"NILTIN_SLR", total:16.89, rdd:9.77, re:0, pen:0 }
 ];
 
 const serieBData = [
-  { nome:"VELHO_BUIAS", total:5.98, rdd:-4.82, re:0.00, pen:0.00 },
-  { nome:"PATYMEIRAS", total:23.59, rdd:10.14, re:0.00, pen:0.00 },
-  { nome:"WR_A.C", total:20.22, rdd:7.83, re:0.00, pen:0.00 },
-  { nome:"DIOGO_BNF", total:2.10, rdd:5.44, re:0.00, pen:0.00 },
-  { nome:"TAC_E.C", total:25.79, rdd:9.45, re:0.00, pen:0.00 },
-  { nome:"WANTUIR_FC", total:22.50, rdd:2.69, re:0.00, pen:0.00 },
-  { nome:"BANZE", total:35.83, rdd:14.02, re:0.00, pen:0.00 },
-  { nome:"EMBAIXADOR", total:9.94, rdd:0.81, re:0.00, pen:0.00 },
-  { nome:"FURACAO_BMP", total:24.26, rdd:14.35, re:0.00, pen:0.00 },
-  { nome:"GOLD_SOLAR", total:6.14, rdd:-4.09, re:0.00, pen:0.00 }
+  { nome:"BANZE", total:35.83, rdd:14.02, re:0, pen:0 },
+  { nome:"TAC_E.C", total:25.79, rdd:9.45, re:0, pen:0 },
+  { nome:"FURACAO_BMP", total:24.26, rdd:14.35, re:0, pen:0 },
+  { nome:"PATYMEIRAS", total:23.59, rdd:10.14, re:0, pen:0 },
+  { nome:"WANTUIR_FC", total:22.50, rdd:2.69, re:0, pen:0 },
+  { nome:"WR_A.C", total:20.22, rdd:7.83, re:0, pen:0 },
+  { nome:"EMBAIXADOR", total:9.94, rdd:0.81, re:0, pen:0 },
+  { nome:"GOLD_SOLAR", total:6.14, rdd:-4.09, re:0, pen:0 },
+  { nome:"VELHO_BUIAS", total:5.98, rdd:-4.82, re:0, pen:0 },
+  { nome:"DIOGO_BNF", total:2.10, rdd:5.44, re:0, pen:0 }
 ];
 
-function fecharModal(){
-  document.querySelectorAll(".modal-detalhes").forEach(m => m.remove());
+let modoAtivo = 'campo'; 
+
+function atualizarTela() {
+  renderSeção("displayA", serieAData, true);
+  renderSeção("displayB", serieBData, false);
 }
 
-function abrirDetalhes(e, timeData){
+function alternarCard(e, idTime) {
   e.stopPropagation();
-  fecharModal();
-  const card = e.currentTarget.closest(".card-time");
-  const campo = e.currentTarget.closest(".campo");
-  const time = typeof timeData === 'string' ? JSON.parse(timeData) : timeData;
-
-  const modal = document.createElement("div");
-  modal.className = "modal-detalhes";
-  modal.style.top = (card.offsetTop - 75) + "px";
-  modal.style.left = card.offsetLeft + "px";
-  modal.style.transform = "translateX(-50%)";
-
-  modal.innerHTML = `
-    <div class="modal-header">
-      <span class="nome-time-modal">${time.nome}</span>
-      <span class="fechar" onclick="fecharModal()">✕</span>
-    </div>
-    <div class="dado">RDD: C$ ${time.rdd.toFixed(2)}</div>
-    <div class="dado">R.E: ${time.re.toFixed(2)}</div>
-    <div class="dado">PEN: ${time.pen.toFixed(2)}</div>
-  `;
-  campo.appendChild(modal);
+  fecharTodosCards();
+  const card = document.getElementById('pop-' + idTime);
+  if (card) card.style.display = 'block';
 }
 
-function renderCampo(id, data, isSerieA){
-  const campo = document.getElementById(id);
-  campo.innerHTML = "";
-  data.sort((a,b)=>b.total-a.total);
-
-  data.forEach((time, index)=>{
-    const pos = posicoes[index];
-
-    // Lógica do Garçom (Último colocado)
-    if(index === data.length - 1){
-      const garcom = document.createElement("img");
-      garcom.className = "garcom";
-      garcom.src = `./GARCONS/${time.nome}.png`;
-      garcom.style.top = pos.top + "%";
-      garcom.style.left = pos.left + "%";
-      campo.appendChild(garcom);
-    }
-
-    const card = document.createElement("div");
-    card.className = "card-time";
-    card.style.top = pos.top + "%";
-    card.style.left = pos.left + "%";
-
-    if(isSerieA && index >= data.length - 2) card.classList.add("rebaixamento");
-    if(!isSerieA && index <= 1) card.classList.add("lider");
-
-    const tJson = JSON.stringify(time).replace(/'/g, "&apos;");
-    const iconeTaca = (index === 0) ? '<div class="trofeu-card">🏆</div>' : '';
-
-    card.innerHTML = `
-      ${iconeTaca}
-      <div class="posicao">${index+1}</div>
-      <img class="logo" src="./ESCUDOS/${time.nome}.png">
-      <div class="badge-pontos">
-        ${time.total.toFixed(2)}
-        <span class="ver-detalhes" onclick='abrirDetalhes(event, ${tJson})'>👁</span>
-      </div>
-    `;
-    campo.appendChild(card);
-  });
+function fecharTodosCards() {
+  const cards = document.querySelectorAll('.pop-detalhes');
+  cards.forEach(c => c.style.display = 'none');
 }
 
-renderCampo("serieA", serieAData, true);
-renderCampo("serieB", serieBData, false);
-document.addEventListener("click", () => fecharModal());
+function renderSeção(id, data, isA) {
+  const container = document.getElementById(id);
+  container.innerHTML = "";
+  data.sort((a,b) => b.total - a.total);
+
+  if(modoAtivo === 'campo') {
+    const campoDiv = document.createElement("div");
+    campoDiv.className = "campo";
+    data.forEach((time, i) => {
+      const p = posCampo[i];
+      let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
+      const idUnico = id + i;
+
+      // Lógica do Garçom Restaurada
+      if(i === 9) {
+          campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
+      }
+
+      campoDiv.innerHTML += `
+        <div class="card-time" style="top:${p.t}%; left:${p.l}%">
+          <div class="pop-detalhes" id="pop-${idUnico}">
+             <b>${time.nome.replace(/_/g, ' ')}</b>
+             <div class="pop-item"><span>C$ RDD</span> <span>${time.rdd.toFixed(2)}</span></div>
+             <div class="pop-item"><span>R.E.</span> <span>${time.re.toFixed(2)}</span></div>
+             <div class="pop-item"><span>PEN</span> <span>${time.pen}</span></div>
+          </div>
+          ${i === 0 ? '<div class="trofeu-campo">🏆</div>' : ''}
+          <div class="posicao-campo">${i+1}</div>
+          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
+          <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
+            ${time.total.toFixed(2)}
+            <svg class="icon-olho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+        </div>`;
+    });
+    container.appendChild(campoDiv);
+  } else {
+    const listaDiv = document.createElement("div");
+    listaDiv.className = "lista-container";
+    let tabela = `<table class="tabela-times">`;
+    data.forEach((time, i) => {
+      let rClass = (isA && i >= 8) ? "status-rebaixamento" : (!isA && i <= 1) ? "status-lider" : "";
+      tabela += `<tr class="${rClass}">
+        <td class="td-posicao">${i === 0 ? '🏆' : i+1}</td>
+        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
+        <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
+        <td class="td-pontos">
+            <span class="pontuacao-total">${time.total.toFixed(2)}</span>
+            <span class="detalhes-lista">C$ ${time.rdd.toFixed(2)} R.E. ${time.re.toFixed(2)} PEN ${time.pen}</span>
+        </td></tr>`;
+    });
+    listaDiv.innerHTML = tabela + `</table>`;
+    container.appendChild(listaDiv);
+  }
+}
+
+function mudarVisual(tipo) {
+  modoAtivo = tipo;
+  document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
+  document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
+  atualizarTela();
+}
+
+atualizarTela();
 </script>
-
 </body>
 </html>
