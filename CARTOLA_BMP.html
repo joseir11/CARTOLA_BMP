@@ -121,12 +121,15 @@ body {
   z-index: 20;
 }
 
+/* AJUSTE DO ÍCONE DE TROFÉU */
 .trofeu-campo {
   position: absolute;
+  width: 38px; /* Tamanho do ícone da caneca */
+  height: auto;
   transform: translate(-50%, -50%);
-  font-size: 25px;
-  z-index: 20;
+  z-index: 25;
   pointer-events: none;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
 }
 
 .garcom {
@@ -178,7 +181,7 @@ body {
 <div class="header">
   <div class="header-topo-mobile">
     <img src="./CARTOLA.png" class="logo-campeonato">
-    <div class="titulo-principal">TAÇA NATTOS 2026</div>
+    <div class="titulo-principal">TAÇA NATTOS - 2026</div>
   </div>
   <div class="header-controles-mobile">
     <div class="toggle-visual">
@@ -216,8 +219,8 @@ body {
 </div>
 
 <script>
-// TROFEU - Ajuste aqui a posição fixa da taça no campo
-const posTrofeu = { t: 3, l: 50 }; 
+// TROFEU - AJUSTAR POSICAO
+const posTrofeu = { t: 3.5, l: 51 }; 
 
 const posCampo = [
   { t: 13, l: 50 }, // 1º Colocado
@@ -280,8 +283,8 @@ function renderSeção(id, data, isA) {
     const campoDiv = document.createElement("div");
     campoDiv.className = "campo";
 
-    // TROFEU - Renderiza na posição fixa para ambas as séries
-    campoDiv.innerHTML += `<div class="trofeu-campo" style="top:${posTrofeu.t}%; left:${posTrofeu.l}%">🏆</div>`;
+    // TROFEU - Agora usando a imagem TROFEU_NATTOS.png
+    campoDiv.innerHTML += `<img src="./TROFEU_NATTOS.png" class="trofeu-campo" style="top:${posTrofeu.t}%; left:${posTrofeu.l}%">`;
 
     data.forEach((time, i) => {
       const p = posCampo[i];
@@ -316,8 +319,13 @@ function renderSeção(id, data, isA) {
     let tabela = `<div class="lista-container"><table class="tabela-times">`;
     data.forEach((time, i) => {
       let rClass = (isA && i >= 8) ? "status-rebaixamento" : (!isA && i <= 1) ? "status-lider" : "";
+      
+      // Na lista, decidi manter o emoji ou trocar pela imagem também? 
+      // Vou colocar a imagem pequena aqui também para manter o padrão.
+      let iconePos = i === 0 ? `<img src="./TROFEU_NATTOS.png" style="width:20px; vertical-align:middle;">` : i+1;
+      
       tabela += `<tr class="${rClass}">
-        <td class="td-posicao">${i === 0 ? '🏆' : i+1}</td>
+        <td class="td-posicao">${iconePos}</td>
         <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
         <td class="td-pontos">
@@ -345,4 +353,3 @@ atualizarTela();
 </script>
 </body>
 </html>
-
