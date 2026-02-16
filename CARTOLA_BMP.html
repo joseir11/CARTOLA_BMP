@@ -287,7 +287,7 @@ function alternarCard(e, id) {
   const card = document.getElementById('pop-' + id);
   if(card) {
       card.style.display = 'block';
-      // ELEVA O PAI DO CARD PARA FICAR ACIMA DO TROFEU E OUTROS ELEMENTOS
+      // ELEVA O CARD RODADAS PARA FICAR ACIMA DOS OUTROS ELEMENTOS
       card.parentElement.style.zIndex = "1000";
   }
 }
@@ -323,7 +323,7 @@ function renderSeção(id, data, isA) {
           <div class="pop-detalhes" id="pop-${idUnico}">
              <b>${time.nome.replace(/_/g, ' ')}</b>
              <div class="pop-grid-header">
-                <span>RD</span><span>RDD</span><span>RE</span><span>PEN</span>
+                <span>RD</span><span>VAL</span><span>RE</span><span>PEN</span>
              </div>
              ${linhasHistorico}
           </div>
@@ -369,3 +369,4 @@ mudarVisual('campo');
 </script>
 </body>
 </html>
+
