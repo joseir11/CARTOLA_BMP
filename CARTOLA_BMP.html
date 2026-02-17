@@ -349,7 +349,7 @@ function renderSeção(id, data, isA) {
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
         <td class="td-pontos">
           <span class="pontuacao-total">${time.total.toFixed(2)}</span>
-          <span class="detalhes-lista">RDD ÚLTIMA: ${time.ultimaRDDVal.toFixed(2)} | RE: ${time.somaRE.toFixed(2)} | PEN: ${time.somaPEN.toFixed(2)}</span>
+          <span class="detalhes-lista">ULT. RDD: ${time.ultimaRDDVal.toFixed(2)} | RE: ${time.somaRE.toFixed(2)} | PEN: ${time.somaPEN.toFixed(2)}</span>
         </td></tr>`;
     });
     container.innerHTML = tabela + `</table></div>`;
