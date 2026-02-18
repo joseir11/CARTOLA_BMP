@@ -94,12 +94,13 @@ body {
   display: flex; 
   align-items: center;
   justify-content: flex-start;
-  gap: 8px; 
+  gap: 10px; 
   background: rgba(255,255,255,0.08); 
-  padding: 4px 10px 4px 4px;
+  padding: 4px 18px 4px 4px;
   border-radius: 999px; 
   height: 44px;
   border: 1px solid rgba(255,255,255,0.05);
+  min-width: 110px;
 }
 .bola-rdd { 
   width: 36px; 
@@ -114,14 +115,15 @@ body {
   font-size: 11px;
   flex-shrink: 0;
 }
-
 .texto-rdd { 
   font-family: 'Fontecartola', 'Inter', sans-serif; 
-  font-weight: 700; 
-  font-size: 15px; 
+  font-weight: 800; 
+  font-size: 18px;  /* antes estava pequeno */
   color: var(--text-light); 
   line-height: 1;
+  letter-spacing: 0.5px; /* melhora leitura do 03/19 */
 }
+
 
 /* --- ANIMAÇÃO --- */
 #displayA, #displayB {
@@ -489,6 +491,7 @@ mudarVisual('campo');
 
 </body>
 </html>
+
 
 
 
