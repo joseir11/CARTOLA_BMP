@@ -118,12 +118,28 @@ body {
 .texto-rdd { 
   font-family: 'Fontecartola', 'Inter', sans-serif; 
   font-weight: 800; 
-  font-size: 22px;  /* antes estava pequeno */
+  font-size: 22px;
   color: var(--text-light); 
   line-height: 1;
-  letter-spacing: 0.5px; /* melhora leitura do 03/19 */
+  letter-spacing: 0.5px;
 }
 
+/* --- BLOCO SÉRIES AJUSTADO (ÚNICA MUDANÇA FUNCIONAL) --- */
+.bloco-series {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 12px 0 20px;
+}
+
+.titulo-serie {
+  font-family: 'Fontecartola', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text-light);
+  margin: 0;
+}
 
 /* --- ANIMAÇÃO --- */
 #displayA, #displayB {
@@ -256,9 +272,7 @@ body {
 .status-lider .td-nome { color: var(--green) !important; }
 .status-rebaixamento .td-nome { color: var(--red) !important; }
 
-.titulo-serie { font-family: 'Fontecartola', 'Inter', sans-serif; text-align: center; margin: 30px 0 15px; font-weight: 700; font-size: 22px; color: var(--text-light); }
-
-/* --- SELETOR DE SÉRIE --- */
+/* --- SELETOR DE SÉRIE ORIGINAL PRESERVADO --- */
 .seletor-series {
   display: flex;
   justify-content: center;
@@ -313,14 +327,13 @@ body {
   </div>
 </div>
 
-<div class="titulo-serie">SÉRIES</div>
-<div class="seletor-series" style="position: relative; display: flex; gap: 20px; justify-content: center; align-items: center; height: 60px;">
-  <!-- Badge de fundo maior que os botões laranjas -->
-  <div style="position: absolute; width: 140px; height: 70px; background: rgba(255,255,255,0.08); border-radius: 999px; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,0.05);"></div>
-  
-  <!-- Botões das séries -->
-  <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')" style="position: relative; z-index: 10;">A</div>
-  <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')" style="position: relative; z-index: 10;">B</div>
+<div class="bloco-series">
+  <div class="titulo-serie">SÉRIES</div>
+  <div class="seletor-series" style="position: relative; display: flex; gap: 20px; justify-content: center; align-items: center; height: 60px;">
+    <div style="position: absolute; width: 140px; height: 70px; background: rgba(255,255,255,0.08); border-radius: 999px; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,0.05);"></div>
+    <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')" style="position: relative; z-index: 10;">A</div>
+    <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')" style="position: relative; z-index: 10;">B</div>
+  </div>
 </div>
 
 <div id="containerA">
@@ -333,27 +346,24 @@ body {
 
 <script src="tabela.js"></script>
 <script>
-/* COORDENADA DO TROFÉU */
 const posTrofeu = { t: 22, l: 51 }; 
 
-/* COORDENADAS DOS TIMES POR COLOCAÇÃO */
 const posCampo = [
-    { t: 36, l: 50 }, // 1º COLOCADO
-    { t: 38, l: 20 }, // 2º COLOCADO
-    { t: 38, l: 80 }, // 3º COLOCADO
-    { t: 53, l: 50 }, // 4º COLOCADO
-    { t: 55, l: 15 }, // 5º COLOCADO
-    { t: 55, l: 85 }, // 6º COLOCADO
-    { t: 73, l: 15 }, // 7º COLOCADO
-    { t: 75, l: 50 }, // 8º COLOCADO
-    { t: 73, l: 85 }, // 9º COLOCADO
-    { t: 92, l: 50 }  // 10º COLOCADO
+    { t: 36, l: 50 },
+    { t: 38, l: 20 },
+    { t: 38, l: 80 },
+    { t: 53, l: 50 },
+    { t: 55, l: 15 },
+    { t: 55, l: 85 },
+    { t: 73, l: 15 },
+    { t: 75, l: 50 },
+    { t: 73, l: 85 },
+    { t: 92, l: 50 }
 ];
 
 let modoAtivo = 'campo';
 let serieAtiva = 'A';
 
-/* --- PROCESSAMENTO DE DADOS --- */
 function processarDados(historicoBruto) {
     const agrupado = {};
     let rodadaMaxima = 0;
@@ -392,7 +402,6 @@ const serieAData = resA.ranking;
 const serieBData = resB.ranking;
 document.getElementById('info-rdd-topo').innerText = `${resA.rdd.toString().padStart(2, '0')} / 19`;
 
-/* --- FUNÇÕES --- */
 function fecharTodosCards() {
   document.querySelectorAll('.pop-detalhes').forEach(c => c.style.display = 'none');
 }
@@ -483,23 +492,11 @@ function selecionarSerie(serie) {
   document.getElementById('containerB').style.display = serie === 'B' ? 'block' : 'none';
 }
 
-selecionarSerie('A'); // série padrão
+selecionarSerie('A');
 mudarVisual('campo');
 </script>
 
-<div style="height: 60px;"></div> <!-- Espaço final -->
+<div style="height: 60px;"></div>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
