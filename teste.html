@@ -311,12 +311,21 @@ body {
 
 <script src="tabela.js"></script>
 <script>
-/* --- COORDENADAS --- */
+/* COORDENADA DO TROFÉU */
 const posTrofeu = { t: 22, l: 51 }; 
+
+/* COORDENADAS DOS TIMES POR COLOCAÇÃO */
 const posCampo = [
-    { t: 36, l: 50 }, { t: 38, l: 20 }, { t: 38, l: 80 }, { t: 53, l: 50 },
-    { t: 55, l: 15 }, { t: 55, l: 85 }, { t: 73, l: 15 }, { t: 75, l: 50 },
-    { t: 73, l: 85 }, { t: 92, l: 50 }
+    { t: 36, l: 50 }, // 1º COLOCADO
+    { t: 38, l: 20 }, // 2º COLOCADO
+    { t: 38, l: 80 }, // 3º COLOCADO
+    { t: 53, l: 50 }, // 4º COLOCADO
+    { t: 55, l: 15 }, // 5º COLOCADO
+    { t: 55, l: 85 }, // 6º COLOCADO
+    { t: 73, l: 15 }, // 7º COLOCADO
+    { t: 75, l: 50 }, // 8º COLOCADO
+    { t: 73, l: 85 }, // 9º COLOCADO
+    { t: 92, l: 50 }  // 10º COLOCADO
 ];
 
 let modoAtivo = 'campo';
@@ -460,3 +469,4 @@ mudarVisual('campo');
 
 </body>
 </html>
+
