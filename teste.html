@@ -129,16 +129,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  margin: 12px 0 -18px;
+  gap: 10px;
+  margin: 25px auto 15px auto;
+  background: rgba(255,255,255,0.08);
+  padding: 4px;
+  border-radius: 999px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,0.05);
+  width: fit-content;
 }
 
 .titulo-serie {
   font-family: 'Fontecartola', 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 32px;
+  font-weight: 800;
+  font-size: 22px;
   color: var(--text-light);
   margin: 0;
+  padding: 0 10px 0 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 /* --- ANIMAÇÃO --- */
@@ -276,12 +286,15 @@ body {
 .seletor-series {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .btn-serie {
-  position: relative;
   width: 36px;
   height: 36px;
   border-radius: 999px;
@@ -291,16 +304,17 @@ body {
   cursor: pointer;
   font-family: 'Fontecartola', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 11px;
+  font-size: 14px;
   color: #fff;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: transparent;
+  border: none;
   transition: all 0.3s ease;
 }
 
 .btn-serie.ativo {
   background: var(--orange);
   color: #000;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 </style>
 </head>
@@ -329,10 +343,9 @@ body {
 
 <div class="bloco-series">
   <div class="titulo-serie">SÉRIES</div>
-  <div class="seletor-series" style="position: relative; display: flex; gap: 20px; justify-content: center; align-items: center; height: 60px;">
-    <div style="position: absolute; width: 90px; height: 44px; background: rgba(255,255,255,0.08); border-radius: 999px; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,0.05);"></div>
-    <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')" style="position: relative; z-index: 10;">A</div>
-    <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')" style="position: relative; z-index: 10;">B</div>
+  <div class="seletor-series">
+    <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')">A</div>
+    <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')">B</div>
   </div>
 </div>
 
@@ -501,4 +514,3 @@ mudarVisual('campo');
 
 </body>
 </html>
-
