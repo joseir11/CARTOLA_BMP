@@ -101,6 +101,8 @@ body {
   height: 44px;
   border: 1px solid rgba(255,255,255,0.05);
   min-width: 110px;
+  position: relative;
+  cursor: pointer;
 }
 .bola-rdd { 
   width: 36px; 
@@ -326,6 +328,7 @@ body {
     <div class="badge-rdd">
       <div class="bola-rdd">RDD</div>
       <div id="info-rdd-topo" class="texto-rdd">-- / 19</div>
+      <select id="seletor-rodada" onchange="alterarRodadaManual(this.value)" style="position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;"></select>
     </div>
   </div>
 </div>
@@ -366,44 +369,83 @@ const posCampo = [
 
 let modoAtivo = 'campo';
 let serieAtiva = 'A';
+let rodadaSelecionada = 0;
+let rodadaMaximaGlobal = 0;
+let dadosSerieA = [];
+let dadosSerieB = [];
 
-function processarDados(historicoBruto) {
+function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
-    let rodadaMaxima = 0;
+    let maxNoArquivo = 0;
+    
+    // Detecta rodada máxima no arquivo
+    historicoBruto.forEach(item => { if(item.rdd > maxNoArquivo) maxNoArquivo = item.rdd; });
+    if(maxNoArquivo > rodadaMaximaGlobal) rodadaMaximaGlobal = maxNoArquivo;
+
+    const rddLimite = rodadaAlvo || maxNoArquivo;
+
     historicoBruto.forEach(item => {
-        if (!agrupado[item.nome]) {
-            agrupado[item.nome] = { 
-                nome: item.nome, 
-                total: 0, 
-                somaRDD: 0, 
-                somaRE: 0, 
-                somaPEN: 0, 
-                ultimaRDDVal: 0,
-                rodadas: [] 
-            };
+        if (item.rdd <= rddLimite) {
+            if (!agrupado[item.nome]) {
+                agrupado[item.nome] = { 
+                    nome: item.nome, 
+                    total: 0, 
+                    somaRDD: 0, 
+                    somaRE: 0, 
+                    somaPEN: 0, 
+                    ultimaRDDVal: 0,
+                    rodadas: [] 
+                };
+            }
+            agrupado[item.nome].somaRDD += item.val;
+            agrupado[item.nome].somaRE += item.re;
+            agrupado[item.nome].somaPEN += item.pen;
+            agrupado[item.nome].rodadas.push(item);
         }
-        agrupado[item.nome].somaRDD += item.val;
-        agrupado[item.nome].somaRE += item.re;
-        agrupado[item.nome].somaPEN += item.pen;
-        agrupado[item.nome].rodadas.push(item);
-        if(item.rdd > rodadaMaxima) rodadaMaxima = item.rdd;
     });
+
     const listaFinal = Object.values(agrupado).map(time => {
         time.total = (time.somaRDD + time.somaRE) - time.somaPEN;
-        const ultimaRodadaObj = time.rodadas.reduce((prev, current) => (prev.rdd > current.rdd) ? prev : current);
+        const rddsFiltradas = time.rodadas.filter(r => r.rdd <= rddLimite);
+        const ultimaRodadaObj = rddsFiltradas.reduce((prev, current) => (prev.rdd > current.rdd) ? prev : current, {val: 0});
         time.ultimaRDDVal = ultimaRodadaObj.val;
         time.rodadas.sort((a, b) => b.rdd - a.rdd);
         return time;
     });
+
     listaFinal.sort((a, b) => b.total - a.total);
-    return { ranking: listaFinal, rdd: rodadaMaxima };
+    return { ranking: listaFinal, rdd: rddLimite };
 }
 
-const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : []);
-const resB = processarDados(typeof historicoSerieB !== 'undefined' ? historicoSerieB : []);
-const serieAData = resA.ranking;
-const serieBData = resB.ranking;
-document.getElementById('info-rdd-topo').innerText = `${resA.rdd.toString().padStart(2, '0')} / 19`;
+function atualizarSeletorRodadas() {
+    const seletor = document.getElementById('seletor-rodada');
+    seletor.innerHTML = '';
+    for (let i = 1; i <= rodadaMaximaGlobal; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Rodada ${i.toString().padStart(2, '0')}`;
+        if (i === rodadaSelecionada) opt.selected = true;
+        seletor.appendChild(opt);
+    }
+}
+
+function alterarRodadaManual(rdd) {
+    rodadaSelecionada = parseInt(rdd);
+    atualizarTelas();
+}
+
+function atualizarTelas() {
+    const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : [], rodadaSelecionada);
+    const resB = processarDados(typeof historicoSerieB !== 'undefined' ? historicoSerieB : [], rodadaSelecionada);
+    
+    dadosSerieA = resA.ranking;
+    dadosSerieB = resB.ranking;
+
+    document.getElementById('info-rdd-topo').innerText = `${rodadaSelecionada.toString().padStart(2, '0')} / 19`;
+    
+    renderSeção("displayA", dadosSerieA, true);
+    renderSeção("displayB", dadosSerieB, false);
+}
 
 function fecharTodosCards() {
   document.querySelectorAll('.pop-detalhes').forEach(c => c.style.display = 'none');
@@ -426,6 +468,7 @@ function renderSeção(id, data, isA) {
     campoDiv.innerHTML += `<img src="./TROFEU_NATTOS.png" class="trofeu-campo" style="top:${posTrofeu.t}%; left:${posTrofeu.l}%">`;
     data.forEach((time, i) => {
       const p = posCampo[i];
+      if(!p) return;
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
       if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
@@ -474,18 +517,10 @@ function renderSeção(id, data, isA) {
 }
 
 function mudarVisual(tipo) {
-  const containerA = document.getElementById('displayA');
-  const containerB = document.getElementById('displayB');
-  containerA.style.animation = 'none';
-  containerB.style.animation = 'none';
-  void containerA.offsetWidth; 
   modoAtivo = tipo;
   document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
   document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
-  renderSeção("displayA", serieAData, true);
-  renderSeção("displayB", serieBData, false);
-  containerA.style.animation = 'fadeIn 0.6s ease-out';
-  containerB.style.animation = 'fadeIn 0.6s ease-out';
+  atualizarTelas();
 }
 
 function selecionarSerie(serie) {
@@ -495,15 +530,17 @@ function selecionarSerie(serie) {
   document.getElementById('containerB').style.display = serie === 'B' ? 'block' : 'none';
 }
 
-selecionarSerie('A');
-mudarVisual('campo');
+// Inicialização
+(function init() {
+    const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : []);
+    rodadaSelecionada = resA.rdd;
+    atualizarSeletorRodadas();
+    selecionarSerie('A');
+    mudarVisual('campo');
+})();
 </script>
 
 <div style="height: 60px;"></div>
 
 </body>
 </html>
-
-
-
-
