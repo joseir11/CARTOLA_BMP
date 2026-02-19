@@ -50,11 +50,65 @@ body {
   z-index: 1000;
 }
 
-.header-topo-mobile { display: flex; align-items: center; gap: 12px; }
-.titulo-principal { font-size: 32px; font-weight: 900; color: var(--text-light); letter-spacing: -1px; }
-.logo-campeonato { height: 55px; width: auto; }
+.header-topo-mobile { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+}
 
-.header-controles-mobile { display: flex; align-items: center; justify-content: space-between; }
+.titulo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.titulo-principal { 
+  font-family: 'Teko', sans-serif;
+  font-size: 60px; 
+  font-weight: 700; 
+  color: var(--orange); 
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+.ano-titulo {
+  font-family: 'Teko', sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  align-self: flex-end;
+  margin-top: -5px;
+}
+
+.header-controles-mobile { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 10px;
+}
+
+/* LOGO DENTRO DA BOLA ESTILIZADA */
+.container-logo-bola {
+  width: 75px;
+  height: 75px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.logo-campeonato { 
+  height: 55px; 
+  width: auto; 
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+}
 
 /* --- TOGGLE DE VISUALIZAÇÃO --- */
 .toggle-visual { 
@@ -313,8 +367,13 @@ body {
 
 <div class="header">
   <div class="header-topo-mobile">
-    <img src="./CARTOLA.png" class="logo-campeonato">
-    <div class="titulo-principal">TAÇA NATTOS - 2026</div>
+    <div class="container-logo-bola">
+      <img src="./CARTOLA.png" class="logo-campeonato">
+    </div>
+    <div class="titulo-wrapper">
+      <div class="titulo-principal">TAÇA NATTOS</div>
+      <div class="ano-titulo">2026</div>
+    </div>
   </div>
   <div class="header-controles-mobile">
     <div class="toggle-visual">
@@ -325,6 +384,7 @@ body {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="3" width="16" height="18" rx="2"></rect><rect x="9" y="1" width="6" height="4" rx="1"></rect><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg>
       </button>
     </div>
+    
     <div class="badge-rdd">
       <div class="bola-rdd">RDD</div>
       <div id="info-rdd-topo" class="texto-rdd">-- / 19</div>
@@ -378,7 +438,6 @@ function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
     let maxNoArquivo = 0;
     
-    // Detecta rodada máxima no arquivo
     historicoBruto.forEach(item => { if(item.rdd > maxNoArquivo) maxNoArquivo = item.rdd; });
     if(maxNoArquivo > rodadaMaximaGlobal) rodadaMaximaGlobal = maxNoArquivo;
 
@@ -530,7 +589,6 @@ function selecionarSerie(serie) {
   document.getElementById('containerB').style.display = serie === 'B' ? 'block' : 'none';
 }
 
-// Inicialização
 (function init() {
     const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : []);
     rodadaSelecionada = resA.rdd;
