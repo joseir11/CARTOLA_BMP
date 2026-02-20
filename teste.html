@@ -599,14 +599,6 @@ function selecionarSerie(serie) {
     atualizarSeletorRodadas();
     selecionarSerie('A');
     mudarVisual('campo');
-
-    // AJUSTE PARA DISPARAR O ENCAIXE DA TELA (Scroll automático)
-    window.onload = function() {
-        setTimeout(function() {
-            window.scrollTo(0, 10); // Rolagem maior para garantir o gatilho
-        }, 300);
-    };
-})();
 </script>
 <div style="height: 60px;"></div>
 
