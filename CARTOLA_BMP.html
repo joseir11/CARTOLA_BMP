@@ -17,7 +17,7 @@
   --text-light: #e5e7eb;
 }
 
-/* --- Fonte --- */
+/* FONTE */
 @font-face {
   font-family: 'Fontecartola';
   src: url('Fontecartola.otf') format('opentype');
@@ -35,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* --- CABEÇALHO --- */
+/* CABEÇALHO */
 .header {
   display: flex;
   flex-direction: column;
@@ -90,27 +90,28 @@ body {
   gap: 10px;
 }
 
-/* LOGO DENTRO DA BOLA ESTILIZADA */
+/* CONTAINER BOLA - LOGO */
 .container-logo-bola {
-  width: 60px;
-  height: 60px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.05);
+  width: 62px;
+  height: 62px;
+  background: rgba(245, 158, 11, 0.2); /* FUNDO LARANJA - 20% OPACIDADE */
+  
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); /* SOMBRA LEVE LARANJA */
   flex-shrink: 0;
 }
 
+/* LOGO CARTOLA.png */
 .logo-campeonato { 
-  height: 45px; 
+  height: 55px; 
   width: auto; 
   filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
 }
 
-/* --- TOGGLE DE VISUALIZAÇÃO --- */
+/* TOGGLE DE VISUALIZAÇÃO */
 .toggle-visual { 
   width: 90px; 
   background: rgba(255,255,255,0.08); 
@@ -143,7 +144,7 @@ body {
 
 .icon-vertical { transform: rotate(90deg); }
 
-/* --- BADGE RDD --- */
+/* BADGE RDD */
 .badge-rdd { 
   display: flex; 
   align-items: center;
@@ -180,7 +181,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* --- BLOCO SÉRIES --- */
+/* BLOCO SÉRIES */
 .bloco-series {
   display: flex;
   align-items: center;
@@ -218,7 +219,7 @@ body {
   cursor: pointer;
   font-family: 'Fontecartola', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 18px;
+  font-size: 22px;
   color: #9ca3af;
   background: transparent;
   border: none;
@@ -231,7 +232,7 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* --- ANIMAÇÃO --- */
+// ANIMAÇÃO //
 #displayA, #displayB {
   animation: fadeIn 0.6s ease-out;
 }
@@ -241,7 +242,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- CAMPO --- */
+/* CAMPO */
 .campo {
   position: relative;
   margin: 0 auto;
@@ -255,7 +256,7 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-/* --- CARDS DE TIMES --- */
+/* CARDS DE TIMES */
 .card-time {
   position: absolute;
   width: 100px;
@@ -288,6 +289,7 @@ body {
 .badge-lider { background: var(--green) !important; color: white !important; }
 .badge-rebaixamento { background: var(--red) !important; color: white !important; }
 
+/* NUMERO POSICAO TIME */
 .posicao-campo {
   position: absolute;
   top: 40px; 
@@ -297,7 +299,7 @@ body {
   text-shadow: 2px 2px 4px #000;
   z-index: 20;
 }
-
+/* AJUSTE TAMANHO TROFEU */
 .trofeu-campo {
   position: absolute;
   width: 50px;
@@ -306,7 +308,7 @@ body {
   pointer-events: none;
   filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
-
+/* AJUSTE TAMANHO GARCON */
 .garcom {
   position: absolute;
   width: 65px;
@@ -315,7 +317,7 @@ body {
   z-index: 5;
 }
 
-/* --- CARD DE DETALHES --- */
+/* CARD PONTUACAO TIME */
 .pop-detalhes {
   position: absolute;
   bottom: 120%;
@@ -336,7 +338,7 @@ body {
 .pop-grid-header { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; font-weight: 800; color: #94a3b8; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 4px; text-align: center; }
 .pop-grid-row { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; text-align: center; padding: 4px 0; border-bottom: 1px solid #334155; }
 
-/* --- TABELA LISTA --- */
+/* TABELA LISTA */
 .lista-container { 
   width: 95%; 
   max-width: 600px; 
@@ -354,7 +356,7 @@ body {
 
 .td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; width: 50px; }
 .td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 15px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
+.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 25px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
 .td-pontos { text-align: right; padding-right: 20px !important; }
 .pontuacao-total { font-weight: 900; font-size: 18px; display: block; color: var(--orange); }
 .detalhes-lista { font-size: 10px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
@@ -411,9 +413,9 @@ body {
 
 <script src="tabela.js"></script>
 <script>
-// AJUSTE POSIÇÃO TROFEU //  
+/* AJUSTE POSIÇÃO TROFEU */  
 const posTrofeu = { t: 10, l: 51 }; 
-// AJUSTE POSIÇÃO ESCUDOS //
+/* AJUSTE POSIÇÃO ESCUDOS */
 const posCampo = [
     { t: 23, l: 50 },
     { t: 25, l: 20 },
@@ -597,7 +599,6 @@ function selecionarSerie(serie) {
     mudarVisual('campo');
 })();
 </script>
-
 <div style="height: 60px;"></div>
 
 </body>
