@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TAÇA NATTOS 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
@@ -33,8 +33,10 @@ body {
   color: #fff;
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
-  /* AJUSTE NECESSÁRIO: 101% da altura para permitir o auto-scroll */
-  min-height: 101vh; 
+  /* O segredo para o modo tela cheia: */
+  height: 100dvh; 
+  display: flex;
+  flex-direction: column;
 }
 
 /* CABEÇALHO */
@@ -47,9 +49,7 @@ body {
   -webkit-backdrop-filter: blur(12px);
   gap: 12px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  flex-shrink: 0; /* Impede o cabeçalho de encolher */
 }
 
 .header-topo-mobile { 
@@ -96,24 +96,21 @@ body {
 .container-logo-bola {
   width: 62px;
   height: 62px;
-  background: rgba(245, 158, 11, 0.2); /* FUNDO LARANJA - 20% OPACIDADE */
-  
+  background: rgba(245, 158, 11, 0.2); 
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); /* SOMBRA LEVE LARANJA */
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
   flex-shrink: 0;
 }
 
-/* LOGO CARTOLA.png */
 .logo-campeonato { 
   height: 55px; 
   width: auto; 
   filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
 }
 
-/* TOGGLE DE VISUALIZAÇÃO */
 .toggle-visual { 
   width: 90px; 
   background: rgba(255,255,255,0.08); 
@@ -146,7 +143,6 @@ body {
 
 .icon-vertical { transform: rotate(90deg); }
 
-/* BADGE RDD */
 .badge-rdd { 
   display: flex; 
   align-items: center;
@@ -183,13 +179,22 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* BLOCO SÉRIES */
+/* ÁREA DE CONTEÚDO SCROLLÁVEL */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
 .bloco-series {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
-  margin: 10px 0 10px 0;
+  margin: 15px 0;
+  flex-shrink: 0;
 }
 
 .titulo-serie {
@@ -225,16 +230,13 @@ body {
   color: #9ca3af;
   background: transparent;
   border: none;
-  transition: all 0.3s ease;
 }
 
 .btn-serie.ativo {
   background: var(--orange);
   color: #000;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* ANIMAÇÃO */
 #displayA, #displayB {
   animation: fadeIn 0.6s ease-out;
 }
@@ -244,7 +246,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* CAMPO */
 .campo {
   position: relative;
   margin: 0 auto;
@@ -252,13 +253,11 @@ body {
   max-width: 520px;
   aspect-ratio: 9/14;
   border-radius: 24px;
-  overflow: visible;
   background: #0f172a url("./campo.png") center/cover no-repeat;
   border: 2px solid rgba(34,197,94,0.15);
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-/* CARDS DE TIMES */
 .card-time {
   position: absolute;
   width: 100px;
@@ -283,15 +282,11 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
-  cursor: pointer;
-  transition: transform 0.2s;
 }
-.badge-pontos-campo:active { transform: scale(0.9); }
 
 .badge-lider { background: var(--green) !important; color: white !important; }
 .badge-rebaixamento { background: var(--red) !important; color: white !important; }
 
-/* NUMERO POSICAO TIME */
 .posicao-campo {
   position: absolute;
   top: 40px; 
@@ -301,25 +296,22 @@ body {
   text-shadow: 2px 2px 4px #000;
   z-index: 20;
 }
-/* AJUSTE TAMANHO TROFEU */
+
 .trofeu-campo {
   position: absolute;
   width: 50px;
   transform: translate(-50%, -50%);
   z-index: 5;
   pointer-events: none;
-  filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
-/* AJUSTE TAMANHO GARCON */
+
 .garcom {
   position: absolute;
   width: 60px;
   transform: translate(-180%, -40%);
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
   z-index: 5;
 }
 
-/* CARD PONTUACAO TIME */
 .pop-detalhes {
   position: absolute;
   bottom: 120%;
@@ -331,16 +323,11 @@ body {
   border-radius: 12px;
   width: 170px;
   font-size: 11px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  z-index: 999;
   display: none;
   border: 1px solid rgba(255,255,255,0.1);
+  z-index: 999;
 }
-.pop-detalhes b { color: var(--orange); display: block; border-bottom: 1px solid #334155; margin-bottom: 6px; font-size: 12px; text-align: center; text-transform: uppercase; font-family: 'Fontecartola', 'Inter', sans-serif; }
-.pop-grid-header { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; font-weight: 800; color: #94a3b8; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 4px; text-align: center; }
-.pop-grid-row { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; text-align: center; padding: 4px 0; border-bottom: 1px solid #334155; }
 
-/* TABELA LISTA */
 .lista-container { 
   width: 95%; 
   max-width: 600px; 
@@ -348,19 +335,16 @@ body {
   background: #1e293b; 
   border-radius: 16px; 
   overflow: hidden; 
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.05);
 }
 .tabela-times { width: 100%; border-collapse: collapse; }
 .tabela-times td { padding: 14px 10px; vertical-align: middle; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.tabela-times tr:nth-child(even) { background: rgba(255,255,255,0.02); }
 
 .td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; width: 50px; }
-.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
+.td-escudo img { width: 44px; height: 44px; object-fit: contain; }
+.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #f1f5f9; }
 .td-pontos { text-align: right; padding-right: 20px !important; }
-.pontuacao-total { font-weight: 900; font-size: 18px; display: block; color: var(--orange); }
+.pontuacao-total { font-weight: 900; font-size: 18px; color: var(--orange); }
 .detalhes-lista { font-size: 10px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
 
 .status-lider .td-nome { color: var(--green) !important; }
@@ -397,20 +381,22 @@ body {
   </div>
 </div>
 
-<div class="bloco-series">
-  <div class="titulo-serie">SÉRIES</div>
-  <div class="seletor-series-badge">
-    <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')">A</div>
-    <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')">B</div>
+<div class="content-area">
+  <div class="bloco-series">
+    <div class="titulo-serie">SÉRIES</div>
+    <div class="seletor-series-badge">
+      <div class="btn-serie ativo" data-serie="A" onclick="selecionarSerie('A')">A</div>
+      <div class="btn-serie" data-serie="B" onclick="selecionarSerie('B')">B</div>
+    </div>
   </div>
-</div>
 
-<div id="containerA">
-  <div id="displayA"></div>
-</div>
+  <div id="containerA">
+    <div id="displayA"></div>
+  </div>
 
-<div id="containerB" style="display:none">
-  <div id="displayB"></div>
+  <div id="containerB" style="display:none">
+    <div id="displayB"></div>
+  </div>
 </div>
 
 <script src="tabela.js"></script>
@@ -419,16 +405,8 @@ body {
 const posTrofeu = { t: 10, l: 51 }; 
 /* AJUSTE POSIÇÃO ESCUDOS */
 const posCampo = [
-    { t: 23, l: 50 },
-    { t: 25, l: 20 },
-    { t: 25, l: 80 },
-    { t: 42, l: 50 },
-    { t: 44, l: 15 },
-    { t: 44, l: 85 },
-    { t: 65, l: 15 },
-    { t: 67, l: 50 },
-    { t: 65, l: 85 },
-    { t: 85, l: 50 }
+    { t: 23, l: 50 }, { t: 25, l: 20 }, { t: 25, l: 80 }, { t: 42, l: 50 }, { t: 44, l: 15 },
+    { t: 44, l: 85 }, { t: 65, l: 15 }, { t: 67, l: 50 }, { t: 65, l: 85 }, { t: 85, l: 50 }
 ];
 
 let modoAtivo = 'campo';
@@ -441,24 +419,13 @@ let dadosSerieB = [];
 function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
     let maxNoArquivo = 0;
-    
     historicoBruto.forEach(item => { if(item.rdd > maxNoArquivo) maxNoArquivo = item.rdd; });
     if(maxNoArquivo > rodadaMaximaGlobal) rodadaMaximaGlobal = maxNoArquivo;
-
     const rddLimite = rodadaAlvo || maxNoArquivo;
-
     historicoBruto.forEach(item => {
         if (item.rdd <= rddLimite) {
             if (!agrupado[item.nome]) {
-                agrupado[item.nome] = { 
-                    nome: item.nome, 
-                    total: 0, 
-                    somaRDD: 0, 
-                    somaRE: 0, 
-                    somaPEN: 0, 
-                    ultimaRDDVal: 0,
-                    rodadas: [] 
-                };
+                agrupado[item.nome] = { nome: item.nome, total: 0, somaRDD: 0, somaRE: 0, somaPEN: 0, ultimaRDDVal: 0, rodadas: [] };
             }
             agrupado[item.nome].somaRDD += item.val;
             agrupado[item.nome].somaRE += item.re;
@@ -466,7 +433,6 @@ function processarDados(historicoBruto, rodadaAlvo) {
             agrupado[item.nome].rodadas.push(item);
         }
     });
-
     const listaFinal = Object.values(agrupado).map(time => {
         time.total = (time.somaRDD + time.somaRE) - time.somaPEN;
         const rddsFiltradas = time.rodadas.filter(r => r.rdd <= rddLimite);
@@ -475,7 +441,6 @@ function processarDados(historicoBruto, rodadaAlvo) {
         time.rodadas.sort((a, b) => b.rdd - a.rdd);
         return time;
     });
-
     listaFinal.sort((a, b) => b.total - a.total);
     return { ranking: listaFinal, rdd: rddLimite };
 }
@@ -500,12 +465,9 @@ function alterarRodadaManual(rdd) {
 function atualizarTelas() {
     const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : [], rodadaSelecionada);
     const resB = processarDados(typeof historicoSerieB !== 'undefined' ? historicoSerieB : [], rodadaSelecionada);
-    
     dadosSerieA = resA.ranking;
     dadosSerieB = resB.ranking;
-
     document.getElementById('info-rdd-topo').innerText = `${rodadaSelecionada.toString().padStart(2, '0')} / 19`;
-    
     renderSeção("displayA", dadosSerieA, true);
     renderSeção("displayB", dadosSerieB, false);
 }
@@ -517,9 +479,8 @@ function fecharTodosCards() {
 function alternarCard(e, id) {
   e.stopPropagation();
   fecharTodosCards();
-  document.querySelectorAll('.card-time').forEach(el => el.style.zIndex = "10");
   const card = document.getElementById('pop-' + id);
-  if(card) { card.style.display = 'block'; card.parentElement.style.zIndex = "1000"; }
+  if(card) { card.style.display = 'block'; }
 }
 
 function renderSeção(id, data, isA) {
@@ -535,28 +496,13 @@ function renderSeção(id, data, isA) {
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
       if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
-      const linhasHistorico = time.rodadas.map(r => `
-          <div class="pop-grid-row">
-            <span>${r.rdd}</span>
-            <span style="color:#60a5fa">${r.val.toFixed(2)}</span>
-            <span style="color:#4ade80">${r.re.toFixed(2)}</span>
-            <span style="color:#f87171">${r.pen.toFixed(2)}</span>
-          </div>
-      `).join('');
       campoDiv.innerHTML += `
         <div class="card-time" style="top:${p.t}%; left:${p.l}%">
-          <div class="pop-detalhes" id="pop-${idUnico}">
-             <b>${time.nome.replace(/_/g, ' ')}</b>
-             <div class="pop-grid-header">
-                <span>RD</span><span>VAL</span><span>RE</span><span>PEN</span>
-             </div>
-             ${linhasHistorico}
-          </div>
+          <div class="pop-detalhes" id="pop-${idUnico}"><b>${time.nome.replace(/_/g, ' ')}</b></div>
           <div class="posicao-campo">${i+1}</div>
           <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
           <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
             ${time.total.toFixed(2)}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
           </div>
         </div>`;
     });
@@ -565,15 +511,11 @@ function renderSeção(id, data, isA) {
     let tabela = `<div class="lista-container"><table class="tabela-times">`;
     data.forEach((time, i) => {
       let rClass = (isA && i >= 8) ? "status-rebaixamento" : (!isA && i <= 1) ? "status-lider" : "";
-      let iconePos = i === 0 ? `<img src="./TROFEU_NATTOS.png" style="width:20px; vertical-align:middle;">` : i+1;
       tabela += `<tr class="${rClass}">
-        <td class="td-posicao">${iconePos}</td>
+        <td class="td-posicao">${i+1}</td>
         <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
-        <td class="td-pontos">
-          <span class="pontuacao-total">${time.total.toFixed(2)}</span>
-          <span class="detalhes-lista">ULT. RDD: ${time.ultimaRDDVal.toFixed(2)} | RE: ${time.somaRE.toFixed(2)} | PEN: ${time.somaPEN.toFixed(2)}</span>
-        </td></tr>`;
+        <td class="td-pontos"><span class="pontuacao-total">${time.total.toFixed(2)}</span></td></tr>`;
     });
     container.innerHTML = tabela + `</table></div>`;
   }
@@ -601,7 +543,5 @@ function selecionarSerie(serie) {
     mudarVisual('campo');
 })();
 </script>
-<div style="height: 60px;"></div>
-
 </body>
 </html>
