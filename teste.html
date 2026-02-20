@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, property=no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>TAÇA NATTOS 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
@@ -33,6 +33,8 @@ body {
   color: #fff;
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
+  /* AJUSTE NECESSÁRIO: 101% da altura para permitir o auto-scroll */
+  min-height: 101vh; 
 }
 
 /* CABEÇALHO */
@@ -598,12 +600,12 @@ function selecionarSerie(serie) {
     selecionarSerie('A');
     mudarVisual('campo');
 
-    // AJUSTE OPÇÃO 2: Esconder barra de endereço automaticamente
-    window.addEventListener("load", function() {
+    // AJUSTE PARA DISPARAR O ENCAIXE DA TELA (Scroll automático)
+    window.onload = function() {
         setTimeout(function() {
-            window.scrollTo(0, 1);
-        }, 500);
-    });
+            window.scrollTo(0, 10); // Rolagem maior para garantir o gatilho
+        }, 300);
+    };
 })();
 </script>
 <div style="height: 60px;"></div>
