@@ -308,13 +308,16 @@ body {
   pointer-events: none;
   filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
+
 /* AJUSTE TAMANHO GARCON */
 .garcom {
   position: absolute;
-  width: 60px;
-  transform: translate(-180%, -40%);
+  height: 128px; /* ALTURA FIXA SOLICITADA */
+  width: auto; /* LARGURA PROPORCIONAL */
+  transform: translate(-130%, -45%); /* AJUSTE DE POSIÇÃO PARA NOVO TAMANHO */
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
   z-index: 5;
+  pointer-events: none;
 }
 
 /* CARD PONTUACAO TIME */
