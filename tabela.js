@@ -29,16 +29,16 @@ const historicoSerieA = [
   { nome: "GRAN_ROYALLE", rdd: 3, val: 11.35, re: 0.00, pen: 0.00 },
   { nome: "NUCA_FINA", rdd: 3, val: 8.97, re: 0.00, pen: 0.00 },
   { nome: "TIMON", rdd: 3, val: 3.28, re: 0.00, pen: 0.00 },
-  { nome: "NILTIN_SLR", rdd: 4, val: 1.32, re: 0.00, pen: 0.00 },
-  { nome: "SUPER_MARIO", rdd: 4, val: 1.41, re: 0.00, pen: 0.00 },
-  { nome: "PINSHER_10", rdd: 4, val: 3.87, re: 0.00, pen: 0.00 },
-  { nome: "JOSA UNITED", rdd: 4, val: 6.13, re: 0.00, pen: 0.00 },
-  { nome: "ACGTD", rdd: 4, val: 5.84, re: 0.00, pen: 0.00 },
-  { nome: "PJRC11", rdd: 4, val: 5.35, re: 0.00, pen: 0.00 },
-  { nome: "ESMERALDINO", rdd: 4, val: 3.85, re: 0.00, pen: 0.00 },
-  { nome: "GRAN_ROYALLE", rdd: 4, val: 6.58, re: 0.00, pen: 0.00 },
-  { nome: "NUCA_FINA", rdd: 4, val: 3.77, re: 0.00, pen: 0.00 },
-  { nome: "TIMON", rdd: 4, val: 10.18, re: 0.00, pen: 0.00 }
+  { nome: "NILTIN_SLR", rdd: 4, val: 1.31, re: 0.00, pen: 0.00 },
+  { nome: "SUPER_MARIO", rdd: 4, val: 1.37, re: 0.00, pen: 0.00 },
+  { nome: "PINSHER_10", rdd: 4, val: 3.83, re: 0.00, pen: 0.00 },
+  { nome: "JOSA UNITED", rdd: 4, val: 6.11, re: 0.00, pen: 0.00 },
+  { nome: "ACGTD", rdd: 4, val: 5.82, re: 0.00, pen: 0.00 },
+  { nome: "PJRC11", rdd: 4, val: 5.09, re: 0.00, pen: 0.00 },
+  { nome: "ESMERALDINO", rdd: 4, val: 3.84, re: 0.00, pen: 0.00 },
+  { nome: "GRAN_ROYALLE", rdd: 4, val: 7.09, re: 0.00, pen: 0.00 },
+  { nome: "NUCA_FINA", rdd: 4, val: 3.75, re: 0.00, pen: 0.00 },
+  { nome: "TIMON", rdd: 4, val: 10.71, re: 0.00, pen: 0.00 }
 ];
 
 const historicoSerieB = [
@@ -72,14 +72,14 @@ const historicoSerieB = [
   { nome: "WR_A.C", rdd: 3, val: 7.83, re: 0.00, pen: 0.00 },
   { nome: "EMBAIXADOR", rdd: 3, val: 0.81, re: 0.00, pen: 0.00 },
   { nome: "PATYMEIRAS", rdd: 3, val: 10.14, re: 0.00, pen: 0.00 },
-  { nome: "GOLD_SOLAR", rdd: 4, val: 6.46, re: 0.00, pen: 0.00 },
-  { nome: "BANZE", rdd: 4, val: 3.37, re: 0.00, pen: 0.00 },
-  { nome: "DIOGO_BNF", rdd: 4, val: -0.30, re: 0.00, pen: 0.00 },
-  { nome: "WANTUIR_FC", rdd: 4, val: -1.02, re: 0.00, pen: 0.00 },
-  { nome: "TAC_E.C", rdd: 4, val: 7.41, re: 0.00, pen: 0.00 },
-  { nome: "FURACAO_BMP", rdd: 4, val: 5.85, re: 0.00, pen: 0.00 },
-  { nome: "VELHO_BUIAS", rdd: 4, val: 6.80, re: 0.00, pen: 0.00 },
-  { nome: "WR_A.C", rdd: 4, val: 2.88, re: 0.00, pen: 0.00 },
-  { nome: "EMBAIXADOR", rdd: 4, val: 5.89, re: 0.00, pen: 0.00 },
-  { nome: "PATYMEIRAS", rdd: 4, val: 7.52, re: 0.00, pen: 0.00 }
+  { nome: "GOLD_SOLAR", rdd: 4, val: 6.43, re: 0.00, pen: 0.00 },
+  { nome: "BANZE", rdd: 4, val: 3.34, re: 0.00, pen: 0.00 },
+  { nome: "DIOGO_BNF", rdd: 4, val: -0.34, re: 0.00, pen: 0.00 },
+  { nome: "WANTUIR_FC", rdd: 4, val: -1.03, re: 0.00, pen: 0.00 },
+  { nome: "TAC_E.C", rdd: 4, val: 7.38, re: 0.00, pen: 0.00 },
+  { nome: "FURACAO_BMP", rdd: 4, val: 5.83, re: 0.00, pen: 0.00 },
+  { nome: "VELHO_BUIAS", rdd: 4, val: 7.09, re: 0.00, pen: 0.00 },
+  { nome: "WR_A.C", rdd: 4, val: 2.86, re: 0.00, pen: 0.00 },
+  { nome: "EMBAIXADOR", rdd: 4, val: 5.62, re: 0.00, pen: 0.00 },
+  { nome: "PATYMEIRAS", rdd: 4, val: 7.49, re: 0.00, pen: 0.00 }
 ];
