@@ -232,7 +232,7 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* NOVO BOTÃO VOLtar - MESMO ESTILO DO SELETOR DE SÉRIE */
+/* NOVO BOTÃO VOLTAR - MESMO ESTILO DO SELETOR DE SÉRIE */
 .btn-voltar-container {
   display: none;
   align-items: center;
@@ -294,6 +294,20 @@ body {
 
 /* CAMPO */
 .campo {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 520px;
+  aspect-ratio: 9/14;
+  border-radius: 24px;
+  overflow: visible;
+  background: #0f172a url("./campo.png") center/cover no-repeat;
+  border: 2px solid rgba(34,197,94,0.15);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* CAMPO LIMPO (quando vazio) */
+.campo-limpo {
   position: relative;
   margin: 0 auto;
   width: 95%;
@@ -423,7 +437,7 @@ body {
 .tabela-times tr:nth-child(even) { background: rgba(255,255,255,0.02); }
 
 .td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; width: 50px; }
-.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); cursor: pointer; }
 .td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
 .td-pontos { text-align: right; padding-right: 20px !important; }
 .pontuacao-total { font-weight: 900; font-size: 18px; display: block; color: var(--orange); }
@@ -578,7 +592,7 @@ function alterarRodadaManual(rdd) {
     atualizarTelas();
 }
 
-// NOVA FUNÇÃO: mostrar detalhes do time
+// FUNÇÃO MODIFICADA: mostrar detalhes do time - campo permanece visível mas limpo
 function mostrarTime(timeNome) {
     visualizandoTime = true;
     timeSelecionado = timeNome;
@@ -591,12 +605,24 @@ function mostrarTime(timeNome) {
     document.getElementById('timeDestaque').style.display = 'flex';
     document.getElementById('timeDestaque').innerHTML = timeNome.replace(/_/g, ' ');
     
-    // Limpa o display
-    document.getElementById('displayA').innerHTML = '';
-    document.getElementById('displayB').innerHTML = '';
+    // Renderiza o campo limpo (sem nenhum elemento)
+    renderCampoLimpo();
 }
 
-// NOVA FUNÇÃO: voltar para visualização do campo
+// NOVA FUNÇÃO: renderizar apenas o campo vazio
+function renderCampoLimpo() {
+    // Limpa os displays
+    document.getElementById('displayA').innerHTML = '';
+    document.getElementById('displayB').innerHTML = '';
+    
+    // Cria um campo vazio (apenas o gramado)
+    const container = document.getElementById('displayA');
+    const campoVazio = document.createElement('div');
+    campoVazio.className = 'campo-limpo';
+    container.appendChild(campoVazio);
+}
+
+// FUNÇÃO MODIFICADA: voltar para visualização do campo com todos os times
 function voltarParaCampo() {
     visualizandoTime = false;
     timeSelecionado = null;
@@ -608,7 +634,7 @@ function voltarParaCampo() {
     document.getElementById('btnVoltarContainer').style.display = 'none';
     document.getElementById('timeDestaque').style.display = 'none';
     
-    // Atualiza a tela com o campo normal
+    // Atualiza a tela com o campo normal (todos os times)
     atualizarTelas();
 }
 
@@ -641,7 +667,7 @@ function renderSeção(id, data, isA) {
   const container = document.getElementById(id);
   container.innerHTML = "";
   
-  // Se estiver visualizando um time específico, não renderiza nada
+  // Se estiver visualizando um time específico, não renderiza nada (já foi renderizado pelo renderCampoLimpo)
   if(visualizandoTime) {
     return;
   }
