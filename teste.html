@@ -232,6 +232,56 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
+/* NOVO BOTÃO VOLtar - MESMO ESTILO DO SELETOR DE SÉRIE */
+.btn-voltar-container {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.btn-voltar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  padding: 8px 20px;
+  border-radius: 999px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  font-family: 'Fontecartola', 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.btn-voltar svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--orange);
+}
+
+/* TIME DESTAQUE */
+.time-destaque-container {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px 20px;
+  font-family: 'Fontecartola', 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--orange);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
 /* ANIMAÇÃO */
 #displayA, #displayB {
   animation: fadeIn 0.6s ease-out;
@@ -267,7 +317,22 @@ body {
   z-index: 10;
 }
 
-.logo-campo { width: 78px; height: 78px; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7)); }
+.logo-campo { 
+  width: 78px; 
+  height: 78px; 
+  object-fit: contain; 
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7));
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo-campo:hover {
+  transform: scale(1.05);
+}
+
+.logo-campo:active {
+  transform: scale(0.95);
+}
 
 .badge-pontos-campo {
   background: var(--orange);
@@ -398,6 +463,19 @@ body {
   </div>
 </div>
 
+<!-- NOVO: Container do botão voltar (mesmo estilo do seletor de série) -->
+<div class="btn-voltar-container" id="btnVoltarContainer">
+  <div class="btn-voltar" onclick="voltarParaCampo()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    VOLTAR AO CAMPO
+  </div>
+</div>
+
+<!-- NOVO: Container do nome do time em destaque -->
+<div class="time-destaque-container" id="timeDestaque"></div>
+
 <div class="bloco-series">
   <div class="titulo-serie">SÉRIES</div>
   <div class="seletor-series-badge">
@@ -438,6 +516,8 @@ let rodadaSelecionada = 0;
 let rodadaMaximaGlobal = 0;
 let dadosSerieA = [];
 let dadosSerieB = [];
+let visualizandoTime = false; // NOVO: controle se está vendo time específico
+let timeSelecionado = null; // NOVO: nome do time selecionado
 
 function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
@@ -498,6 +578,40 @@ function alterarRodadaManual(rdd) {
     atualizarTelas();
 }
 
+// NOVA FUNÇÃO: mostrar detalhes do time
+function mostrarTime(timeNome) {
+    visualizandoTime = true;
+    timeSelecionado = timeNome;
+    
+    // Esconde o bloco de séries
+    document.querySelector('.bloco-series').style.display = 'none';
+    
+    // Mostra o botão voltar e o nome do time
+    document.getElementById('btnVoltarContainer').style.display = 'flex';
+    document.getElementById('timeDestaque').style.display = 'flex';
+    document.getElementById('timeDestaque').innerHTML = timeNome.replace(/_/g, ' ');
+    
+    // Limpa o display
+    document.getElementById('displayA').innerHTML = '';
+    document.getElementById('displayB').innerHTML = '';
+}
+
+// NOVA FUNÇÃO: voltar para visualização do campo
+function voltarParaCampo() {
+    visualizandoTime = false;
+    timeSelecionado = null;
+    
+    // Mostra o bloco de séries novamente
+    document.querySelector('.bloco-series').style.display = 'flex';
+    
+    // Esconde o botão voltar e o nome do time
+    document.getElementById('btnVoltarContainer').style.display = 'none';
+    document.getElementById('timeDestaque').style.display = 'none';
+    
+    // Atualiza a tela com o campo normal
+    atualizarTelas();
+}
+
 function atualizarTelas() {
     const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : [], rodadaSelecionada);
     const resB = processarDados(typeof historicoSerieB !== 'undefined' ? historicoSerieB : [], rodadaSelecionada);
@@ -526,6 +640,12 @@ function alternarCard(e, id) {
 function renderSeção(id, data, isA) {
   const container = document.getElementById(id);
   container.innerHTML = "";
+  
+  // Se estiver visualizando um time específico, não renderiza nada
+  if(visualizandoTime) {
+    return;
+  }
+  
   if(modoAtivo === 'campo') {
     const campoDiv = document.createElement("div");
     campoDiv.className = "campo";
@@ -554,7 +674,7 @@ function renderSeção(id, data, isA) {
              ${linhasHistorico}
           </div>
           <div class="posicao-campo">${i+1}</div>
-          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
+          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')">
           <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
             ${time.total.toFixed(2)}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -569,7 +689,7 @@ function renderSeção(id, data, isA) {
       let iconePos = i === 0 ? `<img src="./TROFEU_NATTOS.png" style="width:20px; vertical-align:middle;">` : i+1;
       tabela += `<tr class="${rClass}">
         <td class="td-posicao">${iconePos}</td>
-        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
+        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')" style="cursor:pointer"></td>
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
         <td class="td-pontos">
           <span class="pontuacao-total">${time.total.toFixed(2)}</span>
