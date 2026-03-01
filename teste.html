@@ -94,13 +94,12 @@ body {
 .container-logo-bola {
   width: 62px;
   height: 62px;
-  background: rgba(245, 158, 11, 0.2); /* FUNDO LARANJA - 20% OPACIDADE */
-  
+  background: rgba(245, 158, 11, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); /* SOMBRA LEVE LARANJA */
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
   flex-shrink: 0;
 }
 
@@ -232,7 +231,7 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* NOVO BOTÃO VOLTAR - MESMO ESTILO DO SELETOR DE SÉRIE */
+/* BOTÃO VOLTAR */
 .btn-voltar-container {
   display: none;
   align-items: center;
@@ -320,6 +319,57 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
+/* CARDS DE JOGADORES NA ESCALAÇÃO */
+.jogador-card {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  width: 80px;
+}
+
+.logo-clube-escalacao {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+.nome-jogador {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 9px;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-top: 2px;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* NOVO ESTILO PARA O VALOR - IGUAL AO BADGE DA TELA INICIAL */
+.valor-jogador {
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  z-index: 15;
+}
+
+.valor-jogador.negativo {
+  color: var(--red);
+}
+
 /* CARDS DE TIMES */
 .card-time {
   position: absolute;
@@ -368,7 +418,6 @@ body {
 .badge-lider { background: var(--green) !important; color: white !important; }
 .badge-rebaixamento { background: var(--red) !important; color: white !important; }
 
-/* NUMERO POSICAO TIME */
 .posicao-campo {
   position: absolute;
   top: 40px; 
@@ -378,7 +427,7 @@ body {
   text-shadow: 2px 2px 4px #000;
   z-index: 20;
 }
-/* AJUSTE TAMANHO TROFEU */
+
 .trofeu-campo {
   position: absolute;
   width: 50px;
@@ -388,18 +437,16 @@ body {
   filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
 
-/* AJUSTE TAMANHO GARCON */
 .garcom {
   position: absolute;
-  height: 128px; /* ALTURA FIXA SOLICITADA */
-  width: auto; /* LARGURA PROPORCIONAL */
-  transform: translate(-180%, -45%); /* AFASTADO A ESQUERDA PARA NÃO SOBREPOR */
+  height: 128px;
+  width: auto;
+  transform: translate(-180%, -45%);
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
   z-index: 5;
   pointer-events: none;
 }
 
-/* CARD PONTUACAO TIME */
 .pop-detalhes {
   position: absolute;
   bottom: 120%;
@@ -477,7 +524,7 @@ body {
   </div>
 </div>
 
-<!-- NOVO: Container do botão voltar (mesmo estilo do seletor de série) -->
+<!-- Botão voltar -->
 <div class="btn-voltar-container" id="btnVoltarContainer">
   <div class="btn-voltar" onclick="voltarParaCampo()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -487,7 +534,7 @@ body {
   </div>
 </div>
 
-<!-- NOVO: Container do nome do time em destaque -->
+<!-- Nome do time em destaque -->
 <div class="time-destaque-container" id="timeDestaque"></div>
 
 <div class="bloco-series">
@@ -507,10 +554,83 @@ body {
 </div>
 
 <script src="tabela.js"></script>
+<script src="escalacoes.js"></script>
 <script>
-/* AJUSTE POSIÇÃO TROFEU */  
-const posTrofeu = { t: 10, l: 51 }; 
-/* AJUSTE POSIÇÃO ESCUDOS */
+/* POSIÇÕES POR FORMAÇÃO - AGORA COM A PROPRIEDADE "pos" */
+const posicoesPorFormacao = {
+  "343": [
+    { t: 23, l: 50, pos: "ATA" },
+    { t: 25, l: 20, pos: "ATA" },
+    { t: 25, l: 80, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 42, l: 15, pos: "MEI" },
+    { t: 44, l: 50, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "ZAG" },
+    { t: 65, l: 50, pos: "ZAG" },
+    { t: 67, l: 85, pos: "ZAG" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "352": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 50, l: 30, pos: "MEI" },
+    { t: 50, l: 70, pos: "MEI" },
+    { t: 65, l: 15, pos: "ZAG" },
+    { t: 67, l: 50, pos: "ZAG" },
+    { t: 65, l: 85, pos: "ZAG" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "433": [
+    { t: 23, l: 50, pos: "ATA" },
+    { t: 25, l: 20, pos: "ATA" },
+    { t: 25, l: 80, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "LAT" },
+    { t: 65, l: 38, pos: "ZAG" },
+    { t: 65, l: 62, pos: "ZAG" },
+    { t: 67, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "442": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 42, l: 38, pos: "MEI" },
+    { t: 42, l: 62, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "LAT" },
+    { t: 65, l: 38, pos: "ZAG" },
+    { t: 65, l: 62, pos: "ZAG" },
+    { t: 67, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "532": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 42, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "LAT" },
+    { t: 65, l: 30, pos: "ZAG" },
+    { t: 65, l: 45, pos: "ZAG" },
+    { t: 65, l: 60, pos: "ZAG" },
+    { t: 67, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ]
+};
+
+/* POSIÇÕES PADRÃO PARA O CAMPO NORMAL */
 const posCampo = [
     { t: 23, l: 50 },
     { t: 25, l: 20 },
@@ -524,14 +644,16 @@ const posCampo = [
     { t: 85, l: 50 }
 ];
 
+const posTrofeu = { t: 10, l: 51 };
+
 let modoAtivo = 'campo';
 let serieAtiva = 'A';
 let rodadaSelecionada = 0;
 let rodadaMaximaGlobal = 0;
 let dadosSerieA = [];
 let dadosSerieB = [];
-let visualizandoTime = false; // NOVO: controle se está vendo time específico
-let timeSelecionado = null; // NOVO: nome do time selecionado
+let visualizandoTime = false;
+let timeSelecionado = null;
 
 function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
@@ -589,10 +711,45 @@ function atualizarSeletorRodadas() {
 
 function alterarRodadaManual(rdd) {
     rodadaSelecionada = parseInt(rdd);
-    atualizarTelas();
+    // Atualiza o texto do badge
+    document.getElementById('info-rdd-topo').innerText = `${rodadaSelecionada.toString().padStart(2, '0')} / 19`;
+    
+    if (visualizandoTime && timeSelecionado) {
+        // Se estiver visualizando um time, recarrega a escalação com a nova rodada
+        mostrarTime(timeSelecionado);
+    } else {
+        // Senão, atualiza a tela normal do campeonato
+        atualizarTelas();
+    }
 }
 
-// FUNÇÃO MODIFICADA: mostrar detalhes do time - campo permanece visível mas limpo
+// Função para buscar escalação no bancoEscalacoes (estrutura: array misturado)
+function buscarEscalacao(timeNome, rodada) {
+    if (typeof bancoEscalacoes === 'undefined' || !bancoEscalacoes[timeNome]) {
+        console.log('Time não encontrado no bancoEscalacoes:', timeNome);
+        return null;
+    }
+    const dados = bancoEscalacoes[timeNome]; // array
+    let i = 0;
+    while (i < dados.length) {
+        if (dados[i].rdd !== undefined && dados[i].rdd === rodada) {
+            const formacao = dados[i].formacao;
+            const jogadores = [];
+            i++; // pula o objeto da rodada
+            // Coleta todos os jogadores até o próximo objeto com rdd ou fim
+            while (i < dados.length && dados[i].rdd === undefined) {
+                jogadores.push(dados[i]);
+                i++;
+            }
+            return { formacao, jogadores };
+        }
+        i++;
+    }
+    console.log('Rodada', rodada, 'não encontrada para o time', timeNome);
+    return null;
+}
+
+// Função para mostrar escalação do time
 function mostrarTime(timeNome) {
     visualizandoTime = true;
     timeSelecionado = timeNome;
@@ -605,36 +762,96 @@ function mostrarTime(timeNome) {
     document.getElementById('timeDestaque').style.display = 'flex';
     document.getElementById('timeDestaque').innerHTML = timeNome.replace(/_/g, ' ');
     
-    // Renderiza o campo limpo (sem nenhum elemento)
-    renderCampoLimpo();
-}
-
-// NOVA FUNÇÃO: renderizar apenas o campo vazio
-function renderCampoLimpo() {
     // Limpa os displays
     document.getElementById('displayA').innerHTML = '';
     document.getElementById('displayB').innerHTML = '';
     
-    // Cria um campo vazio (apenas o gramado)
+    const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
+    if (escalacao) {
+        renderEscalacao(escalacao.formacao, escalacao.jogadores);
+    } else {
+        renderCampoLimpo();
+    }
+}
+
+// Função para renderizar a escalação no campo, respeitando as posições
+function renderEscalacao(formacao, jogadores) {
+    const posicoes = posicoesPorFormacao[formacao.toString()];
+    if (!posicoes) {
+        console.log('Formação não encontrada:', formacao);
+        renderCampoLimpo();
+        return;
+    }
+    
+    const container = document.getElementById('displayA');
+    container.innerHTML = '';
+    
+    const campoDiv = document.createElement('div');
+    campoDiv.className = 'campo';
+    
+    // Filtra apenas titulares
+    const titulares = jogadores.filter(j => j.status === "T");
+    
+    // Agrupa titulares por posição
+    const jogadoresPorPosicao = {
+        "GOL": [],
+        "ZAG": [],
+        "LAT": [],
+        "MEI": [],
+        "ATA": [],
+        "TEC": []
+    };
+    
+    titulares.forEach(j => {
+        if (jogadoresPorPosicao.hasOwnProperty(j.pos)) {
+            jogadoresPorPosicao[j.pos].push(j);
+        } else {
+            console.log('Posição desconhecida:', j.pos);
+        }
+    });
+    
+    // Itera sobre as posições do campo e coloca os jogadores na ordem
+    posicoes.forEach(posObj => {
+        const posicao = posObj.pos;
+        const jogadoresDaPosicao = jogadoresPorPosicao[posicao];
+        if (jogadoresDaPosicao && jogadoresDaPosicao.length > 0) {
+            // Pega o primeiro jogador da fila e remove
+            const jogador = jogadoresDaPosicao.shift();
+            const valClass = jogador.val < 0 ? 'negativo' : '';
+            
+            campoDiv.innerHTML += `
+                <div class="jogador-card" style="top:${posObj.t}%; left:${posObj.l}%">
+                    <img class="logo-clube-escalacao" src="./TIMES/${jogador.clube}.png" alt="${jogador.clube}" onerror="this.src='./TIMES/default.png'">
+                    <div class="nome-jogador">${jogador.nome}</div>
+                    <div class="valor-jogador ${valClass}">${jogador.val.toFixed(2)}</div>
+                </div>
+            `;
+        }
+    });
+    
+    container.appendChild(campoDiv);
+}
+
+// Função para renderizar apenas o campo vazio (fallback)
+function renderCampoLimpo() {
+    document.getElementById('displayA').innerHTML = '';
+    document.getElementById('displayB').innerHTML = '';
+    
     const container = document.getElementById('displayA');
     const campoVazio = document.createElement('div');
     campoVazio.className = 'campo-limpo';
     container.appendChild(campoVazio);
 }
 
-// FUNÇÃO MODIFICADA: voltar para visualização do campo com todos os times
+// Função para voltar à visualização do campeonato
 function voltarParaCampo() {
     visualizandoTime = false;
     timeSelecionado = null;
     
-    // Mostra o bloco de séries novamente
     document.querySelector('.bloco-series').style.display = 'flex';
-    
-    // Esconde o botão voltar e o nome do time
     document.getElementById('btnVoltarContainer').style.display = 'none';
     document.getElementById('timeDestaque').style.display = 'none';
     
-    // Atualiza a tela com o campo normal (todos os times)
     atualizarTelas();
 }
 
@@ -667,7 +884,6 @@ function renderSeção(id, data, isA) {
   const container = document.getElementById(id);
   container.innerHTML = "";
   
-  // Se estiver visualizando um time específico, não renderiza nada (já foi renderizado pelo renderCampoLimpo)
   if(visualizandoTime) {
     return;
   }
@@ -681,7 +897,8 @@ function renderSeção(id, data, isA) {
       if(!p) return;
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
-      if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
+      // Adiciona a imagem do garçom para o último colocado
+      if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%" onerror="this.style.display='none'">`;
       const linhasHistorico = time.rodadas.map(r => `
           <div class="pop-grid-row">
             <span>${r.rdd}</span>
@@ -730,7 +947,9 @@ function mudarVisual(tipo) {
   modoAtivo = tipo;
   document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
   document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
-  atualizarTelas();
+  if (!visualizandoTime) {
+    atualizarTelas();
+  }
 }
 
 function selecionarSerie(serie) {
