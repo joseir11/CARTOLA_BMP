@@ -231,12 +231,13 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* BOTÃO VOLTAR */
-.btn-voltar-container {
+/* BARRA SUPERIOR DA VISUALIZAÇÃO DO TIME */
+.visualizacao-topo {
   display: none;
   align-items: center;
-  justify-content: center;
-  margin: 10px 0;
+  justify-content: space-between;
+  margin: 10px 20px;
+  width: calc(100% - 40px);
 }
 
 .btn-voltar {
@@ -255,6 +256,7 @@ body {
   font-size: 18px;
   color: var(--text-light);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .btn-voltar:hover {
@@ -267,18 +269,35 @@ body {
   stroke: var(--orange);
 }
 
-/* TIME DESTAQUE */
-.time-destaque-container {
-  display: none;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 10px 20px;
+/* Nome do time centralizado */
+.nome-time-central {
   font-family: 'Fontecartola', 'Inter', sans-serif;
-  font-size: 24px;
   font-weight: 800;
+  font-size: 24px;
   color: var(--orange);
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  text-align: center;
+  flex: 1;
+  margin: 0 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Valorização da rodada */
+.valorizacao-rodada {
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+  padding: 0 10px;
+}
+
+.valorizacao-rodada.negativo {
+  color: var(--red);
 }
 
 /* ANIMAÇÃO */
@@ -353,7 +372,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* NOVO ESTILO PARA O VALOR - IGUAL AO BADGE DA TELA INICIAL */
+/* VALOR DO JOGADOR */
 .valor-jogador {
   font-family: 'Teko', sans-serif;
   font-weight: 700;
@@ -524,18 +543,17 @@ body {
   </div>
 </div>
 
-<!-- Botão voltar -->
-<div class="btn-voltar-container" id="btnVoltarContainer">
+<!-- BARRA SUPERIOR DA VISUALIZAÇÃO DO TIME (inicialmente oculta) -->
+<div class="visualizacao-topo" id="visualizacaoTopo">
   <div class="btn-voltar" onclick="voltarParaCampo()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <path d="M19 12H5M12 19l-7-7 7-7"/>
     </svg>
     VOLTAR AO CAMPO
   </div>
+  <div class="nome-time-central" id="nomeTimeCentral"></div>
+  <div class="valorizacao-rodada" id="valorizacaoRodada">0.00</div>
 </div>
-
-<!-- Nome do time em destaque -->
-<div class="time-destaque-container" id="timeDestaque"></div>
 
 <div class="bloco-series">
   <div class="titulo-serie">SÉRIES</div>
@@ -556,7 +574,7 @@ body {
 <script src="tabela.js"></script>
 <script src="escalacoes.js"></script>
 <script>
-/* POSIÇÕES POR FORMAÇÃO - AGORA COM A PROPRIEDADE "pos" */
+/* POSIÇÕES POR FORMAÇÃO */
 const posicoesPorFormacao = {
   "343": [
     { t: 23, l: 50, pos: "ATA" },
@@ -711,32 +729,27 @@ function atualizarSeletorRodadas() {
 
 function alterarRodadaManual(rdd) {
     rodadaSelecionada = parseInt(rdd);
-    // Atualiza o texto do badge
     document.getElementById('info-rdd-topo').innerText = `${rodadaSelecionada.toString().padStart(2, '0')} / 19`;
     
     if (visualizandoTime && timeSelecionado) {
-        // Se estiver visualizando um time, recarrega a escalação com a nova rodada
         mostrarTime(timeSelecionado);
     } else {
-        // Senão, atualiza a tela normal do campeonato
         atualizarTelas();
     }
 }
 
-// Função para buscar escalação no bancoEscalacoes (estrutura: array misturado)
 function buscarEscalacao(timeNome, rodada) {
     if (typeof bancoEscalacoes === 'undefined' || !bancoEscalacoes[timeNome]) {
         console.log('Time não encontrado no bancoEscalacoes:', timeNome);
         return null;
     }
-    const dados = bancoEscalacoes[timeNome]; // array
+    const dados = bancoEscalacoes[timeNome];
     let i = 0;
     while (i < dados.length) {
         if (dados[i].rdd !== undefined && dados[i].rdd === rodada) {
             const formacao = dados[i].formacao;
             const jogadores = [];
-            i++; // pula o objeto da rodada
-            // Coleta todos os jogadores até o próximo objeto com rdd ou fim
+            i++;
             while (i < dados.length && dados[i].rdd === undefined) {
                 jogadores.push(dados[i]);
                 i++;
@@ -749,7 +762,6 @@ function buscarEscalacao(timeNome, rodada) {
     return null;
 }
 
-// Função para mostrar escalação do time
 function mostrarTime(timeNome) {
     visualizandoTime = true;
     timeSelecionado = timeNome;
@@ -757,27 +769,32 @@ function mostrarTime(timeNome) {
     // Esconde o bloco de séries
     document.querySelector('.bloco-series').style.display = 'none';
     
-    // Mostra o botão voltar e o nome do time
-    document.getElementById('btnVoltarContainer').style.display = 'flex';
-    document.getElementById('timeDestaque').style.display = 'flex';
-    document.getElementById('timeDestaque').innerHTML = timeNome.replace(/_/g, ' ');
+    // Mostra a barra superior personalizada
+    document.getElementById('visualizacaoTopo').style.display = 'flex';
+    document.getElementById('nomeTimeCentral').textContent = timeNome.replace(/_/g, ' ');
     
-    // Limpa os displays - AMBOS os displays para garantir
+    // Limpa os displays
     document.getElementById('displayA').innerHTML = '';
     document.getElementById('displayB').innerHTML = '';
     
-    // Determina qual container está visível e renderiza nele
     const containerVisivel = serieAtiva === 'A' ? 'displayA' : 'displayB';
     
     const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
+    let somaVal = 0;
     if (escalacao) {
         renderEscalacao(escalacao.formacao, escalacao.jogadores, containerVisivel);
+        // Calcula a soma dos VAL dos titulares
+        escalacao.jogadores.filter(j => j.status === "T").forEach(j => somaVal += j.val);
     } else {
         renderCampoLimpo(containerVisivel);
     }
+    
+    // Atualiza a valorização da rodada
+    const valorizacaoEl = document.getElementById('valorizacaoRodada');
+    valorizacaoEl.textContent = somaVal.toFixed(2);
+    valorizacaoEl.classList.toggle('negativo', somaVal < 0);
 }
 
-// Função para renderizar a escalação no campo, respeitando as posições
 function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
     const posicoes = posicoesPorFormacao[formacao.toString()];
     if (!posicoes) {
@@ -792,33 +809,22 @@ function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
     const campoDiv = document.createElement('div');
     campoDiv.className = 'campo';
     
-    // Filtra apenas titulares
     const titulares = jogadores.filter(j => j.status === "T");
     
-    // Agrupa titulares por posição
     const jogadoresPorPosicao = {
-        "GOL": [],
-        "ZAG": [],
-        "LAT": [],
-        "MEI": [],
-        "ATA": [],
-        "TEC": []
+        "GOL": [], "ZAG": [], "LAT": [], "MEI": [], "ATA": [], "TEC": []
     };
     
     titulares.forEach(j => {
         if (jogadoresPorPosicao.hasOwnProperty(j.pos)) {
             jogadoresPorPosicao[j.pos].push(j);
-        } else {
-            console.log('Posição desconhecida:', j.pos);
         }
     });
     
-    // Itera sobre as posições do campo e coloca os jogadores na ordem
     posicoes.forEach(posObj => {
         const posicao = posObj.pos;
         const jogadoresDaPosicao = jogadoresPorPosicao[posicao];
         if (jogadoresDaPosicao && jogadoresDaPosicao.length > 0) {
-            // Pega o primeiro jogador da fila e remove
             const jogador = jogadoresDaPosicao.shift();
             const valClass = jogador.val < 0 ? 'negativo' : '';
             
@@ -835,7 +841,6 @@ function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
     container.appendChild(campoDiv);
 }
 
-// Função para renderizar apenas o campo vazio (fallback)
 function renderCampoLimpo(containerId = 'displayA') {
     document.getElementById('displayA').innerHTML = '';
     document.getElementById('displayB').innerHTML = '';
@@ -846,14 +851,16 @@ function renderCampoLimpo(containerId = 'displayA') {
     container.appendChild(campoVazio);
 }
 
-// Função para voltar à visualização do campeonato
 function voltarParaCampo() {
     visualizandoTime = false;
     timeSelecionado = null;
     
     document.querySelector('.bloco-series').style.display = 'flex';
-    document.getElementById('btnVoltarContainer').style.display = 'none';
-    document.getElementById('timeDestaque').style.display = 'none';
+    document.getElementById('visualizacaoTopo').style.display = 'none';
+    
+    // Limpa a valorização
+    document.getElementById('valorizacaoRodada').textContent = '0.00';
+    document.getElementById('valorizacaoRodada').classList.remove('negativo');
     
     atualizarTelas();
 }
@@ -901,12 +908,9 @@ function renderSeção(id, data, isA) {
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
       
-      // Adiciona a imagem do garçom para o último colocado - com tratamento de nome
       if(i === 9) {
-        // Sanitiza o nome do arquivo: substitui espaços por underscore e remove caracteres especiais
         const nomeArquivo = time.nome.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-        console.log('Carregando garçom para', time.nome, '->', nomeArquivo);
-        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${nomeArquivo}.png" style="top:${p.t}%; left:${p.l}%" onerror="console.log('Falha ao carregar garçom:', '${nomeArquivo}'); this.style.display='none'">`;
+        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${nomeArquivo}.png" style="top:${p.t}%; left:${p.l}%" onerror="this.style.display='none'">`;
       }
       
       const linhasHistorico = time.rodadas.map(r => `
