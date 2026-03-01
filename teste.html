@@ -240,21 +240,17 @@ body {
   width: calc(100% - 40px);
 }
 
+/* Botão voltar redondo com apenas a seta */
 .btn-voltar {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.08);
-  padding: 8px 20px;
-  border-radius: 999px;
+  width: 44px;
   height: 44px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.05);
   cursor: pointer;
-  font-family: 'Fontecartola', 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--text-light);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
@@ -264,8 +260,8 @@ body {
 }
 
 .btn-voltar svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   stroke: var(--orange);
 }
 
@@ -285,15 +281,32 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Valorização da rodada */
+/* Container da valorização com ícone CS */
+.valorizacao-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 12px 4px 8px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.icone-cs {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
 .valorizacao-rodada {
   font-family: 'Teko', sans-serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 26px;
   color: white;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  flex-shrink: 0;
-  padding: 0 10px;
+  line-height: 1;
 }
 
 .valorizacao-rodada.negativo {
@@ -303,6 +316,7 @@ body {
 /* ANIMAÇÃO */
 #displayA, #displayB {
   animation: fadeIn 0.6s ease-out;
+  min-height: 200px; /* Garante visibilidade mesmo vazio */
 }
 
 @keyframes fadeIn {
@@ -545,14 +559,20 @@ body {
 
 <!-- BARRA SUPERIOR DA VISUALIZAÇÃO DO TIME (inicialmente oculta) -->
 <div class="visualizacao-topo" id="visualizacaoTopo">
+  <!-- Botão redondo com seta (sem texto) -->
   <div class="btn-voltar" onclick="voltarParaCampo()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <path d="M19 12H5M12 19l-7-7 7-7"/>
     </svg>
-    VOLTAR AO CAMPO
   </div>
+  
   <div class="nome-time-central" id="nomeTimeCentral"></div>
-  <div class="valorizacao-rodada" id="valorizacaoRodada">0.00</div>
+  
+  <!-- Container da valorização com ícone CS -->
+  <div class="valorizacao-container">
+    <img src="./CS.png" class="icone-cs" alt="CS" onerror="this.style.display='none'">
+    <div class="valorizacao-rodada" id="valorizacaoRodada">0.00</div>
+  </div>
 </div>
 
 <div class="bloco-series">
@@ -778,14 +798,35 @@ function mostrarTime(timeNome) {
     document.getElementById('displayB').innerHTML = '';
     
     const containerVisivel = serieAtiva === 'A' ? 'displayA' : 'displayB';
+    const container = document.getElementById(containerVisivel);
+    if (!container) {
+        console.error('Container não encontrado:', containerVisivel);
+        return;
+    }
+    
+    // Verifica se o banco de escalações existe
+    if (typeof bancoEscalacoes === 'undefined') {
+        container.innerHTML = '<div style="color: #ef4444; padding: 20px; text-align: center;">Erro: banco de escalações não carregado (escalacoes.js)</div>';
+        return;
+    }
     
     const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
     let somaVal = 0;
+    
     if (escalacao) {
-        renderEscalacao(escalacao.formacao, escalacao.jogadores, containerVisivel);
-        // Calcula a soma dos VAL dos titulares
-        escalacao.jogadores.filter(j => j.status === "T").forEach(j => somaVal += j.val);
+        console.log('Escalação encontrada:', escalacao);
+        // Verifica se há jogadores
+        if (!escalacao.jogadores || escalacao.jogadores.length === 0) {
+            container.innerHTML = '<div style="color: #f59e0b; padding: 20px; text-align: center;">Escalação vazia para esta rodada</div>';
+            renderCampoLimpo(containerVisivel);
+        } else {
+            renderEscalacao(escalacao.formacao, escalacao.jogadores, containerVisivel);
+            // Calcula a soma dos VAL dos titulares
+            escalacao.jogadores.filter(j => j.status === "T").forEach(j => somaVal += j.val);
+        }
     } else {
+        console.log('Escalação não encontrada para', timeNome, 'rodada', rodadaSelecionada);
+        container.innerHTML = '<div style="color: #f59e0b; padding: 20px; text-align: center;">Escalação não encontrada para esta rodada</div>';
         renderCampoLimpo(containerVisivel);
     }
     
@@ -804,6 +845,8 @@ function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
     }
     
     const container = document.getElementById(containerId);
+    if (!container) return;
+    
     container.innerHTML = '';
     
     const campoDiv = document.createElement('div');
@@ -842,10 +885,10 @@ function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
 }
 
 function renderCampoLimpo(containerId = 'displayA') {
-    document.getElementById('displayA').innerHTML = '';
-    document.getElementById('displayB').innerHTML = '';
-    
     const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '';
     const campoVazio = document.createElement('div');
     campoVazio.className = 'campo-limpo';
     container.appendChild(campoVazio);
