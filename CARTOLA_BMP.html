@@ -94,13 +94,12 @@ body {
 .container-logo-bola {
   width: 62px;
   height: 62px;
-  background: rgba(245, 158, 11, 0.2); /* FUNDO LARANJA - 20% OPACIDADE */
-  
+  background: rgba(245, 158, 11, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); /* SOMBRA LEVE LARANJA */
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
   flex-shrink: 0;
 }
 
@@ -232,9 +231,92 @@ body {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
+/* BARRA SUPERIOR DA VISUALIZAÇÃO DO TIME */
+.visualizacao-topo {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 20px;
+  width: calc(100% - 40px);
+}
+
+/* Botão voltar redondo com apenas a seta */
+.btn-voltar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.btn-voltar:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.btn-voltar svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--orange);
+}
+
+/* Nome do time centralizado */
+.nome-time-central {
+  font-family: 'Fontecartola', 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--orange);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  text-align: center;
+  flex: 1;
+  margin: 0 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Container da valorização com ícone CS */
+.valorizacao-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 12px 4px 8px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.icone-cs {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.valorizacao-rodada {
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  line-height: 1;
+}
+
+.valorizacao-rodada.negativo {
+  color: var(--red);
+}
+
 /* ANIMAÇÃO */
 #displayA, #displayB {
   animation: fadeIn 0.6s ease-out;
+  min-height: 200px; /* Garante visibilidade mesmo vazio */
 }
 
 @keyframes fadeIn {
@@ -256,6 +338,71 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
+/* CAMPO LIMPO (quando vazio) */
+.campo-limpo {
+  position: relative;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 520px;
+  aspect-ratio: 9/14;
+  border-radius: 24px;
+  overflow: visible;
+  background: #0f172a url("./campo.png") center/cover no-repeat;
+  border: 2px solid rgba(34,197,94,0.15);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* CARDS DE JOGADORES NA ESCALAÇÃO */
+.jogador-card {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  width: 80px;
+}
+
+.logo-clube-escalacao {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+.nome-jogador {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 9px;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-top: 2px;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* VALOR DO JOGADOR */
+.valor-jogador {
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  z-index: 15;
+}
+
+.valor-jogador.negativo {
+  color: var(--red);
+}
+
 /* CARDS DE TIMES */
 .card-time {
   position: absolute;
@@ -267,7 +414,22 @@ body {
   z-index: 10;
 }
 
-.logo-campo { width: 78px; height: 78px; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7)); }
+.logo-campo { 
+  width: 78px; 
+  height: 78px; 
+  object-fit: contain; 
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7));
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo-campo:hover {
+  transform: scale(1.05);
+}
+
+.logo-campo:active {
+  transform: scale(0.95);
+}
 
 .badge-pontos-campo {
   background: var(--orange);
@@ -289,7 +451,6 @@ body {
 .badge-lider { background: var(--green) !important; color: white !important; }
 .badge-rebaixamento { background: var(--red) !important; color: white !important; }
 
-/* NUMERO POSICAO TIME */
 .posicao-campo {
   position: absolute;
   top: 40px; 
@@ -299,7 +460,7 @@ body {
   text-shadow: 2px 2px 4px #000;
   z-index: 20;
 }
-/* AJUSTE TAMANHO TROFEU */
+
 .trofeu-campo {
   position: absolute;
   width: 50px;
@@ -308,18 +469,17 @@ body {
   pointer-events: none;
   filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
-/* AJUSTE TAMANHO GARCON */
+
 .garcom {
   position: absolute;
-  height: 128px;         /*ALTURA IMAGEM*/
-  width: auto;           /*LARGURA PROPORCIONAL*/
-  object-fit: contain;   /* GARANTE QUE IMAGEM NAO SEJA CORTADA */
-  transform: translate(-180%, -40%);
+  height: 128px;
+  width: auto;
+  transform: translate(-180%, -45%);
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
   z-index: 5;
+  pointer-events: none;
 }
 
-/* CARD PONTUACAO TIME */
 .pop-detalhes {
   position: absolute;
   bottom: 120%;
@@ -357,7 +517,7 @@ body {
 .tabela-times tr:nth-child(even) { background: rgba(255,255,255,0.02); }
 
 .td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; width: 50px; }
-.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); cursor: pointer; }
 .td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
 .td-pontos { text-align: right; padding-right: 20px !important; }
 .pontuacao-total { font-weight: 900; font-size: 18px; display: block; color: var(--orange); }
@@ -397,6 +557,24 @@ body {
   </div>
 </div>
 
+<!-- BARRA SUPERIOR DA VISUALIZAÇÃO DO TIME (inicialmente oculta) -->
+<div class="visualizacao-topo" id="visualizacaoTopo">
+  <!-- Botão redondo com seta (sem texto) -->
+  <div class="btn-voltar" onclick="voltarParaCampo()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </div>
+  
+  <div class="nome-time-central" id="nomeTimeCentral"></div>
+  
+  <!-- Container da valorização com ícone CS -->
+  <div class="valorizacao-container">
+    <img src="./CS.png" class="icone-cs" alt="CS" onerror="this.style.display='none'">
+    <div class="valorizacao-rodada" id="valorizacaoRodada">0.00</div>
+  </div>
+</div>
+
 <div class="bloco-series">
   <div class="titulo-serie">SÉRIES</div>
   <div class="seletor-series-badge">
@@ -414,10 +592,83 @@ body {
 </div>
 
 <script src="tabela.js"></script>
+<script src="escalacoes.js"></script>
 <script>
-/* AJUSTE POSIÇÃO TROFEU */  
-const posTrofeu = { t: 10, l: 51 }; 
-/* AJUSTE POSIÇÃO ESCUDOS */
+/* POSIÇÕES POR FORMAÇÃO */
+const posicoesPorFormacao = {
+  "343": [
+    { t: 23, l: 50, pos: "ATA" },
+    { t: 25, l: 20, pos: "ATA" },
+    { t: 25, l: 80, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 42, l: 15, pos: "MEI" },
+    { t: 44, l: 50, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "ZAG" },
+    { t: 65, l: 50, pos: "ZAG" },
+    { t: 67, l: 85, pos: "ZAG" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "352": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 50, l: 30, pos: "MEI" },
+    { t: 50, l: 70, pos: "MEI" },
+    { t: 65, l: 15, pos: "ZAG" },
+    { t: 67, l: 50, pos: "ZAG" },
+    { t: 65, l: 85, pos: "ZAG" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "433": [
+    { t: 23, l: 50, pos: "ATA" },
+    { t: 25, l: 20, pos: "ATA" },
+    { t: 25, l: 80, pos: "ATA" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 65, l: 15, pos: "LAT" },
+    { t: 67, l: 38, pos: "ZAG" },
+    { t: 67, l: 62, pos: "ZAG" },
+    { t: 65, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "442": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 42, l: 38, pos: "MEI" },
+    { t: 42, l: 62, pos: "MEI" },
+    { t: 44, l: 85, pos: "MEI" },
+    { t: 65, l: 15, pos: "LAT" },
+    { t: 67, l: 38, pos: "ZAG" },
+    { t: 67, l: 62, pos: "ZAG" },
+    { t: 65, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ],
+  "532": [
+    { t: 23, l: 30, pos: "ATA" },
+    { t: 23, l: 70, pos: "ATA" },
+    { t: 44, l: 15, pos: "MEI" },
+    { t: 42, l: 50, pos: "MEI" },
+    { t: 42, l: 85, pos: "MEI" },
+    { t: 67, l: 15, pos: "LAT" },
+    { t: 65, l: 30, pos: "ZAG" },
+    { t: 65, l: 45, pos: "ZAG" },
+    { t: 65, l: 60, pos: "ZAG" },
+    { t: 67, l: 85, pos: "LAT" },
+    { t: 85, l: 50, pos: "GOL" },
+    { t: 85, l: 15, pos: "TEC" }
+  ]
+};
+
+/* POSIÇÕES PADRÃO PARA O CAMPO NORMAL */
 const posCampo = [
     { t: 23, l: 50 },
     { t: 25, l: 20 },
@@ -431,12 +682,16 @@ const posCampo = [
     { t: 85, l: 50 }
 ];
 
+const posTrofeu = { t: 10, l: 51 };
+
 let modoAtivo = 'campo';
 let serieAtiva = 'A';
 let rodadaSelecionada = 0;
 let rodadaMaximaGlobal = 0;
 let dadosSerieA = [];
 let dadosSerieB = [];
+let visualizandoTime = false;
+let timeSelecionado = null;
 
 function processarDados(historicoBruto, rodadaAlvo) {
     const agrupado = {};
@@ -494,6 +749,162 @@ function atualizarSeletorRodadas() {
 
 function alterarRodadaManual(rdd) {
     rodadaSelecionada = parseInt(rdd);
+    document.getElementById('info-rdd-topo').innerText = `${rodadaSelecionada.toString().padStart(2, '0')} / 19`;
+    
+    if (visualizandoTime && timeSelecionado) {
+        mostrarTime(timeSelecionado);
+    } else {
+        atualizarTelas();
+    }
+}
+
+function buscarEscalacao(timeNome, rodada) {
+    if (typeof bancoEscalacoes === 'undefined' || !bancoEscalacoes[timeNome]) {
+        console.log('Time não encontrado no bancoEscalacoes:', timeNome);
+        return null;
+    }
+    const dados = bancoEscalacoes[timeNome];
+    let i = 0;
+    while (i < dados.length) {
+        if (dados[i].rdd !== undefined && dados[i].rdd === rodada) {
+            const formacao = dados[i].formacao;
+            const jogadores = [];
+            i++;
+            while (i < dados.length && dados[i].rdd === undefined) {
+                jogadores.push(dados[i]);
+                i++;
+            }
+            return { formacao, jogadores };
+        }
+        i++;
+    }
+    console.log('Rodada', rodada, 'não encontrada para o time', timeNome);
+    return null;
+}
+
+function mostrarTime(timeNome) {
+    visualizandoTime = true;
+    timeSelecionado = timeNome;
+    
+    // Esconde o bloco de séries
+    document.querySelector('.bloco-series').style.display = 'none';
+    
+    // Mostra a barra superior personalizada
+    document.getElementById('visualizacaoTopo').style.display = 'flex';
+    document.getElementById('nomeTimeCentral').textContent = timeNome.replace(/_/g, ' ');
+    
+    // Limpa os displays
+    document.getElementById('displayA').innerHTML = '';
+    document.getElementById('displayB').innerHTML = '';
+    
+    const containerVisivel = serieAtiva === 'A' ? 'displayA' : 'displayB';
+    const container = document.getElementById(containerVisivel);
+    if (!container) {
+        console.error('Container não encontrado:', containerVisivel);
+        return;
+    }
+    
+    // Verifica se o banco de escalações existe
+    if (typeof bancoEscalacoes === 'undefined') {
+        container.innerHTML = '<div style="color: #ef4444; padding: 20px; text-align: center;">Erro: banco de escalações não carregado (escalacoes.js)</div>';
+        return;
+    }
+    
+    const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
+    let somaVal = 0;
+    
+    if (escalacao) {
+        console.log('Escalação encontrada:', escalacao);
+        // Verifica se há jogadores
+        if (!escalacao.jogadores || escalacao.jogadores.length === 0) {
+            container.innerHTML = '<div style="color: #f59e0b; padding: 20px; text-align: center;">Escalação vazia para esta rodada</div>';
+            renderCampoLimpo(containerVisivel);
+        } else {
+            renderEscalacao(escalacao.formacao, escalacao.jogadores, containerVisivel);
+            // Calcula a soma dos VAL dos titulares
+            escalacao.jogadores.filter(j => j.status === "T").forEach(j => somaVal += j.val);
+        }
+    } else {
+        console.log('Escalação não encontrada para', timeNome, 'rodada', rodadaSelecionada);
+        container.innerHTML = '<div style="color: #f59e0b; padding: 20px; text-align: center;">Escalação não encontrada para esta rodada</div>';
+        renderCampoLimpo(containerVisivel);
+    }
+    
+    // Atualiza a valorização da rodada
+    const valorizacaoEl = document.getElementById('valorizacaoRodada');
+    valorizacaoEl.textContent = somaVal.toFixed(2);
+    valorizacaoEl.classList.toggle('negativo', somaVal < 0);
+}
+
+function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
+    const posicoes = posicoesPorFormacao[formacao.toString()];
+    if (!posicoes) {
+        console.log('Formação não encontrada:', formacao);
+        renderCampoLimpo(containerId);
+        return;
+    }
+    
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const campoDiv = document.createElement('div');
+    campoDiv.className = 'campo';
+    
+    const titulares = jogadores.filter(j => j.status === "T");
+    
+    const jogadoresPorPosicao = {
+        "GOL": [], "ZAG": [], "LAT": [], "MEI": [], "ATA": [], "TEC": []
+    };
+    
+    titulares.forEach(j => {
+        if (jogadoresPorPosicao.hasOwnProperty(j.pos)) {
+            jogadoresPorPosicao[j.pos].push(j);
+        }
+    });
+    
+    posicoes.forEach(posObj => {
+        const posicao = posObj.pos;
+        const jogadoresDaPosicao = jogadoresPorPosicao[posicao];
+        if (jogadoresDaPosicao && jogadoresDaPosicao.length > 0) {
+            const jogador = jogadoresDaPosicao.shift();
+            const valClass = jogador.val < 0 ? 'negativo' : '';
+            
+            campoDiv.innerHTML += `
+                <div class="jogador-card" style="top:${posObj.t}%; left:${posObj.l}%">
+                    <img class="logo-clube-escalacao" src="./TIMES/${jogador.clube}.png" alt="${jogador.clube}" onerror="this.src='./TIMES/default.png'">
+                    <div class="nome-jogador">${jogador.nome}</div>
+                    <div class="valor-jogador ${valClass}">${jogador.val.toFixed(2)}</div>
+                </div>
+            `;
+        }
+    });
+    
+    container.appendChild(campoDiv);
+}
+
+function renderCampoLimpo(containerId = 'displayA') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const campoVazio = document.createElement('div');
+    campoVazio.className = 'campo-limpo';
+    container.appendChild(campoVazio);
+}
+
+function voltarParaCampo() {
+    visualizandoTime = false;
+    timeSelecionado = null;
+    
+    document.querySelector('.bloco-series').style.display = 'flex';
+    document.getElementById('visualizacaoTopo').style.display = 'none';
+    
+    // Limpa a valorização
+    document.getElementById('valorizacaoRodada').textContent = '0.00';
+    document.getElementById('valorizacaoRodada').classList.remove('negativo');
+    
     atualizarTelas();
 }
 
@@ -525,6 +936,11 @@ function alternarCard(e, id) {
 function renderSeção(id, data, isA) {
   const container = document.getElementById(id);
   container.innerHTML = "";
+  
+  if(visualizandoTime) {
+    return;
+  }
+  
   if(modoAtivo === 'campo') {
     const campoDiv = document.createElement("div");
     campoDiv.className = "campo";
@@ -534,7 +950,12 @@ function renderSeção(id, data, isA) {
       if(!p) return;
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
-      if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%">`;
+      
+      if(i === 9) {
+        const nomeArquivo = time.nome.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${nomeArquivo}.png" style="top:${p.t}%; left:${p.l}%" onerror="this.style.display='none'">`;
+      }
+      
       const linhasHistorico = time.rodadas.map(r => `
           <div class="pop-grid-row">
             <span>${r.rdd}</span>
@@ -553,7 +974,7 @@ function renderSeção(id, data, isA) {
              ${linhasHistorico}
           </div>
           <div class="posicao-campo">${i+1}</div>
-          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png">
+          <img class="logo-campo" src="./ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')">
           <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event, '${idUnico}')">
             ${time.total.toFixed(2)}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -568,7 +989,7 @@ function renderSeção(id, data, isA) {
       let iconePos = i === 0 ? `<img src="./TROFEU_NATTOS.png" style="width:20px; vertical-align:middle;">` : i+1;
       tabela += `<tr class="${rClass}">
         <td class="td-posicao">${iconePos}</td>
-        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png"></td>
+        <td class="td-escudo"><img src="./ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')" style="cursor:pointer"></td>
         <td class="td-nome">${time.nome.replace(/_/g, ' ')}</td>
         <td class="td-pontos">
           <span class="pontuacao-total">${time.total.toFixed(2)}</span>
@@ -583,7 +1004,9 @@ function mudarVisual(tipo) {
   modoAtivo = tipo;
   document.getElementById('btnCampo').classList.toggle('ativo', tipo === 'campo');
   document.getElementById('btnLista').classList.toggle('ativo', tipo === 'lista');
-  atualizarTelas();
+  if (!visualizandoTime) {
+    atualizarTelas();
+  }
 }
 
 function selecionarSerie(serie) {
