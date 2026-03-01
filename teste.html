@@ -762,28 +762,31 @@ function mostrarTime(timeNome) {
     document.getElementById('timeDestaque').style.display = 'flex';
     document.getElementById('timeDestaque').innerHTML = timeNome.replace(/_/g, ' ');
     
-    // Limpa os displays
+    // Limpa os displays - AMBOS os displays para garantir
     document.getElementById('displayA').innerHTML = '';
     document.getElementById('displayB').innerHTML = '';
     
+    // Determina qual container está visível e renderiza nele
+    const containerVisivel = serieAtiva === 'A' ? 'displayA' : 'displayB';
+    
     const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
     if (escalacao) {
-        renderEscalacao(escalacao.formacao, escalacao.jogadores);
+        renderEscalacao(escalacao.formacao, escalacao.jogadores, containerVisivel);
     } else {
-        renderCampoLimpo();
+        renderCampoLimpo(containerVisivel);
     }
 }
 
 // Função para renderizar a escalação no campo, respeitando as posições
-function renderEscalacao(formacao, jogadores) {
+function renderEscalacao(formacao, jogadores, containerId = 'displayA') {
     const posicoes = posicoesPorFormacao[formacao.toString()];
     if (!posicoes) {
         console.log('Formação não encontrada:', formacao);
-        renderCampoLimpo();
+        renderCampoLimpo(containerId);
         return;
     }
     
-    const container = document.getElementById('displayA');
+    const container = document.getElementById(containerId);
     container.innerHTML = '';
     
     const campoDiv = document.createElement('div');
@@ -833,11 +836,11 @@ function renderEscalacao(formacao, jogadores) {
 }
 
 // Função para renderizar apenas o campo vazio (fallback)
-function renderCampoLimpo() {
+function renderCampoLimpo(containerId = 'displayA') {
     document.getElementById('displayA').innerHTML = '';
     document.getElementById('displayB').innerHTML = '';
     
-    const container = document.getElementById('displayA');
+    const container = document.getElementById(containerId);
     const campoVazio = document.createElement('div');
     campoVazio.className = 'campo-limpo';
     container.appendChild(campoVazio);
@@ -897,8 +900,15 @@ function renderSeção(id, data, isA) {
       if(!p) return;
       const idUnico = id + i;
       let bClass = (isA && i >= 8) ? "badge-rebaixamento" : (!isA && i <= 1) ? "badge-lider" : "";
-      // Adiciona a imagem do garçom para o último colocado
-      if(i === 9) campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${time.nome}.png" style="top:${p.t}%; left:${p.l}%" onerror="this.style.display='none'">`;
+      
+      // Adiciona a imagem do garçom para o último colocado - com tratamento de nome
+      if(i === 9) {
+        // Sanitiza o nome do arquivo: substitui espaços por underscore e remove caracteres especiais
+        const nomeArquivo = time.nome.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        console.log('Carregando garçom para', time.nome, '->', nomeArquivo);
+        campoDiv.innerHTML += `<img class="garcom" src="./GARCONS/${nomeArquivo}.png" style="top:${p.t}%; left:${p.l}%" onerror="console.log('Falha ao carregar garçom:', '${nomeArquivo}'); this.style.display='none'">`;
+      }
+      
       const linhasHistorico = time.rodadas.map(r => `
           <div class="pop-grid-row">
             <span>${r.rdd}</span>
