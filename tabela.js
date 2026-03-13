@@ -38,17 +38,7 @@ const historicoSerieA = [
   { nome: "ESMERALDINO", rdd: 4, val: 3.84, re: 0.00, pen: 0.00 },
   { nome: "GRAN ROYALLE", rdd: 4, val: 7.09, re: 0.00, pen: 0.00 },
   { nome: "NUCA FINA", rdd: 4, val: 3.75, re: 0.00, pen: 0.00 },
-  { nome: "TIMON", rdd: 4, val: 10.71, re: 0.00, pen: 0.00 },
-  { nome: "NILTIN SLR", rdd: 5, val: 8.37, re: 5.00, pen: 0.00 },
-  { nome: "SUPER MARIO", rdd: 5, val: 8.70, re: 0.00, pen: 0.00 },
-  { nome: "PINSHER 10", rdd: 5, val: 7.43, re: 0.00, pen: 0.00 },
-  { nome: "JOSA UNITED", rdd: 5, val: 19.02, re: 0.00, pen: 0.00 },
-  { nome: "ACGTD", rdd: 5, val: 6.04, re: 0.00, pen: 0.00 },
-  { nome: "PJRC11", rdd: 5, val: 11.52, re: 0.00, pen: 0.00 },
-  { nome: "ESMERALDINO", rdd: 5, val: 8.37, re: 5.00, pen: 0.00 },
-  { nome: "GRAN ROYALLE", rdd: 5, val: 7.21, re: 0.00, pen: 0.00 },
-  { nome: "NUCA FINA", rdd: 5, val: 1.49, re: -5.00, pen: 0.00 },
-  { nome: "TIMON", rdd: 5, val: 12.47, re: 0.00, pen: 0.00 }
+  { nome: "TIMON", rdd: 4, val: 10.71, re: 0.00, pen: 0.00 }
 ];
 
 const historicoSerieB = [
@@ -91,15 +81,5 @@ const historicoSerieB = [
   { nome: "VELHO BUIAS", rdd: 4, val: 7.09, re: 0.00, pen: 0.00 },
   { nome: "WR AC", rdd: 4, val: 2.86, re: 0.00, pen: 0.00 },
   { nome: "EMBAIXADOR", rdd: 4, val: 5.62, re: 0.00, pen: 0.00 },
-  { nome: "PATYMEIRAS", rdd: 4, val: 7.49, re: 0.00, pen: 0.00 },
-  { nome: "GOLD SOLAR", rdd: 5, val: -4.26, re: 5.00, pen: 0.00 },
-  { nome: "BANZE", rdd: 5, val: 6.94, re: 0.00, pen: 0.00 },
-  { nome: "DIOGO BNF", rdd: 5, val: 6.19, re: 0.00, pen: 0.00 },
-  { nome: "WANTUIR FC", rdd: 5, val: 11.30, re: 0.00, pen: 0.00 },
-  { nome: "TAC EC", rdd: 5, val: -0.31, re: 0.00, pen: 0.00 },
-  { nome: "FURACAO BMP", rdd: 5, val: 4.53, re: 0.00, pen: 0.00 },
-  { nome: "VELHO BUIAS", rdd: 5, val: 7.28, re: -5.00, pen: 0.00 },
-  { nome: "WR AC", rdd: 5, val: 6.91, re: 0.00, pen: 0.00 },
-  { nome: "EMBAIXADOR", rdd: 5, val: 3.99, re: 0.00, pen: 0.00 },
-  { nome: "PATYMEIRAS", rdd: 5, val: 11.00, re: -5.00, pen: 0.00 }
+  { nome: "PATYMEIRAS", rdd: 4, val: 7.49, re: 0.00, pen: 0.00 }
 ];
