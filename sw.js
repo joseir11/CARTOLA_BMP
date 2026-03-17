@@ -8,26 +8,16 @@
       Rodada  9 → nattos-v90
       Rodada 10 → nattos-v100
       ... e assim por diante.
-
-   COMO FUNCIONA:
-   - tabela.js, escalacoes.js, index.html → SEMPRE da rede, NUNCA cacheados
-   - Estáticos (imagens, fontes) → cache com revalidação em background
-   - Mudar o CACHE_NAME força TODOS os navegadores a reinstalar o SW
    ============================================================ */
 
-// ⚠️ ESTE VALOR É ATUALIZADO AUTOMATICAMENTE — NÃO EDITE À MÃO
-// Gerado em: cada vez que você rodar o script de deploy
-// ⚠️ MUDE ESTE NÚMERO A CADA RODADA: v60=rdd6, v70=rdd7, v80=rdd8...
 const CACHE_NAME = 'nattos-v60';
 
-const ARQUIVOS_CRITICOS = ['index.html', 'tabela.js', 'escalacoes.js'];
-
+// APENAS estes arquivos entram no cache — nada mais
 const ARQUIVOS_ESTATICOS = [
   'campo.png',
   'CARTOLA.png',
   'CS.png',
   'TROFEU_NATTOS.png',
-  'manifest.json',
   'Fontecartola.otf',
   'icon-192.png',
   'icon-512.png'
@@ -37,127 +27,102 @@ const ARQUIVOS_ESTATICOS = [
 self.addEventListener('install', event => {
   console.log('[SW] Instalando', CACHE_NAME);
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return Promise.allSettled(
-        ARQUIVOS_ESTATICOS.map(arquivo =>
-          cache.add(arquivo).catch(err =>
-            console.warn('[SW] Não cacheou:', arquivo, '-', err.message)
-          )
+    caches.open(CACHE_NAME).then(cache =>
+      Promise.allSettled(
+        ARQUIVOS_ESTATICOS.map(f =>
+          cache.add(f).catch(e => console.warn('[SW] Não cacheou:', f, e.message))
         )
-      );
-    }).then(() => {
-      console.log('[SW] Instalação OK');
-      return self.skipWaiting();
-    })
+      )
+    ).then(() => self.skipWaiting())
   );
 });
 
-/* ── ATIVAÇÃO (limpa caches antigos) ─────────────────────── */
+/* ── ATIVAÇÃO ────────────────────────────────────────────── */
 self.addEventListener('activate', event => {
   console.log('[SW] Ativando', CACHE_NAME);
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys
-        .filter(k => k !== CACHE_NAME)
-        .map(k => {
+    caches.keys()
+      .then(keys => Promise.all(
+        keys.filter(k => k !== CACHE_NAME).map(k => {
           console.log('[SW] Deletando cache antigo:', k);
           return caches.delete(k);
         })
-    )).then(() => self.clients.claim())
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
-/* ── INTERCEPTAÇÃO DE REQUISIÇÕES ───────────────────────── */
+/* ── FETCH ───────────────────────────────────────────────── */
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
-  const nomeArquivo = url.pathname.split('/').pop();
-
-  // ── ARQUIVOS CRÍTICOS: SEMPRE DA REDE, NUNCA DO CACHE ──
-  if (ARQUIVOS_CRITICOS.some(c => nomeArquivo === c || url.pathname.endsWith('/' + c))) {
-    const novaRequisicao = new Request(event.request.url, {
-      method: 'GET',
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
-    });
-
-    event.respondWith(
-      fetch(novaRequisicao)
-        .then(response => {
-          if (response && response.ok) return response;
-          console.warn('[SW] Resposta inválida para:', nomeArquivo, response?.status);
-          return criarFallback(nomeArquivo);
-        })
-        .catch(err => {
-          console.warn('[SW] Offline para:', nomeArquivo, err.message);
-          return criarFallback(nomeArquivo);
-        })
-    );
-    return;
-  }
-
   if (event.request.method !== 'GET') return;
 
-  // ── FONTES DO GOOGLE: cache permanente ─────────────────
-  if (url.href.includes('fonts.googleapis.com') || url.href.includes('fonts.gstatic.com')) {
+  const url = new URL(event.request.url);
+
+  // Ignora requisições externas (fontes Google, etc) — deixa o navegador resolver
+  if (url.origin !== location.origin) return;
+
+  const path = url.pathname;
+
+  // .js e .html → SEMPRE da rede, NUNCA do cache
+  if (path.endsWith('.js') || path.endsWith('.html') || path.endsWith('/')) {
     event.respondWith(
-      caches.match(event.request).then(cached => {
-        if (cached) return cached;
-        return fetch(event.request).then(response => {
-          if (response && response.ok) {
-            caches.open(CACHE_NAME).then(c => c.put(event.request, response.clone()));
-          }
-          return response;
-        }).catch(() => new Response('', { status: 503 }));
-      })
+      fetch(event.request, { cache: 'no-store' })
+        .then(response => {
+          if (response && response.ok) return response;
+          return criarFallback(path);
+        })
+        .catch(() => criarFallback(path))
     );
     return;
   }
 
-  // ── RECURSOS DO MESMO DOMÍNIO: Stale-While-Revalidate ──
-  if (url.origin !== location.origin) return;
+  // manifest.json → sempre da rede também
+  if (path.endsWith('manifest.json')) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' }).catch(() => new Response('{}', {
+        headers: { 'Content-Type': 'application/json' }
+      }))
+    );
+    return;
+  }
 
+  // Tudo mais (imagens, fontes) → cache primeiro, atualiza em background
   event.respondWith(
     caches.open(CACHE_NAME).then(cache =>
       cache.match(event.request).then(cached => {
         const fetchPromise = fetch(event.request)
-          .then(networkResponse => {
-            if (networkResponse && networkResponse.ok) {
-              cache.put(event.request, networkResponse.clone());
-            }
-            return networkResponse;
+          .then(response => {
+            if (response && response.ok) cache.put(event.request, response.clone());
+            return response;
           })
           .catch(() => null);
 
-        return cached || fetchPromise || new Response('Offline', { status: 503 });
+        return cached || fetchPromise || new Response('', { status: 503 });
       })
     )
   );
 });
 
-/* ── FALLBACK OFFLINE ───────────────────────────────────── */
-function criarFallback(pathname) {
-  if (pathname.endsWith('tabela.js')) {
+/* ── FALLBACK OFFLINE ────────────────────────────────────── */
+function criarFallback(path) {
+  if (path.endsWith('tabela.js')) {
     return new Response(
       'var historicoSerieA = []; var historicoSerieB = [];',
       { status: 200, headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
     );
   }
-  if (pathname.endsWith('escalacoes.js')) {
+  if (path.endsWith('escalacoes.js')) {
     return new Response(
       'var bancoEscalacoes = {};',
       { status: 200, headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
     );
   }
-  if (pathname.endsWith('index.html') || pathname.endsWith('/')) {
-    return new Response(
-      `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>TAÇA NATTOS</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>body{background:#111827;color:#f59e0b;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;}</style>
-      </head><body><div><h1>⚽ TAÇA NATTOS 2026</h1><p>Você está offline.<br>Conecte-se para ver a tabela atualizada.</p></div></body></html>`,
-      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
-    );
-  }
-  return new Response('', { status: 503 });
+  return new Response(
+    `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>TAÇA NATTOS</title>
+    <style>body{background:#111827;color:#f59e0b;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;}</style>
+    </head><body><h1>⚽ TAÇA NATTOS 2026</h1><p>Você está offline.</p></body></html>`,
+    { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+  );
 }
 
 /* ── NOTIFICAÇÕES DE NOVA RODADA ────────────────────────── */
