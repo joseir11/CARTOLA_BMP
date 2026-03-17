@@ -42,6 +42,8 @@ body {
   overflow-x: hidden;
 }
 
+
+
 .header {
   display: flex;
   flex-direction: column;
@@ -198,6 +200,7 @@ body {
   border-radius: 50%; border: 1px solid rgba(255,255,255,0.05);
   cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
 }
+.btn-voltar:hover { background: rgba(245, 158, 11, 0.2); }
 .btn-voltar svg { width: 24px; height: 24px; stroke: var(--orange); }
 
 .nome-time-central {
@@ -215,13 +218,24 @@ body {
   flex-shrink: 0;
 }
 
-.icone-cs { width: 28px; height: 28px; object-fit: contain; }
+.icone-cs { width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 
 .valorizacao-rodada {
   font-family: 'Teko', sans-serif; font-weight: 700;
-  font-size: 26px; color: white; line-height: 1;
+  font-size: 26px; color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5); line-height: 1;
 }
 .valorizacao-rodada.negativo { color: var(--red); }
+
+#displayA, #displayB {
+  animation: fadeIn 0.6s ease-out;
+  min-height: 200px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .campo, .campo-limpo {
   position: relative; margin: 0 auto;
@@ -267,6 +281,8 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.7));
   cursor: pointer; transition: transform 0.2s ease;
 }
+.logo-campo:hover { transform: scale(1.05); }
+.logo-campo:active { transform: scale(0.95); }
 
 .badge-pontos-campo {
   background: var(--orange); color: #000;
@@ -274,8 +290,9 @@ body {
   border-radius: 20px; margin-top: 2px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
   display: flex; align-items: center; gap: 5px;
-  cursor: pointer;
+  cursor: pointer; transition: transform 0.2s;
 }
+.badge-pontos-campo:active { transform: scale(0.9); }
 .badge-lider { background: var(--green) !important; color: white !important; }
 .badge-rebaixamento { background: var(--red) !important; color: white !important; }
 
@@ -288,12 +305,13 @@ body {
 .trofeu-campo {
   position: absolute; width: 50px;
   transform: translate(-50%, -50%); z-index: 5;
-  pointer-events: none;
+  pointer-events: none; filter: drop-shadow(0 4px 15px rgba(245,158,11,0.4));
 }
 
 .garcom {
   position: absolute; height: 128px; width: auto;
   transform: translate(-180%, -45%);
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
   z-index: 5; pointer-events: none;
 }
 
@@ -302,26 +320,78 @@ body {
   transform: translateX(-50%);
   background: #1e293b; color: #f1f5f9; padding: 12px;
   border-radius: 12px; width: 170px; font-size: 11px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
   z-index: 999; display: none; border: 1px solid rgba(255,255,255,0.1);
 }
+.pop-detalhes b { color: var(--orange); display: block; border-bottom: 1px solid #334155; margin-bottom: 6px; font-size: 12px; text-align: center; text-transform: uppercase; font-family: 'Fontecartola', 'Inter', sans-serif; }
+.pop-grid-header { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; font-weight: 800; color: #94a3b8; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 4px; text-align: center; }
+.pop-grid-row { display: grid; grid-template-columns: 25px 1fr 1fr 1fr; text-align: center; padding: 4px 0; border-bottom: 1px solid #334155; }
 
 .lista-container { 
   width: 95%; max-width: 600px; margin: 0 auto; background: #1e293b; 
-  border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px; overflow: hidden; color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
 }
 .tabela-times { width: 100%; border-collapse: collapse; }
-.tabela-times td { padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; }
-.td-escudo img { width: 44px; height: 44px; cursor: pointer; }
-.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; }
-.pontuacao-total { font-weight: 900; font-size: 18px; color: var(--orange); }
+.tabela-times td { padding: 14px 10px; vertical-align: middle; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.tabela-times tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.td-posicao { font-family: 'Teko'; font-size: 24px; font-weight: 700; color: #64748b; text-align: center; width: 50px; }
+.td-escudo img { width: 44px; height: 44px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); cursor: pointer; }
+.td-nome { font-family: 'Fontecartola', 'Inter', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #f1f5f9; letter-spacing: 0.5px; }
+.td-pontos { text-align: right; padding-right: 20px !important; }
+.pontuacao-total { font-weight: 900; font-size: 18px; display: block; color: var(--orange); }
+.detalhes-lista { font-size: 10px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+.status-lider .td-nome { color: var(--green) !important; }
+.status-rebaixamento .td-nome { color: var(--red) !important; }
 
-#install-container { position: fixed; bottom: 20px; right: 16px; z-index: 9999; }
-.icone-instalar { width: 60px; height: 60px; }
-.offline-indicator { background: var(--red); color: white; text-align: center; padding: 5px; position: fixed; top: 0; left: 0; right: 0; z-index: 1001; }
+#install-container {
+  position: fixed; bottom: 20px; right: 16px;
+  z-index: 9999;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+#install-button {
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  box-shadow: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.icone-instalar {
+  width: 60px;
+  height: 60px;
+  display: block;
+  object-fit: contain;
+}
+#install-button:hover { transform: scale(1.05); }
+#install-button:active { transform: scale(0.95); }
+
+.offline-indicator {
+  background: var(--red); color: white; text-align: center;
+  padding: 5px; font-size: 12px; font-weight: bold;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
+}
+
+.empty-message {
+  text-align: center; padding: 40px 20px; color: #9ca3af;
+  font-size: 14px; background: rgba(255,255,255,0.05);
+  border-radius: 12px; margin: 20px;
+}
 </style>
 </head>
 <body onclick="fecharTodosCards()">
+
+
 
 <div id="offlineIndicator" class="offline-indicator" style="display:none;">
   ⚠️ Você está offline. Alguns dados podem não estar disponíveis.
@@ -356,7 +426,9 @@ body {
 
 <div class="visualizacao-topo" id="visualizacaoTopo">
   <div class="btn-voltar" onclick="voltarParaCampo()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
   </div>
   <div class="nome-time-central" id="nomeTimeCentral"></div>
   <div class="valorizacao-container">
@@ -376,96 +448,151 @@ body {
 <div id="containerA"><div id="displayA"></div></div>
 <div id="containerB" style="display:none"><div id="displayB"></div></div>
 
+<div style="height:60px;"></div>
+
 <div id="install-container" style="display:none;">
-  <button id="install-button" style="background:none; border:none; cursor:pointer;">
+  <button id="install-button">
     <img src="install.png" alt="Instalar" class="icone-instalar">
   </button>
 </div>
 
 <script>
   (function() {
-    const v = Date.now();
-    function loadJS(src) {
-      return new Promise(resolve => {
-        const s = document.createElement('script');
-        s.src = src + '?v=' + v;
-        s.async = false;
-        s.onload = resolve;
-        document.head.appendChild(s);
-      });
+    const timestamp = Date.now();
+    function carregarScript(src) {
+      const script = document.createElement('script');
+      script.src = src + '?v=' + timestamp;
+      script.async = false;
+      document.head.appendChild(script);
     }
-    Promise.all([loadJS('tabela.js'), loadJS('escalacoes.js')])
-      .then(() => { 
-        console.log('DADOS CARREGADOS:', v); 
-        initApp(); 
-      });
+    carregarScript('tabela.js');
+    carregarScript('escalacoes.js');
   })();
 </script>
 
 <script>
 /* ============================================================
-   TAÇA NATTOS 2026 — SCRIPT PRINCIPAL
+   TAÇA NATTOS 2026 — Script principal
    ============================================================ */
 
 const posicoesPorFormacao = {
-  "343": [{t:23,l:50,pos:"ATA"},{t:25,l:20,pos:"ATA"},{t:25,l:80,pos:"ATA"},{t:42,l:50,pos:"MEI"},{t:42,l:15,pos:"MEI"},{t:44,l:50,pos:"MEI"},{t:44,l:85,pos:"MEI"},{t:67,l:15,pos:"ZAG"},{t:65,l:50,pos:"ZAG"},{t:67,l:85,pos:"ZAG"},{t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}],
-  "352": [{t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},{t:42,l:50,pos:"MEI"},{t:44,l:15,pos:"MEI"},{t:44,l:85,pos:"MEI"},{t:50,l:30,pos:"MEI"},{t:50,l:70,pos:"MEI"},{t:65,l:15,pos:"ZAG"},{t:67,l:50,pos:"ZAG"},{t:65,l:85,pos:"ZAG"},{t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}],
-  "433": [{t:23,l:50,pos:"ATA"},{t:27,l:20,pos:"ATA"},{t:27,l:80,pos:"ATA"},{t:42,l:50,pos:"MEI"},{t:44,l:15,pos:"MEI"},{t:44,l:85,pos:"MEI"},{t:64,l:15,pos:"LAT"},{t:67,l:38,pos:"ZAG"},{t:67,l:62,pos:"ZAG"},{t:64,l:85,pos:"LAT"},{t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}],
-  "442": [{t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},{t:40,l:15,pos:"MEI"},{t:44,l:38,pos:"MEI"},{t:44,l:62,pos:"MEI"},{t:40,l:85,pos:"MEI"},{t:64,l:15,pos:"LAT"},{t:67,l:38,pos:"ZAG"},{t:67,l:62,pos:"ZAG"},{t:64,l:85,pos:"LAT"},{t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}],
-  "532": [{t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},{t:44,l:15,pos:"MEI"},{t:42,l:50,pos:"MEI"},{t:42,l:85,pos:"MEI"},{t:67,l:15,pos:"LAT"},{t:65,l:30,pos:"ZAG"},{t:65,l:45,pos:"ZAG"},{t:65,l:60,pos:"ZAG"},{t:67,l:85,pos:"LAT"},{t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}]
+  "343": [
+    {t:23,l:50,pos:"ATA"},{t:25,l:20,pos:"ATA"},{t:25,l:80,pos:"ATA"},
+    {t:42,l:50,pos:"MEI"},{t:42,l:15,pos:"MEI"},{t:44,l:50,pos:"MEI"},{t:44,l:85,pos:"MEI"},
+    {t:67,l:15,pos:"ZAG"},{t:65,l:50,pos:"ZAG"},{t:67,l:85,pos:"ZAG"},
+    {t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}
+  ],
+  "352": [
+    {t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},
+    {t:42,l:50,pos:"MEI"},{t:44,l:15,pos:"MEI"},{t:44,l:85,pos:"MEI"},{t:50,l:30,pos:"MEI"},{t:50,l:70,pos:"MEI"},
+    {t:65,l:15,pos:"ZAG"},{t:67,l:50,pos:"ZAG"},{t:65,l:85,pos:"ZAG"},
+    {t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}
+  ],
+  "433": [
+    {t:23,l:50,pos:"ATA"},{t:27,l:20,pos:"ATA"},{t:27,l:80,pos:"ATA"},
+    {t:42,l:50,pos:"MEI"},{t:44,l:15,pos:"MEI"},{t:44,l:85,pos:"MEI"},
+    {t:64,l:15,pos:"LAT"},{t:67,l:38,pos:"ZAG"},{t:67,l:62,pos:"ZAG"},{t:64,l:85,pos:"LAT"},
+    {t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}
+  ],
+  "442": [
+    {t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},
+    {t:40,l:15,pos:"MEI"},{t:44,l:38,pos:"MEI"},{t:44,l:62,pos:"MEI"},{t:40,l:85,pos:"MEI"},
+    {t:64,l:15,pos:"LAT"},{t:67,l:38,pos:"ZAG"},{t:67,l:62,pos:"ZAG"},{t:64,l:85,pos:"LAT"},
+    {t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}
+  ],
+  "532": [
+    {t:23,l:30,pos:"ATA"},{t:23,l:70,pos:"ATA"},
+    {t:44,l:15,pos:"MEI"},{t:42,l:50,pos:"MEI"},{t:42,l:85,pos:"MEI"},
+    {t:67,l:15,pos:"LAT"},{t:65,l:30,pos:"ZAG"},{t:65,l:45,pos:"ZAG"},{t:65,l:60,pos:"ZAG"},{t:67,l:85,pos:"LAT"},
+    {t:85,l:50,pos:"GOL"},{t:85,l:15,pos:"TEC"}
+  ]
 };
 
-const posCampo = [{t:23,l:50},{t:25,l:20},{t:25,l:80},{t:42,l:50},{t:44,l:15},{t:44,l:85},{t:65,l:15},{t:67,l:50},{t:65,l:85},{t:85,l:50}];
+const posCampo = [
+  {t:23,l:50},{t:25,l:20},{t:25,l:80},
+  {t:42,l:50},{t:44,l:15},{t:44,l:85},
+  {t:65,l:15},{t:67,l:50},{t:65,l:85},
+  {t:85,l:50}
+];
 const posTrofeu = {t:10,l:51};
 
-let modoAtivo = 'campo', serieAtiva = 'A', rodadaSelecionada = 0, rodadaMaximaGlobal = 0;
-let dadosSerieA = [], dadosSerieB = [], visualizandoTime = false, timeSelecionado = null, deferredPrompt;
+let modoAtivo = 'campo';
+let serieAtiva = 'A';
+let rodadaSelecionada = 0;
+let rodadaMaximaGlobal = 0;
+let dadosSerieA = [];
+let dadosSerieB = [];
+let visualizandoTime = false;
+let timeSelecionado = null;
+let deferredPrompt;
 
-// SERVICE WORKER REGISTRO
+// ── SERVICE WORKER ───────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => reg.update());
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => { console.log('[SW] Registrado:', reg.scope); reg.update(); })
+      .catch(err => console.warn('[SW] Falha:', err));
   });
 }
 
-function initApp() {
-  window.historicoSerieA = window.historicoSerieA || [];
-  window.historicoSerieB = window.historicoSerieB || [];
-  window.bancoEscalacoes = window.bancoEscalacoes || {};
-  const res = processarDados(historicoSerieA);
-  rodadaSelecionada = res.rdd || 1;
-  atualizarTelas();
-}
+window.addEventListener('offline', () => { document.getElementById('offlineIndicator').style.display = 'block'; });
+window.addEventListener('online',  () => { document.getElementById('offlineIndicator').style.display = 'none'; atualizarTelas(); });
 
-function processarDados(hist, rddAlvo) {
-  if (!hist || !hist.length) return { ranking: [], rdd: 0 };
-  let max = 0;
-  hist.forEach(i => { if (i.rdd > max) max = i.rdd; });
-  if (max > rodadaMaximaGlobal) rodadaMaximaGlobal = max;
-  const limite = rddAlvo || max, agrupado = {};
-  hist.forEach(i => {
-    if (i.rdd > limite) return;
-    if (!agrupado[i.nome]) agrupado[i.nome] = { nome:i.nome, total:0, somaRDD:0, somaRE:0, somaPEN:0, rodadas:[] };
-    agrupado[i.nome].somaRDD += i.val || 0;
-    agrupado[i.nome].somaRE += i.re || 0;
-    agrupado[i.nome].somaPEN += i.pen || 0;
-    agrupado[i.nome].rodadas.push(i);
+// PWA Install
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-container').style.display = 'block';
+});
+document.getElementById('install-button').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('install-container').style.display = 'none';
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-container').style.display = 'none';
+});
+
+// ── LÓGICA PRINCIPAL ─────────────────────────────────────
+
+function processarDados(historicoBruto, rodadaAlvo) {
+  if (!historicoBruto || !Array.isArray(historicoBruto) || historicoBruto.length === 0) {
+    return { ranking: [], rdd: rodadaAlvo || 0 };
+  }
+  let maxNoArquivo = 0;
+  historicoBruto.forEach(item => { if (item && item.rdd > maxNoArquivo) maxNoArquivo = item.rdd; });
+  if (maxNoArquivo > rodadaMaximaGlobal) rodadaMaximaGlobal = maxNoArquivo;
+  const rddLimite = (rodadaAlvo && rodadaAlvo > 0) ? rodadaAlvo : maxNoArquivo;
+  const agrupado = {};
+  historicoBruto.forEach(item => {
+    if (!item || item.rdd > rddLimite) return;
+    if (!agrupado[item.nome]) agrupado[item.nome] = { nome:item.nome, total:0, somaRDD:0, somaRE:0, somaPEN:0, ultimaRDDVal:0, rodadas:[] };
+    agrupado[item.nome].somaRDD += item.val || 0;
+    agrupado[item.nome].somaRE  += item.re  || 0;
+    agrupado[item.nome].somaPEN += item.pen  || 0;
+    agrupado[item.nome].rodadas.push(item);
   });
   const lista = Object.values(agrupado).map(t => {
     t.total = (t.somaRDD + t.somaRE) - t.somaPEN;
-    const ult = t.rodadas.reduce((p,c) => p.rdd > c.rdd ? p : c, {val:0});
-    t.ultimaRDDVal = ult.val;
+    const ultima = t.rodadas.reduce((p,c) => p.rdd > c.rdd ? p : c, {val:0,rdd:0});
+    t.ultimaRDDVal = ultima.val || 0;
+    t.rodadas.sort((a,b) => b.rdd - a.rdd);
     return t;
-  }).sort((a,b) => b.total - a.total);
-  return { ranking: lista, rdd: limite };
+  });
+  lista.sort((a,b) => b.total - a.total);
+  return { ranking: lista, rdd: rddLimite };
 }
 
 function atualizarSeletorRodadas() {
   const sel = document.getElementById('seletor-rodada');
-  if (!sel) return; sel.innerHTML = '';
+  if (!sel) return;
+  sel.innerHTML = '';
   for (let i = 1; i <= rodadaMaximaGlobal; i++) {
     const o = document.createElement('option');
-    o.value = i; o.innerText = `Rodada ${String(i).padStart(2,'0')}`;
+    o.value = i;
+    o.innerText = `Rodada ${String(i).padStart(2,'0')}`;
     if (i === rodadaSelecionada) o.selected = true;
     sel.appendChild(o);
   }
@@ -473,107 +600,219 @@ function atualizarSeletorRodadas() {
 
 function alterarRodadaManual(rdd) {
   rodadaSelecionada = parseInt(rdd);
-  visualizandoTime ? mostrarTime(timeSelecionado) : atualizarTelas();
-}
-
-function atualizarTelas() {
-  const resA = processarDados(historicoSerieA, rodadaSelecionada);
-  const resB = processarDados(historicoSerieB, rodadaSelecionada);
-  dadosSerieA = resA.ranking; dadosSerieB = resB.ranking;
   document.getElementById('info-rdd-topo').innerText = `${String(rodadaSelecionada).padStart(2,'0')} / 19`;
-  atualizarSeletorRodadas();
-  renderSecao('displayA', dadosSerieA, true);
-  renderSecao('displayB', dadosSerieB, false);
+  visualizandoTime && timeSelecionado ? mostrarTime(timeSelecionado) : atualizarTelas();
 }
 
-function renderSecao(id, data, isA) {
-  const container = document.getElementById(id);
-  if (!container || visualizandoTime) return;
-  container.innerHTML = '';
-  if (!data.length) { container.innerHTML = '<div style="text-align:center;padding:20px;">Sem dados</div>'; return; }
-
-  if (modoAtivo === 'campo') {
-    const campo = document.createElement('div');
-    campo.className = 'campo';
-    campo.innerHTML = `<img src="TROFEU_NATTOS.png" class="trofeu-campo" style="top:${posTrofeu.t}%;left:${posTrofeu.l}%">`;
-    data.forEach((t, i) => {
-      const p = posCampo[i]; if (!p) return;
-      const bClass = (isA && i >= 8) ? 'badge-rebaixamento' : (!isA && i <= 1) ? 'badge-lider' : '';
-      campo.innerHTML += `
-        <div class="card-time" style="top:${p.t}%;left:${p.l}%">
-          <div class="posicao-campo">${i+1}</div>
-          <img class="logo-campo" src="ESCUDOS/${t.nome}.png" onclick="mostrarTime('${t.nome}')" onerror="this.src='ESCUDOS/default.png'">
-          <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event,'${id+i}')">${t.total.toFixed(2)}</div>
-          <div class="pop-detalhes" id="pop-${id+i}"><b>${t.nome.replace(/_/g,' ')}</b><br>Total: ${t.total.toFixed(2)}</div>
-        </div>`;
-    });
-    container.appendChild(campo);
-  } else {
-    let html = '<div class="lista-container"><table class="tabela-times">';
-    data.forEach((t, i) => {
-      html += `<tr><td class="td-posicao">${i+1}</td><td class="td-escudo"><img src="ESCUDOS/${t.nome}.png" onclick="mostrarTime('${t.nome}')"></td><td class="td-nome">${t.nome}</td><td class="pontuacao-total">${t.total.toFixed(2)}</td></tr>`;
-    });
-    container.innerHTML = html + '</table></div>';
+function buscarEscalacao(timeNome, rodada) {
+  if (typeof bancoEscalacoes === 'undefined' || !bancoEscalacoes) return null;
+  const dados = bancoEscalacoes[timeNome] || bancoEscalacoes[timeNome.replace(/\s+/g,'_')];
+  if (!dados) {
+    console.warn('[ESC] Time não encontrado:', timeNome, '| Disponíveis:', Object.keys(bancoEscalacoes).slice(0,5));
+    return null;
   }
-}
-
-function mostrarTime(nome) {
-  visualizandoTime = true; timeSelecionado = nome;
-  document.querySelector('.bloco-series').style.display = 'none';
-  document.getElementById('visualizacaoTopo').style.display = 'flex';
-  document.getElementById('nomeTimeCentral').innerText = nome.replace(/_/g,' ');
-  const container = serieAtiva === 'A' ? 'displayA' : 'displayB';
-  document.getElementById('displayA').innerHTML = ''; document.getElementById('displayB').innerHTML = '';
-  
-  const esc = buscarEscalacao(nome, rodadaSelecionada);
-  if (esc) { renderEscalacao(esc.formacao, esc.jogadores, container); }
-  else { document.getElementById(container).innerHTML = '<div class="campo-limpo"></div>'; }
-}
-
-function buscarEscalacao(nome, rdd) {
-  const d = bancoEscalacoes[nome]; if (!d) return null;
   let i = 0;
-  while(i < d.length) {
-    if (d[i].rdd === rdd) {
-      const f = d[i].formacao, j = []; i++;
-      while(i < d.length && d[i].rdd === undefined) { j.push(d[i]); i++; }
-      return { formacao: f, jogadores: j };
+  while (i < dados.length) {
+    if (dados[i].rdd !== undefined && dados[i].rdd === rodada) {
+      const formacao = dados[i].formacao;
+      const jogadores = [];
+      i++;
+      while (i < dados.length && dados[i].rdd === undefined) { jogadores.push(dados[i]); i++; }
+      return { formacao, jogadores };
     }
     i++;
   }
+  console.warn('[ESC] Rodada', rodada, 'não encontrada para', timeNome);
   return null;
 }
 
-function renderEscalacao(form, jogs, id) {
-  const container = document.getElementById(id), pos = posicoesPorFormacao[form], campo = document.createElement('div');
+function mostrarTime(timeNome) {
+  visualizandoTime = true;
+  timeSelecionado = timeNome;
+  document.querySelector('.bloco-series').style.display = 'none';
+  document.getElementById('visualizacaoTopo').style.display = 'flex';
+  document.getElementById('nomeTimeCentral').textContent = timeNome.replace(/_/g,' ');
+  document.getElementById('displayA').innerHTML = '';
+  document.getElementById('displayB').innerHTML = '';
+
+  const containerId = serieAtiva === 'A' ? 'displayA' : 'displayB';
+  const escalacao = buscarEscalacao(timeNome, rodadaSelecionada);
+  let somaVal = 0;
+
+  if (escalacao && escalacao.jogadores && escalacao.jogadores.length > 0) {
+    renderEscalacao(escalacao.formacao, escalacao.jogadores, containerId);
+    escalacao.jogadores.filter(j => j.status === 'T').forEach(j => { somaVal += j.val || 0; });
+  } else {
+    renderCampoLimpo(containerId);
+  }
+
+  const valEl = document.getElementById('valorizacaoRodada');
+  valEl.textContent = somaVal.toFixed(2);
+  valEl.classList.toggle('negativo', somaVal < 0);
+}
+
+function renderEscalacao(formacao, jogadores, containerId) {
+  const posicoes = posicoesPorFormacao[String(formacao)];
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  if (!posicoes) { renderCampoLimpo(containerId); return; }
+
+  const campo = document.createElement('div');
   campo.className = 'campo';
   const porPos = { GOL:[], ZAG:[], LAT:[], MEI:[], ATA:[], TEC:[] };
-  jogs.filter(j => j.status === 'T').forEach(j => porPos[j.pos].push(j));
-  pos.forEach(p => {
-    const j = porPos[p.pos].shift(); if (!j) return;
-    campo.innerHTML += `<div class="jogador-card" style="top:${p.t}%;left:${p.l}%"><img class="logo-clube-escalacao" src="TIMES/${j.clube}.png" onerror="this.src='TIMES/default.png'"><div class="nome-jogador">${j.nome}</div><div class="valor-jogador">${j.val.toFixed(2)}</div></div>`;
+  jogadores.filter(j => j.status === 'T').forEach(j => { if (porPos[j.pos]) porPos[j.pos].push(j); });
+
+  posicoes.forEach(posObj => {
+    const fila = porPos[posObj.pos];
+    if (!fila || !fila.length) return;
+    const j = fila.shift();
+    const neg = (j.val||0) < 0 ? 'negativo' : '';
+    campo.innerHTML += `
+      <div class="jogador-card" style="top:${posObj.t}%;left:${posObj.l}%">
+        <img class="logo-clube-escalacao" src="TIMES/${j.clube||'default'}.png" alt="${j.clube||''}" onerror="this.src='TIMES/default.png'">
+        <div class="nome-jogador">${j.nome||''}</div>
+        <div class="valor-jogador ${neg}">${(j.val||0).toFixed(2)}</div>
+      </div>`;
   });
   container.appendChild(campo);
 }
 
+function renderCampoLimpo(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = '';
+  const d = document.createElement('div');
+  d.className = 'campo-limpo';
+  c.appendChild(d);
+}
+
 function voltarParaCampo() {
-  visualizandoTime = false;
+  visualizandoTime = false; timeSelecionado = null;
   document.querySelector('.bloco-series').style.display = 'flex';
   document.getElementById('visualizacaoTopo').style.display = 'none';
+  const v = document.getElementById('valorizacaoRodada');
+  v.textContent = '0.00'; v.classList.remove('negativo');
   atualizarTelas();
 }
 
-function selecionarSerie(s) {
-  serieAtiva = s;
-  document.querySelectorAll('.btn-serie').forEach(b => b.classList.toggle('ativo', b.dataset.serie === s));
-  document.getElementById('containerA').style.display = s === 'A' ? 'block' : 'none';
-  document.getElementById('containerB').style.display = s === 'B' ? 'block' : 'none';
+function atualizarTelas() {
+  const resA = processarDados(typeof historicoSerieA !== 'undefined' ? historicoSerieA : [], rodadaSelecionada);
+  const resB = processarDados(typeof historicoSerieB !== 'undefined' ? historicoSerieB : [], rodadaSelecionada);
+  dadosSerieA = resA.ranking;
+  dadosSerieB = resB.ranking;
+  document.getElementById('info-rdd-topo').innerText = `${String(rodadaSelecionada).padStart(2,'0')} / 19`;
+  atualizarSeletorRodadas();
+  renderSeção('displayA', dadosSerieA, true);
+  renderSeção('displayB', dadosSerieB, false);
+}
+
+function fecharTodosCards() {
+  document.querySelectorAll('.pop-detalhes').forEach(c => c.style.display = 'none');
+}
+
+function alternarCard(e, id) {
+  e.stopPropagation(); fecharTodosCards();
+  document.querySelectorAll('.card-time').forEach(el => el.style.zIndex = '10');
+  const card = document.getElementById('pop-' + id);
+  if (card) { card.style.display = 'block'; card.parentElement.style.zIndex = '1000'; }
+}
+
+function renderSeção(id, data, isA) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  container.innerHTML = '';
+  if (visualizandoTime) return;
+  if (!data || !data.length) {
+    container.innerHTML = '<div class="empty-message">Nenhum time encontrado</div>';
+    return;
+  }
+
+  if (modoAtivo === 'campo') {
+    const campo = document.createElement('div');
+    campo.className = 'campo';
+    campo.innerHTML += `<img src="TROFEU_NATTOS.png" class="trofeu-campo" style="top:${posTrofeu.t}%;left:${posTrofeu.l}%">`;
+    data.forEach((time, i) => {
+      const p = posCampo[i]; if (!p) return;
+      const uid = id + i;
+      const bClass = (isA && i >= 8) ? 'badge-rebaixamento' : (!isA && i <= 1) ? 'badge-lider' : '';
+      if (i === 9) campo.innerHTML += `<img class="garcom" src="GARCONS/${time.nome}.png" style="top:${p.t}%;left:${p.l}%" onerror="this.style.display='none'">`;
+      const hist = time.rodadas.map(r => `
+        <div class="pop-grid-row">
+          <span>${r.rdd}</span>
+          <span style="color:#60a5fa">${(r.val||0).toFixed(2)}</span>
+          <span style="color:#4ade80">${(r.re||0).toFixed(2)}</span>
+          <span style="color:#f87171">${(r.pen||0).toFixed(2)}</span>
+        </div>`).join('');
+      campo.innerHTML += `
+        <div class="card-time" style="top:${p.t}%;left:${p.l}%">
+          <div class="pop-detalhes" id="pop-${uid}">
+            <b>${time.nome.replace(/_/g,' ')}</b>
+            <div class="pop-grid-header"><span>RD</span><span>VAL</span><span>RE</span><span>PEN</span></div>
+            ${hist}
+          </div>
+          <div class="posicao-campo">${i+1}</div>
+          <img class="logo-campo" src="ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')" onerror="this.src='ESCUDOS/default.png'">
+          <div class="badge-pontos-campo ${bClass}" onclick="alternarCard(event,'${uid}')">
+            ${(time.total||0).toFixed(2)}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>`;
+    });
+    container.appendChild(campo);
+  } else {
+    let t = `<div class="lista-container"><table class="tabela-times">`;
+    data.forEach((time, i) => {
+      const rc = (isA && i >= 8) ? 'status-rebaixamento' : (!isA && i <= 1) ? 'status-lider' : '';
+      const pos = i === 0 ? `<img src="TROFEU_NATTOS.png" style="width:20px;vertical-align:middle;">` : i+1;
+      t += `<tr class="${rc}">
+        <td class="td-posicao">${pos}</td>
+        <td class="td-escudo"><img src="ESCUDOS/${time.nome}.png" onclick="mostrarTime('${time.nome}')" onerror="this.src='ESCUDOS/default.png'"></td>
+        <td class="td-nome">${time.nome.replace(/_/g,' ')}</td>
+        <td class="td-pontos">
+          <span class="pontuacao-total">${(time.total||0).toFixed(2)}</span>
+          <span class="detalhes-lista">ULT. RDD: ${(time.ultimaRDDVal||0).toFixed(2)} | RE: ${(time.somaRE||0).toFixed(2)} | PEN: ${(time.somaPEN||0).toFixed(2)}</span>
+        </td></tr>`;
+    });
+    container.innerHTML = t + `</table></div>`;
+  }
+}
+
+function mudarVisual(tipo) {
+  modoAtivo = tipo;
+  document.getElementById('btnCampo')?.classList.toggle('ativo', tipo === 'campo');
+  document.getElementById('btnLista')?.classList.toggle('ativo', tipo === 'lista');
   if (!visualizandoTime) atualizarTelas();
 }
 
-function mudarVisual(v) { modoAtivo = v; atualizarTelas(); }
-function fecharTodosCards() { document.querySelectorAll('.pop-detalhes').forEach(p => p.style.display = 'none'); }
-function alternarCard(e, id) { e.stopPropagation(); fecharTodosCards(); document.getElementById('pop-'+id).style.display = 'block'; }
+function selecionarSerie(serie) {
+  serieAtiva = serie;
+  document.querySelectorAll('.btn-serie').forEach(b => b.classList.toggle('ativo', b.dataset.serie === serie));
+  document.getElementById('containerA').style.display = serie === 'A' ? 'block' : 'none';
+  document.getElementById('containerB').style.display = serie === 'B' ? 'block' : 'none';
+}
+
+// ── INICIALIZAÇÃO ────────────────────────────────────────
+(function init() {
+  if (typeof historicoSerieA === 'undefined') window.historicoSerieA = [];
+  if (typeof historicoSerieB === 'undefined') window.historicoSerieB = [];
+  if (typeof bancoEscalacoes  === 'undefined') window.bancoEscalacoes  = {};
+
+  // AGUARDA CARREGAMENTO DOS SCRIPTS DINÂMICOS
+  const checkData = setInterval(() => {
+    if (window.historicoSerieA.length > 0 || window.bancoEscalacoes) {
+      clearInterval(checkData);
+      const resA = processarDados(window.historicoSerieA);
+      rodadaSelecionada = resA.rdd || 1;
+      if (rodadaSelecionada > rodadaMaximaGlobal) rodadaMaximaGlobal = rodadaSelecionada;
+
+      atualizarSeletorRodadas();
+      selecionarSerie('A');
+      mudarVisual('campo');
+    }
+  }, 100);
+
+})();
 </script>
 </body>
 </html>
