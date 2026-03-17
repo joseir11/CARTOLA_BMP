@@ -1,15 +1,24 @@
 /* ============================================================
    SERVICE WORKER — TAÇA NATTOS 2026
 
-   COMO FUNCIONA AGORA:
-   - CACHE_NAME muda AUTOMATICAMENTE a cada deploy (timestamp em build)
+   ⚠️ A CADA NOVA RODADA, MUDE O CACHE_NAME:
+      Rodada  6 → nattos-v60   ← atual
+      Rodada  7 → nattos-v70
+      Rodada  8 → nattos-v80
+      Rodada  9 → nattos-v90
+      Rodada 10 → nattos-v100
+      ... e assim por diante.
+
+   COMO FUNCIONA:
    - tabela.js, escalacoes.js, index.html → SEMPRE da rede, NUNCA cacheados
    - Estáticos (imagens, fontes) → cache com revalidação em background
+   - Mudar o CACHE_NAME força TODOS os navegadores a reinstalar o SW
    ============================================================ */
 
 // ⚠️ ESTE VALOR É ATUALIZADO AUTOMATICAMENTE — NÃO EDITE À MÃO
 // Gerado em: cada vez que você rodar o script de deploy
-const CACHE_NAME = 'nattos-' + '%%TIMESTAMP%%';
+// ⚠️ MUDE ESTE NÚMERO A CADA RODADA: v60=rdd6, v70=rdd7, v80=rdd8...
+const CACHE_NAME = 'nattos-v60';
 
 const ARQUIVOS_CRITICOS = ['index.html', 'tabela.js', 'escalacoes.js'];
 
