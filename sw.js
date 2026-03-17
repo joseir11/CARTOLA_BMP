@@ -6,7 +6,7 @@
    - Demais estáticos → cache com stale-while-revalidate
    ============================================================ */
 
-const CACHE_NAME = 'nattos-v8'; // Versão alterada para garantir atualização
+const CACHE_NAME = 'nattos-v6'; 
 
 // Arquivos que NUNCA devem ser cacheados (agora tratados com timestamp)
 const ARQUIVOS_CRITICOS = ['index.html', 'tabela.js', 'escalacoes.js'];
