@@ -1,13 +1,13 @@
 {
-  "name": "JOSA.BET_V2",
-  "short_name": "JOSA.BET_v2",
+  "name": "JOSA.BET",
+  "short_name": "JOSA.BET",
   "description": "CARTOLA BMP - TAÇA NATTOS 2026",
-  "start_url": "./index.html",
+  "start_url": "./CARTOLA_BMP.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F9FAFB",
-  "theme_color": "#FF6321",
+  "background_color": "#111827",
+  "theme_color": "#f59e0b",
   "icons": [
     {
       "src": "icon-192.png",
