@@ -1,6 +1,6 @@
 {
-  "name": "JOSA.BET_v2",
-  "short_name": "JOSA.BET_v2",
+  "name": "JOSA.BET",
+  "short_name": "JOSA.BET",
   "description": "CARTOLA BMP - TAÇA NATTOS 2026",
   "start_url": "./index.html",
   "scope": "./",
