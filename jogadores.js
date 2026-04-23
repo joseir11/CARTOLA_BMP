@@ -112,6 +112,7 @@ var JOGADORES = {
   "116706": { "slug": "andres-gomez" },
   "117330": { "slug": "robert-renan" },
   "117403": { "slug": "renato-marques" },
+  "117404": { "slug": "otavio" },
   "117632": { "slug": "garro" },
   "117910": { "slug": "breno-bidon" },
   "117930": { "slug": "lavega" },
