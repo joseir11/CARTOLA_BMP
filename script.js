@@ -876,7 +876,8 @@ renderHeader() {
                                 + ' ' + pad(dt.getHours()) + 'h' + pad(dt.getMinutes());
                             partidaInfo = {
                                 adversarioNome: adversarioClube.abreviacao || adversarioClube.nome || '???',
-                                adversarioEscudo: adversarioClube.escudos?.['60x60'] || '',
+                               // USANDO O ID DO ADVERSÁRIO PARA BUSCAR NA SUA PASTA LOCAL
+                                adversarioEscudo: `ESCUDOS_BRASILEIRAO/${adversarioId}.png`,
                                 local: partida.local || '—',
                                 data: dataFmt,
                                 mando: isMandantePartida ? 'Casa' : 'Fora'
