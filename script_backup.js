@@ -248,61 +248,54 @@ window.app = {
         });
     },
 
-renderHeader() {
+    renderHeader() {
         const header = document.getElementById('header');
         const isMercado = this.state.isMercadoView;
 
         header.innerHTML = `
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 bg-cartola-orange rounded-xl flex items-center justify-center shadow-lg shadow-cartola-orange/20 shrink-0">
-                        <i data-lucide="trophy" class="text-white w-8 h-8"></i>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="flex items-center gap-4 flex-1">
+                    <div class="w-12 h-12 bg-cartola-orange rounded-xl flex items-center justify-center shadow-lg shadow-cartola-orange/20">
+                        <i data-lucide="trophy" class="text-white w-7 h-7"></i>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between md:justify-start md:gap-8">
                             <div>
-                                <h1 class="text-3xl md:text-4xl font-teko uppercase tracking-wider leading-none truncate">Taça Nattos 2026</h1>
+                                <h1 class="text-3xl font-teko uppercase tracking-wider leading-none">Taça Nattos 2026</h1>
                                 <p class="text-xs font-mono text-gray-500 uppercase tracking-widest">CARTOLA BMP</p>
                             </div>
-                            <button id="installApp" onclick="app.installApp()" class="hidden opacity-20 hover:opacity-100 p-2">
+                            <button id="installApp" onclick="app.installApp()" class="hidden opacity-20 hover:opacity-100 transition-opacity p-2" title="Instalar App">
                                 <i data-lucide="download" class="w-6 h-6 text-gray-400"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-2 bg-black/[0.04] p-2 rounded-2xl border border-black/5">
-                    <div class="flex items-center gap-2">
-                        ${!isMercado ? `
-                            <div class="bg-black/5 p-1 rounded-xl flex shrink-0">
-                                <button onclick="app.setSerie('A')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'A' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE A</button>
-                                <button onclick="app.setSerie('B')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'B' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE B</button>
-                            </div>
-
-                            <div class="relative shrink-0">
-                                <select onchange="app.setRound(this.value)" class="appearance-none bg-white border border-black/5 rounded-xl px-4 py-1.5 pr-9 text-lg font-teko uppercase focus:outline-none cursor-pointer">
-                                    ${Array.from({length: this.getMaxRound()}, (_, i) => i + 1).map(r => `
-                                        <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>Rodada ${r}</option>
-                                    `).join('')}
-                                </select>
-                                <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
-                            </div>
-                        ` : `
-                            <button onclick="app.closeMercado()" class="flex items-center gap-2 px-4 py-2 bg-white border border-black/5 rounded-xl text-gray-700 font-teko text-xl uppercase shadow-sm active:scale-95 transition-all">
-                                <i data-lucide="arrow-left" class="w-5 h-5 text-cartola-orange"></i> Voltar
-                            </button>
-                        `}
-                    </div>
-
+                <div class="flex flex-wrap items-center gap-3">
                     ${!isMercado ? `
-                    <button onclick="app.viewMercado()" class="w-12 h-12 flex items-center justify-center rounded-xl shrink-0 bg-cartola-orange active:scale-95 transition-transform shadow-md shadow-cartola-orange/20" title="Ver Mercado">
-                        <img src="ico_provaveis.png" class="w-7 h-7 object-contain brightness-0 invert" onerror="this.outerHTML='<i data-lucide=\'zap\' class=\'text-white w-6 h-6\'></i>'">
-                    </button>
+                        <div class="bg-black/5 p-1 rounded-xl flex gap-1 animate-in fade-in zoom-in duration-300">
+                            <button onclick="app.setSerie('A')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase tracking-wider transition-all ${this.state.activeSerie === 'A' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500 hover:text-gray-800'}">SÉRIE A</button>
+                            <button onclick="app.setSerie('B')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase tracking-wider transition-all ${this.state.activeSerie === 'B' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500 hover:text-gray-800'}">SÉRIE B</button>
+                        </div>
+
+                        <div class="relative group animate-in fade-in zoom-in duration-300">
+                            <select onchange="app.setRound(this.value)" class="appearance-none bg-white border border-black/5 rounded-xl px-4 py-2 pr-10 text-lg font-teko uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-cartola-orange/20 transition-all cursor-pointer">
+                                ${Array.from({length: this.getMaxRound()}, (_, i) => i + 1).map(r => `
+                                    <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>Rodada ${r}</option>
+                                `).join('')}
+                            </select>
+                            <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                        </div>
                     ` : ''}
+
+                    <button onclick="app.viewMercado()" class="w-12 h-12 flex items-center justify-center rounded-full transition-all group shrink-0 ${isMercado ? 'bg-cartola-orange text-white' : 'bg-black/5 border border-black/5'}" title="Ver Mercado">
+                        <div class="w-7 h-7 flex items-center justify-center">
+                            <img src="ico_provaveis.png" class="w-full h-full object-contain group-hover:scale-110 transition-transform ${isMercado ? 'brightness-0 invert' : ''}" onerror="this.outerHTML='<i data-lucide=\'shopping-cart\' class=\'${isMercado ? 'text-white' : 'text-gray-500'} w-6 h-6\'></i>'">
+                        </div>
+                    </button>
                 </div>
             </div>
         `;
-        lucide.createIcons();
     },
 
     renderMain() {
@@ -810,6 +803,9 @@ renderHeader() {
 
         container.innerHTML = `
             <div class="space-y-6 animate-in fade-in duration-300">
+                <button onclick="app.closeMercado()" class="flex items-center gap-2 text-gray-500 hover:text-cartola-orange font-teko text-xl uppercase">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i> Voltar
+                </button>
                 
                 <div class="glass-card p-4">
                     <div class="grid grid-cols-3 gap-2 divide-x divide-black/10 items-center">
@@ -857,31 +853,6 @@ renderHeader() {
                         const cartolaId = time.id;
                         const slug = Object.keys(SLUG_TO_CARTOLA_ID).find(key => SLUG_TO_CARTOLA_ID[key] === cartolaId);
                         const lineup = slug ? this.state.lineupsData?.teams?.[slug] : null;
-
-                        // Dados da partida
-                        const partidasData2 = typeof PARTIDAS !== 'undefined' ? PARTIDAS : null;
-                        const partida = partidasData2?.partidas?.find(p =>
-                            p.clube_casa_id === cartolaId || p.clube_visitante_id === cartolaId
-                        ) || null;
-                        let partidaInfo = null;
-                        if (partida) {
-                            const adversarioId = partida.clube_casa_id === cartolaId
-                                ? partida.clube_visitante_id
-                                : partida.clube_casa_id;
-                            const adversarioClube = partidasData2.clubes?.[adversarioId] || {};
-                            const isMandantePartida = partida.clube_casa_id === cartolaId;
-                            const dt = new Date(partida.partida_data.replace(' ', 'T') + '-03:00');
-                            const pad = n => String(n).padStart(2, '0');
-                            const dataFmt = pad(dt.getDate()) + '/' + pad(dt.getMonth()+1) + '/' + dt.getFullYear()
-                                + ' ' + pad(dt.getHours()) + 'h' + pad(dt.getMinutes());
-                            partidaInfo = {
-                                adversarioNome: adversarioClube.abreviacao || adversarioClube.nome || '???',
-                                adversarioEscudo: adversarioClube.escudos?.['60x60'] || '',
-                                local: partida.local || '—',
-                                data: dataFmt,
-                                mando: isMandantePartida ? 'Casa' : 'Fora'
-                            };
-                        }
 
                         // Horário de última atualização
                         const lastUpdate = slug ? this.state.teamUpdatesData?.teams?.[slug]?.last_update : null;
@@ -990,28 +961,6 @@ renderHeader() {
                                 <!-- Jogadores posicionados -->
                                 ${jogadoresHtml}
                             </div>
-
-                            ${partidaInfo ? `
-                            <div class="flex items-center gap-3 px-3 py-2.5 bg-black/[0.04] rounded-xl border border-black/[0.06]">
-                                <div class="flex items-center gap-2 flex-1 min-w-0">
-                                    <span class="text-[10px] font-mono text-gray-400 uppercase shrink-0">ADV</span>
-                                    <img src="${partidaInfo.adversarioEscudo}" alt="${partidaInfo.adversarioNome}"
-                                         class="w-6 h-6 object-contain shrink-0"
-                                         onerror="this.style.display='none'">
-                                    <span class="font-teko text-lg uppercase leading-none text-gray-800 truncate">${partidaInfo.adversarioNome}</span>
-                                    <span class="text-[10px] font-mono text-gray-400 bg-black/5 px-1.5 py-0.5 rounded-full shrink-0">${partidaInfo.mando}</span>
-                                </div>
-                                <div class="flex flex-col items-end shrink-0 gap-0.5">
-                                    <span class="flex items-center gap-1 text-[10px] font-mono text-gray-500">
-                                        <svg xmlns='http://www.w3.org/2000/svg' class='w-3 h-3' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>
-                                        ${partidaInfo.data}
-                                    </span>
-                                    <span class="flex items-center gap-1 text-[10px] font-mono text-gray-400 text-right">
-                                        <svg xmlns='http://www.w3.org/2000/svg' class='w-3 h-3 shrink-0' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/><circle cx='12' cy='10' r='3'/></svg>
-                                        ${partidaInfo.local}
-                                    </span>
-                                </div>
-                            </div>` : ''}
                         </div>
                         `;
                     }).join('')}
