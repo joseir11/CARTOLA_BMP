@@ -160,6 +160,7 @@ var JOGADORES = {
   "139076": { "slug": "filipe-luis" },
   "141406": { "slug": "andrey-fernandes" },
   "141451": { "slug": "allan" },
+  "141609": { "slug": "lucca" },
   "141611": { "slug": "maik" },
   "141754": { "slug": "gabriel-bontempo" },
   "141868": { "slug": "vinicius-lira" },
