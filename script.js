@@ -255,56 +255,55 @@ renderHeader() {
         header.innerHTML = `
             <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 bg-cartola-orange rounded-xl flex items-center justify-center shadow-lg shadow-cartola-orange/20 shrink-0">
-                        <i data-lucide="trophy" class="text-white w-8 h-8"></i>
+                    <div class="w-12 h-12 bg-cartola-orange rounded-xl flex items-center justify-center shadow-lg shadow-cartola-orange/20 shrink-0">
+                        <i data-lucide="trophy" class="text-white w-7 h-7"></i>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between">
-                            <div>
-                                <h1 class="text-3xl md:text-4xl font-teko uppercase tracking-wider leading-none truncate">Taça Nattos 2026</h1>
-                                <p class="text-xs font-mono text-gray-500 uppercase tracking-widest">CARTOLA BMP</p>
+                            <div class="truncate">
+                                <h1 class="text-2xl md:text-3xl font-teko uppercase tracking-wider leading-none truncate">Taça Nattos 2026</h1>
+                                <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">CARTOLA BMP</p>
                             </div>
                             <button id="installApp" onclick="app.installApp()" class="hidden opacity-20 hover:opacity-100 p-2">
-                                <i data-lucide="download" class="w-6 h-6 text-gray-400"></i>
+                                <i data-lucide="download" class="w-5 h-5 text-gray-400"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-2 bg-black/[0.04] p-2 rounded-2xl border border-black/5">
-                    <div class="flex items-center gap-2">
+                <div class="flex items-center justify-between gap-2 bg-black/[0.03] p-1.5 rounded-2xl border border-black/5">
+                    <div class="flex items-center gap-2 min-w-0">
                         ${!isMercado ? `
                             <div class="bg-black/5 p-1 rounded-xl flex shrink-0">
-                                <button onclick="app.setSerie('A')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'A' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE A</button>
-                                <button onclick="app.setSerie('B')" class="px-4 py-1.5 rounded-lg text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'B' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE B</button>
+                                <button onclick="app.setSerie('A')" class="px-2.5 py-1 rounded-lg text-base md:text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'A' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE A</button>
+                                <button onclick="app.setSerie('B')" class="px-2.5 py-1 rounded-lg text-base md:text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'B' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE B</button>
                             </div>
 
                             <div class="relative shrink-0">
-                                <select onchange="app.setRound(this.value)" class="appearance-none bg-white border border-black/5 rounded-xl px-4 py-1.5 pr-9 text-lg font-teko uppercase focus:outline-none cursor-pointer">
+                                <select onchange="app.setRound(this.value)" class="appearance-none bg-white border border-black/5 rounded-xl px-2 py-1 pr-7 text-base md:text-lg font-teko uppercase focus:outline-none cursor-pointer">
                                     ${Array.from({length: this.getMaxRound()}, (_, i) => i + 1).map(r => `
-                                        <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>Rodada ${r}</option>
+                                        <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>R${r}</option>
                                     `).join('')}
                                 </select>
-                                <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                                <i data-lucide="chevron-down" class="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none"></i>
                             </div>
                         ` : `
-                            <button onclick="app.closeMercado()" class="flex items-center gap-2 px-4 py-2 bg-white border border-black/5 rounded-xl text-gray-700 font-teko text-xl uppercase shadow-sm active:scale-95 transition-all">
-                                <i data-lucide="arrow-left" class="w-5 h-5 text-cartola-orange"></i> Voltar
+                            <button onclick="app.closeMercado()" class="flex items-center gap-2 px-3 py-1 bg-white border border-black/5 rounded-xl text-gray-700 font-teko text-lg uppercase shadow-sm active:scale-95 transition-all">
+                                <i data-lucide="arrow-left" class="w-4 h-4 text-cartola-orange"></i> Voltar
                             </button>
                         `}
                     </div>
 
                     ${!isMercado ? `
-                    <button onclick="app.viewMercado()" class="w-12 h-12 flex items-center justify-center rounded-xl shrink-0 bg-cartola-orange active:scale-95 transition-transform shadow-md shadow-cartola-orange/20" title="Ver Mercado">
-                        <img src="ico_provaveis.png" class="w-7 h-7 object-contain brightness-0 invert" onerror="this.outerHTML='<i data-lucide=\'zap\' class=\'text-white w-6 h-6\'></i>'">
+                    <button onclick="app.viewMercado()" class="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-xl shrink-0 bg-cartola-orange active:scale-95 transition-transform shadow-md shadow-cartola-orange/20" title="Ver Mercado">
+                        <img src="ico_provaveis.png" class="w-6 h-6 object-contain brightness-0 invert" onerror="this.outerHTML='<i data-lucide=\'zap\' class=\'text-white w-5 h-5\'></i>'">
                     </button>
                     ` : ''}
                 </div>
             </div>
         `;
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     },
-
     renderMain() {
         const main = document.getElementById('main-content');
         if (!main) return;
