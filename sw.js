@@ -2,7 +2,7 @@
    SERVICE WORKER — TAÇA NATTOS 2026
    ============================================================ */
 
-const CACHE_NAME = 'nattos-v2';
+const CACHE_NAME = 'nattos-v3';
 
 // Arquivos para cache
 const ARQUIVOS_ESTATICOS = [
@@ -11,6 +11,9 @@ const ARQUIVOS_ESTATICOS = [
   './script.js',
   './tabela.js',
   './escalacoes.js',
+   './status.js',
+  './partidas.js',
+  './jogadores.js',
   './manifest.json',
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/lucide@latest'
