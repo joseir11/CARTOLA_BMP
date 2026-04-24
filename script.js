@@ -264,9 +264,9 @@ renderHeader() {
                                 <h1 class="text-2xl md:text-3xl font-teko uppercase tracking-wider leading-none truncate">Taça Nattos 2026</h1>
                                 <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">CARTOLA BMP</p>
                             </div>
-                            <button id="installApp" onclick="app.installApp()" class="hidden opacity-20 hover:opacity-100 p-2">
-                                <i data-lucide="download" class="w-5 h-5 text-gray-400"></i>
-                            </button>
+                                <button id="installApp" onclick="app.installApp()" class="hidden p-2">
+                                    <i data-lucide="download" class="w-5 h-5 text-cartola-orange"></i>
+                                </button>
                         </div>
                     </div>
                 </div>
