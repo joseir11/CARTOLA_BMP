@@ -172,6 +172,7 @@ var JOGADORES = {
   "143488": { "slug": "raykkonen" },
   "145036": { "slug": "fernando-pradella" },
   "145404": { "slug": "arthur" },
+  "145563": {"slug": "joao-ananias" },
   "145744": { "slug": "andre" },
   "146040": { "slug": "joao-pedro" },
   "147883": { "slug": "joao-vitor" },
