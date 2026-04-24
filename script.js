@@ -271,32 +271,45 @@ renderHeader() {
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-2 bg-black/[0.03] p-1.5 rounded-2xl border border-black/5">
-                    <div class="flex items-center gap-2 min-w-0">
+                <div class="flex items-center justify-between gap-2 bg-transparent p-1.5 rounded-2xl">
+                    <div class="flex items-center gap-3 min-w-0">
                         ${!isMercado ? `
-                            <div class="bg-black/5 p-1 rounded-xl flex shrink-0">
-                                <button onclick="app.setSerie('A')" class="px-2.5 py-1 rounded-lg text-base md:text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'A' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE A</button>
-                                <button onclick="app.setSerie('B')" class="px-2.5 py-1 rounded-lg text-base md:text-lg font-teko uppercase transition-all ${this.state.activeSerie === 'B' ? 'bg-white shadow-sm text-cartola-orange' : 'text-gray-500'}">SÉRIE B</button>
-                            </div>
+                            <!-- Switch SÉRIE -->
+                            <button onclick="app.setSerie(app.state.activeSerie === 'A' ? 'B' : 'A')"
+                                class="inline-flex items-center rounded-full bg-white border border-black/10 shadow-sm pl-3 pr-1 gap-1 shrink-0"
+                                style="height:34px" title="Alternar Série">
+                                <span class="font-teko text-lg uppercase leading-none pointer-events-none" style="font-weight:500;color:#1A1A1A;letter-spacing:0.05em">SÉRIE</span>
+                                <span class="relative flex items-center justify-center shrink-0" style="width:28px;height:28px">
+                                    <span class="absolute inset-0 rounded-full ${this.state.activeSerie === 'A' ? 'bg-cartola-orange' : ''}"></span>
+                                    <span class="relative font-teko text-lg uppercase leading-none ${this.state.activeSerie === 'A' ? 'text-white' : ''}" style="font-weight:500;color:${this.state.activeSerie === 'A' ? 'white' : '#1A1A1A'}">A</span>
+                                </span>
+                                <span class="relative flex items-center justify-center shrink-0" style="width:28px;height:28px">
+                                    <span class="absolute inset-0 rounded-full ${this.state.activeSerie === 'B' ? 'bg-cartola-orange' : ''}"></span>
+                                    <span class="relative font-teko text-lg uppercase leading-none" style="font-weight:500;color:${this.state.activeSerie === 'B' ? 'white' : '#1A1A1A'}">B</span>
+                                </span>
+                            </button>
 
+                            <!-- Seletor RODADA -->
                             <div class="relative shrink-0">
-                                <select onchange="app.setRound(this.value)" class="appearance-none bg-white border border-black/5 rounded-xl px-2 py-1 pr-7 text-base md:text-lg font-teko uppercase focus:outline-none cursor-pointer">
+                                <select onchange="app.setRound(this.value)"
+                                    class="appearance-none bg-white border border-black/10 shadow-sm rounded-full font-teko text-lg uppercase focus:outline-none cursor-pointer"
+                                    style="height:34px;padding:0 28px 0 14px;font-weight:500;color:#1A1A1A;letter-spacing:0.05em">
                                     ${Array.from({length: this.getMaxRound()}, (_, i) => i + 1).map(r => `
-                                        <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>R${r}</option>
+                                        <option value="${r}" ${this.state.selectedRound === r ? 'selected' : ''}>RODADA ${r}</option>
                                     `).join('')}
                                 </select>
                                 <i data-lucide="chevron-down" class="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-400 pointer-events-none"></i>
                             </div>
                         ` : `
-                            <button onclick="app.closeMercado()" class="flex items-center gap-2 px-3 py-1 bg-white border border-black/5 rounded-xl text-gray-700 font-teko text-lg uppercase shadow-sm active:scale-95 transition-all">
+                            <button onclick="app.closeMercado()" class="inline-flex items-center gap-2 px-4 bg-white border border-black/10 shadow-sm rounded-full font-teko text-lg uppercase active:scale-95 transition-all" style="height:34px;font-weight:500;color:#1A1A1A">
                                 <i data-lucide="arrow-left" class="w-4 h-4 text-cartola-orange"></i> Voltar
                             </button>
                         `}
                     </div>
 
                     ${!isMercado ? `
-                    <button onclick="app.viewMercado()" class="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-xl shrink-0 bg-cartola-orange active:scale-95 transition-transform shadow-md shadow-cartola-orange/20" title="Ver Mercado">
-                        <img src="ico_provaveis.png" class="w-6 h-6 object-contain brightness-0 invert" onerror="this.outerHTML='<i data-lucide=\'zap\' class=\'text-white w-5 h-5\'></i>'">
+                    <button onclick="app.viewMercado()" class="flex items-center justify-center rounded-full shrink-0 bg-cartola-orange active:scale-95 transition-transform shadow-md shadow-cartola-orange/20" style="width:34px;height:34px" title="Ver Mercado">
+                        <img src="ico_provaveis.png" class="w-5 h-5 object-contain brightness-0 invert" onerror="this.outerHTML='&lt;i data-lucide=&quot;zap&quot; class=&quot;text-white w-4 h-4&quot;&gt;&lt;/i&gt;'">
                     </button>
                     ` : ''}
                 </div>
