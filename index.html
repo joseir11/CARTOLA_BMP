@@ -1,113 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taça Nattos 2026 - Cartola BMP</title>
-    
-    <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json?v=2">
-    <meta name="theme-color" content="#FF6321">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Taça Nattos">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Teko:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cartola: {
-                            orange: '#FF6321',
-                            black: '#1A1A1A',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        teko: ['Teko', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>JOSA.BET</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./IMAGES/icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FF6321">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#FF6321', cartola: { orange: '#FF6321', black: '#1A1A1A' } },
+          fontFamily: { teko: ['Teko', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
         }
-    </script>
-    <style>
-        body {
-            background-color: #F9FAFB;
-            background-image: 
-                radial-gradient(at 100% 0%, rgba(255, 99, 33, 0.05) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(26, 26, 26, 0.02) 0px, transparent 50%);
-            min-height: 100vh;
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-            border-radius: 24px;
-        }
-        
-        .field-bg {
-            background: #1e293b; /* Fallback dark blue */
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
-                url('/campo.png');
-            background-size: 50px 50px, 50px 50px, cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
-    </style>
+      }
+    };
+  </script>
+  <style>
+    @font-face { font-family: 'FontJogos'; src: url('./FONTS/font_jogos.ttf') format('truetype'); font-weight: normal; font-style: normal; font-display: swap; }
+    body { background-color: #f9fafb; margin: 0; padding-bottom: 100px; -webkit-font-smoothing: antialiased; }
+    .loader { width: 40px; height: 40px; border: 3px solid #e5e7eb; border-top-color: #ff6321; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 40px auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+    #main-content .text-primary, #main-content [class*="text-[#FF6321]"], #main-content .font-black, #main-content .font-bold { font-family: 'FontJogos', sans-serif !important; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+    /* Modal scouts */
+    .modal-scouts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: visibility 0.2s, opacity 0.2s; }
+    .modal-scouts.active { visibility: visible; opacity: 1; }
+    .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); cursor: pointer; z-index: 1; }
+    .modal-container { position: relative; background: white; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 1.5rem; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 35px rgba(0,0,0,0.2); z-index: 2; }
+    .modal-header { padding: 1rem 1.25rem; background: #f9fafb; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h3 { font-family: 'FontJogos', sans-serif; font-weight: 900; font-size: 1.1rem; margin: 0; }
+    .modal-close { width: 1.8rem; height: 1.8rem; background: white; border: 1px solid #e5e7eb; border-radius: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .modal-tabs { display: flex; padding: 0.6rem; gap: 0.6rem; background: #f3f4f6; }
+    .tab-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.6rem; border-radius: 1.5rem; font-weight: 900; font-size: 0.7rem; text-transform: uppercase; background: transparent; border: none; cursor: pointer; transition: all 0.2s; color: #9ca3af; }
+    .tab-btn.active { background: white; color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .tab-btn img { width: 1.2rem; height: 1.2rem; object-fit: contain; }
+    .modal-body { flex: 1; overflow-y: auto; padding: 0.75rem; }
+    .atleta-card { background: white; border: 1px solid #f0f0f0; border-radius: 1.2rem; padding: 0.6rem 0.8rem; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .atleta-info { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+    .atleta-info img { width: 2rem; height: 2rem; border-radius: 9999px; object-fit: cover; border: 1px solid #eee; }
+    .atleta-dados { display: flex; flex-direction: column; }
+    .atleta-posicao { font-size: 0.55rem; font-weight: 800; color: #ff6321; letter-spacing: 0.05em; }
+    .atleta-nome { font-weight: 900; font-size: 0.8rem; text-transform: uppercase; line-height: 1.2; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    .atleta-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; text-align: right; }
+    .pontuacao-wrapper { display: flex; align-items: center; gap: 0.4rem; }
+    .pontuacao { font-weight: 800; font-size: 0.9rem; }
+    .pontuacao.positiva { color: #10b981; }
+    .pontuacao.negativa { color: #ef4444; }
+    .scout-emojis { font-size: 0.9rem; letter-spacing: -2px; }
+    .scouts-wrapper { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; }
+    .scout-item { background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 0.8rem; font-size: 0.7rem; font-weight: 800; font-family: monospace; color: #374151; }
+    .no-scout { font-size: 0.6rem; color: #cbd5e1; }
+    .empty-scouts { text-align: center; padding: 2rem; opacity: 0.5; font-weight: 800; font-size: 0.7rem; }
+  </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-[1200px] mx-auto space-y-8">
-        <!-- Header Container -->
-        <header id="header" class="glass-card p-6"></header>
+<body class="font-sans">
+  <main id="main-content" class="px-4 pt-4"><p class="text-gray-500 text-center mt-10">Aguardando seleção...</p></main>
 
-        <!-- Main Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content Area -->
-            <main id="main-content" class="lg:col-span-2"></main>
-
-            <!-- Sidebar Area -->
-            <aside id="sidebar"></aside>
-        </div>
-
-        <!-- Footer -->
-        <footer class="py-12 text-center">
-            <p class="text-[10px] font-mono text-gray-400 uppercase tracking-[0.3em]">
-                Taça Nattos &copy; 2026 • Design by JOSA • Cartola BMP
-            </p>
-        </footer>
+  <nav class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white/80 backdrop-blur-md border-t border-gray-100">
+    <div class="flex justify-around items-center">
+      <button id="btn-jogos" class="flex flex-col items-center"><img src="./IMAGES/jogos.png" class="w-6 h-6 mx-auto"><span class="text-[10px] mt-2 font-black">JOGOS</span></button>
+      <button id="btn-bmp" class="flex flex-col items-center"><img src="./IMAGES/cartola.png" class="w-6 h-6 mx-auto"><span class="text-[10px] mt-2 font-black">JOSA.BET</span></button>
+      <button id="btn-provaveis" class="flex flex-col items-center"><img src="./IMAGES/ico_provaveis.png" class="w-6 h-6 mx-auto"><span class="text-[10px] mt-2 font-black">PROVÁVEIS</span></button>
+      <button id="btn-install-pwa" class="flex flex-col items-center hidden"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-3-3m3 3l3-3"/></svg><span class="text-[10px] mt-2 font-black">INSTALAR</span></button>
     </div>
+  </nav>
 
-    <!-- App Data -->
-    <script src="status.js?v=6" onerror="console.warn('status.js não carregado como script')"></script>
-    <script src="partidas.js?v=6" onerror="console.warn('partidas.js não carregado como script')"></script>
-    <script src="tabela.js?v=6" onload="console.log('tabela.js carregado via onload')"></script>
-    <script src="escalacoes.js?v=6" onload="console.log('escalacoes.js carregado via onload')"></script>
-    <script src="jogadores.js?v=6" onload="console.log('jogadores.js carregado via onload')"></script>
-    <!-- App Logic -->
-    <script>
-        window.onerror = function(msg, url, lineNo, columnNo, error) {
-            console.error('Erro Global:', msg, url, lineNo, columnNo, error);
-            const errorDiv = document.createElement('div');
-            errorDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:10px;z-index:9999;font-family:monospace;';
-            errorDiv.innerHTML = '<b>Erro detectado:</b> ' + msg + '<br><b>Arquivo:</b> ' + url + '<br><b>Linha:</b> ' + lineNo;
-            document.body.appendChild(errorDiv);
-            return false;
-        };
-        console.log('Script inline executado');
-    </script>
-    <script src="script.js?v=6" onload="console.log('script.js carregado via onload')"></script>
+  <button id="globalScrollToTop" class="fixed bottom-24 right-4 w-12 h-12 bg-[#FF6321]/90 text-black rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 z-50 hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg></button>
+
+  <script src="./API/rotas_proxy.js"></script>
+  <script src="./MENU/jogos_rodada.js"></script>
+  <script src="./jogadores.js"></script>
+  <script src="./scouts.js"></script>
+  <script src="rodadas.js"></script>
+  <script src="./MENU/provaveis.js"></script>
+  <script src="tabela.js"></script>
+  <script src="escalacoes.js"></script>
+  <script src="./MENU/cartola.js"></script>
+
+  <script>
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; document.getElementById('btn-install-pwa')?.classList.remove('hidden'); });
+    document.getElementById('btn-install-pwa')?.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; document.getElementById('btn-install-pwa')?.classList.add('hidden'); });
+    if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registrado:', reg.scope)).catch(err => console.error('Erro no SW:', err)); }); }
+
+    function initGlobalScrollToTop() { const btn = document.getElementById('globalScrollToTop'); if (!btn) return; window.addEventListener('scroll', () => { if (window.scrollY > 300) { btn.classList.remove('opacity-0', 'invisible'); btn.classList.add('opacity-100', 'visible'); } else { btn.classList.add('opacity-0', 'invisible'); btn.classList.remove('opacity-100', 'visible'); } }); btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    async function precarregarJogos() { if (window.preloadedJogosData) return; try { const controller = new AbortController(); setTimeout(() => controller.abort(), 30000); const [resMercado, resPartidas] = await Promise.all([ fetch(API_CARTOLA.MERCADO_STATUS, { signal: controller.signal }), fetch(API_CARTOLA.PARTIDAS, { signal: controller.signal }) ]); clearTimeout(); if (resMercado.ok && resPartidas.ok) window.preloadedJogosData = { mercado: await resMercado.json(), partidas: await resPartidas.json() }; } catch (err) {} }
+    async function precarregarProvaveis() { if (window.preloadedProvaveisData) return; try { const PROXY_URL = 'https://josabet-proxy.onrender.com'; const [lineupsRes, mercadoImagesRes, teamUpdatesRes, partidasRes] = await Promise.all([ fetch(`${PROXY_URL}/provaveis/lineups`), fetch(`${PROXY_URL}/provaveis/mercado-images`), fetch(`${PROXY_URL}/provaveis/team-updates`), fetch(API_CARTOLA.PARTIDAS || `${PROXY_URL}/partidas`) ]); if (lineupsRes.ok && mercadoImagesRes.ok && teamUpdatesRes.ok && partidasRes.ok) { const mercadoImagesArray = await mercadoImagesRes.json(); const map = new Map(); mercadoImagesArray.forEach(item => map.set(item.atleta_id, item)); window.preloadedProvaveisData = { lineups: await lineupsRes.json(), mercadoImages: map, teamUpdates: await teamUpdatesRes.json(), partidas: await partidasRes.json() }; } } catch (err) {} }
+    async function precarregarPontuados() { if (window.preloadedPontuadosData) return; try { const res = await fetch(API_CARTOLA.PONTUADOS()); if (res.ok) window.preloadedPontuadosData = await res.json(); } catch (err) {} }
+
+    document.getElementById('btn-jogos')?.addEventListener('click', () => { if (typeof window.carregarJogos === 'function') window.carregarJogos(); });
+    document.getElementById('btn-provaveis')?.addEventListener('click', () => { if (typeof window.renderProvaveis === 'function') window.renderProvaveis(); });
+    document.getElementById('btn-bmp')?.addEventListener('click', () => { if (typeof window.carregarBMP === 'function') window.carregarBMP(); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initGlobalScrollToTop();
+      if (typeof window.carregarBMP === 'function') window.carregarBMP();
+      setTimeout(() => { precarregarJogos(); precarregarProvaveis(); precarregarPontuados(); }, 1000);
+    });
+  </script>
 </body>
 </html>
