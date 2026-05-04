@@ -1,18 +1,26 @@
 /* ============================================================
-   JOGOS DA RODADA — COM VALORIZAÇÃO AWS E STATUS CORRIGIDO
+   JOGOS DA RODADA — JOSA.BET
    ============================================================ */
 
-const mainContent = document.getElementById("main-content");
-const btnJogos = document.getElementById("btn-jogos");
 const ESCUDOS_PATH = "./ESCUDOS_BRASILEIRAO";
 
 let jogosRenderizando = false;
+let currentRodada = null;
+let currentPartidas = [];
+let currentClubes = {};
+let currentPontuados = {};
+let currentValuation = null;
+let mercadoStatus = null;
+let maxRodadaGlobal = 38;
 
+// ========== UTILITÁRIOS ==========
 function renderLoader() {
-  mainContent.innerHTML = `<div class="flex flex-col justify-center items-center h-screen"><div class="loader"></div><p class="text-xs mt-2">Carregando...</p></div>`;
+  const main = document.getElementById("main-content");
+  if (main) main.innerHTML = `<div class="flex flex-col justify-center items-center h-screen"><div class="loader"></div><p class="text-xs mt-2">Carregando...</p></div>`;
 }
 function renderError(msg) {
-  mainContent.innerHTML = `<div class="text-center py-10"><p class="text-red-500">${msg}</p><button onclick="window.carregarJogos()" class="mt-4 px-4 py-2 bg-black text-white rounded-full">Tentar novamente</button></div>`;
+  const main = document.getElementById("main-content");
+  if (main) main.innerHTML = `<div class="text-center py-10"><p class="text-red-500">${msg}</p><button onclick="window.carregarJogos()" class="mt-4 px-4 py-2 bg-black text-white rounded-full">Tentar novamente</button></div>`;
 }
 function formatarData(iso) {
   if (!iso) return "A definir";
@@ -35,44 +43,242 @@ function renderAproveitamento(aprov) {
   return `<div class="flex justify-center gap-1 mt-2">${aprov.map(r=>`<span class="w-2 h-2 rounded-full ${cores[r]||"bg-gray-100"}"></span>`).join("")}</div>`;
 }
 
-// ========== FUNÇÃO RENDER CARD (COM STATUS CORRIGIDO) ==========
-function renderCardPartida(p, clubes) {
-  const casa = clubes[p.clube_casa_id], fora = clubes[p.clube_visitante_id];
+// ========== REQUISIÇÕES ==========
+async function buscarMaxRodada() {
+  try {
+    const res = await fetch(API_CARTOLA.MERCADO_STATUS);
+    const data = await res.json();
+    return data.rodada_atual || 38;
+  } catch(e) {
+    return 38;
+  }
+}
+async function buscarPartidas(rodada) {
+  const isCurrent = (rodada === undefined || rodada === mercadoStatus?.rodada_atual);
+  let url;
+  if (isCurrent) {
+    url = API_CARTOLA.PARTIDAS;
+  } else {
+    if (typeof API_CARTOLA.PARTIDAS_RODADA === 'function') {
+      url = API_CARTOLA.PARTIDAS_RODADA(rodada);
+    } else {
+      const base = API_CARTOLA.PARTIDAS.replace(/\/$/, '');
+      url = `${base}/${rodada}`;
+    }
+  }
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return { partidas: data.partidas || [], clubes: data.clubes || {} };
+}
+async function buscarPontuados(rodada) {
+  if (rodada === mercadoStatus?.rodada_atual) return {};
+  let proxyUrl;
+  if (typeof API_CARTOLA.PONTUADOS === 'function') {
+    proxyUrl = API_CARTOLA.PONTUADOS(rodada);
+  } else {
+    const base = API_CARTOLA.PONTUADOS.replace(/\/$/, '');
+    proxyUrl = `${base}/${rodada}`;
+  }
+  try {
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`Proxy falhou com status ${res.status}`);
+    const data = await res.json();
+    return data.atletas || {};
+  } catch (err) {
+    const directUrl = `https://api.cartola.globo.com/atletas/pontuados/${rodada}`;
+    try {
+      const res = await fetch(directUrl);
+      if (!res.ok) throw new Error(`API direta falhou: ${res.status}`);
+      const data = await res.json();
+      return data.atletas || {};
+    } catch (directErr) {
+      console.error(`Não foi possível carregar scouts da rodada ${rodada}`, directErr);
+      return {};
+    }
+  }
+}
+async function buscarValorizacao() {
+  try {
+    const rota = API_CARTOLA.AWS_ATLETAS_PONTUADOS || "https://josabet-proxy.onrender.com/aws/atletas-pontuados";
+    const res = await fetch(rota);
+    if (!res.ok) throw new Error("AWS valorização falhou");
+    return await res.json();
+  } catch(e) {
+    return null;
+  }
+}
+
+// ========== MODAL DE SCOUTS DA PARTIDA ==========
+function fecharModalScouts() {
+  const modal = document.getElementById('modal-scouts');
+  if (modal) modal.remove();
+}
+window.fecharModalScouts = fecharModalScouts;
+
+async function abrirModalScouts(partida) {
+  fecharModalScouts();
+  const clubes = currentClubes;
+  const pontuados = currentPontuados;
+  const valuation = currentValuation;
+  const atletas = Object.values(pontuados);
+  const timeCasaId = partida.clube_casa_id;
+  const timeForaId = partida.clube_visitante_id;
+  const timeCasa = clubes[timeCasaId];
+  const timeFora = clubes[timeForaId];
+
+  if (Object.keys(pontuados).length === 0) {
+    alert("Ainda não há estatísticas disponíveis para esta rodada.");
+    return;
+  }
+
+  const siglaPosicao = { 1: "GOL", 2: "LAT", 3: "ZAG", 4: "MEI", 5: "ATA", 6: "TEC" };
+  const scoutEmoji = { "G": "⚽", "A": "👟", "CA": "🟨", "CV": "🟥" };
+
+  const valuationMap = {};
+  if (valuation) {
+    const source = valuation.atletas || valuation;
+    Object.entries(source).forEach(([key, val]) => {
+      if (val && typeof val === 'object') {
+        const v = val.valorizacao !== undefined ? val.valorizacao : val.valorizacao_real;
+        if (v !== undefined && v !== null) {
+          valuationMap[String(key)] = parseFloat(v);
+          if (val.idAtleta) valuationMap[String(val.idAtleta)] = parseFloat(v);
+        }
+      }
+    });
+  }
+
+  const renderizarLista = (timeId) => {
+    const atletasTime = atletas.filter(a => Number(a.clube_id) === Number(timeId) && a.entrou_em_campo === true);
+    atletasTime.sort((a,b) => (a.posicao_id || 99) - (b.posicao_id || 99));
+    const body = document.querySelector('#modal-scouts .modal-body');
+    if (!body) return;
+    if (atletasTime.length === 0) {
+      body.innerHTML = `<div class="empty-scouts">NENHUM ATLETA EM CAMPO</div>`;
+      return;
+    }
+    body.innerHTML = atletasTime.map(atleta => {
+      const sigla = siglaPosicao[atleta.posicao_id] || "???";
+      const scoutsList = Object.entries(atleta.scout || {}).map(([k,v]) => `<span class="scout-item">${v} ${k.toUpperCase()}</span>`).join("");
+      let emojis = [];
+      if (atleta.scout?.G) emojis.push(scoutEmoji.G);
+      if (atleta.scout?.A) emojis.push(scoutEmoji.A);
+      if (atleta.scout?.CA) emojis.push(scoutEmoji.CA);
+      if (atleta.scout?.CV) emojis.push(scoutEmoji.CV);
+      const emojiSpan = emojis.length ? `<span class="scout-emojis">${emojis.join(" ")}</span>` : "";
+      const pontuacao = atleta.pontuacao.toFixed(1);
+      const pontuacaoClass = atleta.pontuacao >= 0 ? "positiva" : "negativa";
+
+      let valHtml = "";
+      const atletaIdStr = String(atleta.atleta_id);
+      const valor = valuationMap[atletaIdStr];
+      if (valor !== undefined && valor !== null && valor !== 0) {
+        const valColor = valor >= 0 ? "text-emerald-500" : "text-rose-500";
+        const sinal = valor > 0 ? "+" : "";
+        valHtml = `<div class="text-[11px] font-black ${valColor} leading-tight">${sinal}${valor.toFixed(2)}</div>`;
+      }
+
+      return `
+        <div class="atleta-card">
+          <div class="atleta-info">
+            <img src="${atleta.foto?.replace("FORMATO", "140x140") || ""}" onerror="this.src='./IMAGES/default.png'">
+            <div class="atleta-dados">
+              <div class="atleta-posicao">${sigla}</div>
+              <div class="atleta-nome">${atleta.apelido}</div>
+              ${valHtml}
+            </div>
+          </div>
+          <div class="atleta-stats">
+            <div class="pontuacao-wrapper">
+              <span class="pontuacao ${pontuacaoClass}">${pontuacao}</span>${emojiSpan}
+            </div>
+            <div class="scouts-wrapper">${scoutsList || '<span class="no-scout">—</span>'}</div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  };
+
+  const modalHtml = `
+    <div id="modal-scouts" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm" onclick="if(event.target === this) fecharModalScouts()">
+      <div class="relative w-full max-w-md mx-3 bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div class="sticky top-0 bg-white z-10 border-b border-gray-100 px-4 py-3 flex justify-between items-center">
+          <h3 class="font-black text-lg text-gray-800">SCOUTS DA PARTIDA</h3>
+          <button onclick="fecharModalScouts()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="bg-gradient-to-r from-orange-50 to-white px-4 pb-3">
+          <div class="flex gap-2">
+            <button id="modal-tab-casa" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]">
+              <img src="${ESCUDOS_PATH}/${timeCasa?.id}.png" class="w-5 h-5" onerror="this.src='${timeCasa?.escudos?.["30x30"] || ""}'"> ${timeCasa?.abreviacao || "CASA"}
+            </button>
+            <button id="modal-tab-fora" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200">
+              <img src="${ESCUDOS_PATH}/${timeFora?.id}.png" class="w-5 h-5" onerror="this.src='${timeFora?.escudos?.["30x30"] || ""}'"> ${timeFora?.abreviacao || "FORA"}
+            </button>
+          </div>
+        </div>
+        <div class="modal-body p-4 space-y-2"></div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+  renderizarLista(timeCasaId);
+
+  document.getElementById('modal-tab-casa')?.addEventListener('click', () => {
+    document.getElementById('modal-tab-casa').className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]";
+    document.getElementById('modal-tab-fora').className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200";
+    renderizarLista(timeCasaId);
+  });
+  document.getElementById('modal-tab-fora')?.addEventListener('click', () => {
+    document.getElementById('modal-tab-fora').className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]";
+    document.getElementById('modal-tab-casa').className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200";
+    renderizarLista(timeForaId);
+  });
+}
+
+// ========== RENDERIZAÇÃO DO SELETOR (SETAS) ==========
+function renderSeletorRodada(rodadaAtual, maxRodada) {
+  return `
+    <div class="px-4 pt-4 pb-2 flex justify-center items-center gap-6">
+      <button class="btn-rodada-prev w-10 h-10 rounded-full bg-white shadow-sm border flex items-center justify-center text-gray-600 hover:text-black transition disabled:opacity-30" ${rodadaAtual <= 1 ? 'disabled' : ''}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="text-base font-black text-gray-800">Rodada ${rodadaAtual}</div>
+      <button class="btn-rodada-next w-10 h-10 rounded-full bg-white shadow-sm border flex items-center justify-center text-gray-600 hover:text-black transition disabled:opacity-30" ${rodadaAtual >= maxRodada ? 'disabled' : ''}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  `;
+}
+
+// ========== CARD COM STATUS CORRETO ==========
+function renderCardPartida(p, rodadaCard, rodadaAtual) {
+  const casa = currentClubes[p.clube_casa_id];
+  const fora = currentClubes[p.clube_visitante_id];
   const placarC = p.placar_oficial_mandante ?? "-";
   const placarF = p.placar_oficial_visitante ?? "-";
   const jogoIniciado = p.placar_oficial_mandante !== null;
 
-  // Lógica de status baseada no período e status de transmissão
-  let statusTexto = "";
-  let statusCor = "";
-  
-  // Prioridade: período PRE_JOGO -> AGUARDANDO
-  if (p.periodo_tr === "PRE_JOGO") {
-    statusTexto = "AGUARDANDO";
-    statusCor = "text-gray-400";
+  let statusTexto = "AGUARDANDO";
+  let statusCor = "text-gray-400";
+
+  // REGRA: rodadas anteriores sempre ENCERRADA
+  if (rodadaCard < rodadaAtual) {
+    statusTexto = "ENCERRADA";
+    statusCor = "text-red-500";
   } 
-  // Jogo em andamento (1º tempo, 2º tempo, intervalo, etc.)
   else if (p.periodo_tr === "PRIMEIRO_TEMPO" || p.periodo_tr === "SEGUNDO_TEMPO" || p.periodo_tr === "INTERVALO") {
     statusTexto = "EM ANDAMENTO";
     statusCor = "text-green-600";
-  }
-  // Partida encerrada
+  } 
   else if (p.status_transmissao_tr === "ENCERRADA" || p.status_transmissao_tr === "POS_JOGO") {
     statusTexto = "ENCERRADA";
     statusCor = "text-red-500";
   }
-  // Caso "CRIADA" e válida
-  else if (p.valida === true && p.status_transmissao_tr === "CRIADA") {
-    statusTexto = "AGUARDANDO";
-    statusCor = "text-gray-400";
-  }
-  // Fallback: usa o status_transmissao_tr
-  else {
-    statusTexto = p.status_transmissao_tr ? p.status_transmissao_tr.replace(/_/g, " ") : "—";
-    statusCor = "text-gray-400";
-  }
 
-  return `<div class="match-card bg-white rounded-2xl shadow-sm border p-4 mb-3 cursor-pointer" data-partida-id="${p.partida_id}">
+  return `<div class="match-card-v2 bg-white rounded-2xl shadow-sm border p-4 mb-4 cursor-pointer" data-partida-id="${p.partida_id}" data-rodada="${rodadaCard}">
     <p class="text-[10px] text-gray-400 text-center mb-2">${formatarData(p.partida_data)} • ${p.local || "-"}</p>
     <div class="flex items-start justify-between gap-2">
       <div class="flex-1 text-center">
@@ -96,215 +302,181 @@ function renderCardPartida(p, clubes) {
         ${renderAproveitamento(p.aproveitamento_visitante)}
       </div>
     </div>
+    <div class="top5-container hidden mt-4 pt-4 border-t border-gray-100" data-partida-id="${p.partida_id}"></div>
+    <button class="expand-top5-btn w-full mt-2 text-[10px] font-bold uppercase text-gray-500 hover:text-gray-800 transition">▼ MOSTRAR TOP 5</button>
   </div>`;
 }
 
-// ========== MODAL COM CABEÇALHO SEPARADO E VALORIZAÇÃO ==========
-function fecharModalScouts() {
-  const modal = document.getElementById('modal-scouts');
-  if (modal) modal.remove();
-}
-window.fecharModalScouts = fecharModalScouts;
-
-async function abrirModalScouts(partida, clubes) {
-  fecharModalScouts();
-
-  let pontuadosData = window.preloadedPontuadosData;
-  let valuationData = null;
-
-  try {
-    const promises = [];
-    if (!pontuadosData) promises.push(fetch(API_CARTOLA.PONTUADOS()).then(r => r.json()));
-    else promises.push(Promise.resolve(pontuadosData));
-    
-    const rotaValorizacao = API_CARTOLA.AWS_ATLETAS_PONTUADOS || "https://josabet-proxy.onrender.com/aws/atletas-pontuados";
-    promises.push(fetch(rotaValorizacao).then(r => r.json()).catch(err => {
-      console.error("Erro ao buscar valorização AWS:", err);
-      return null;
-    }));
-
-    const results = await Promise.all(promises);
-    pontuadosData = results[0];
-    valuationData = results[1];
-  } catch (err) {
-    console.error("Erro geral no modal de scouts:", err);
-    alert("Erro ao carregar scouts");
-    return;
+function gerarTop5Html(partida) {
+  if (Object.keys(currentPontuados).length === 0) {
+    return `<div class="text-center py-2 text-gray-400 text-[10px]">Dados estatísticos indisponíveis para esta rodada.</div>`;
   }
-
-  const atletas = pontuadosData.atletas || {};
-  
-  const valuationMap = {};
-  if (valuationData) {
-    const source = valuationData.atletas || valuationData;
-    Object.entries(source).forEach(([key, value]) => {
-      if (value && typeof value === 'object') {
-        const val = value.valorizacao !== undefined ? value.valorizacao : 
-                    value.valorizacao_real !== undefined ? value.valorizacao_real : 
-                    value.variacao;
-        if (val !== undefined && val !== null) {
-          const numericVal = parseFloat(val);
-          valuationMap[String(key)] = numericVal;
-          if (value.idAtleta) valuationMap[String(value.idAtleta)] = numericVal;
-        }
-      }
-    });
-  }
-
-  const timeCasa = clubes[partida.clube_casa_id];
-  const timeFora = clubes[partida.clube_visitante_id];
-  const siglaPosicao = { 1: "GOL", 2: "LAT", 3: "ZAG", 4: "MEI", 5: "ATA", 6: "TEC" };
-  const scoutEmoji = { "G": "⚽", "A": "👟", "CA": "🟨", "CV": "🟥" };
-
-  const renderizarLista = (timeId) => {
-    const atletasArray = Object.entries(atletas).map(([id, data]) => {
-      return { ...data, atleta_id: data.atleta_id || id };
-    });
-    const atletasTime = atletasArray.filter(a => Number(a.clube_id) === Number(timeId) && a.entrou_em_campo === true);
-    atletasTime.sort((a,b) => (a.posicao_id || 99) - (b.posicao_id || 99));
-    
-    const body = document.querySelector('#modal-scouts .modal-body');
-    if (!body) return;
-    
-    if (atletasTime.length === 0) {
-      body.innerHTML = `<div class="empty-scouts">NENHUM ATLETA EM CAMPO</div>`;
-      return;
-    }
-
-    body.innerHTML = atletasTime.map(atleta => {
-      const sigla = siglaPosicao[atleta.posicao_id] || "???";
-      const scoutsList = Object.entries(atleta.scout || {}).map(([k,v]) => `<span class="scout-item">${v} ${k.toUpperCase()}</span>`).join("");
-      let emojis = [];
-      if (atleta.scout?.G) emojis.push(scoutEmoji.G);
-      if (atleta.scout?.A) emojis.push(scoutEmoji.A);
-      if (atleta.scout?.CA) emojis.push(scoutEmoji.CA);
-      if (atleta.scout?.CV) emojis.push(scoutEmoji.CV);
-      const emojiSpan = emojis.length ? `<span class="scout-emojis">${emojis.join(" ")}</span>` : "";
-      const pontuacao = atleta.pontuacao.toFixed(1);
-      const pontuacaoClass = atleta.pontuacao >= 0 ? "positiva" : "negativa";
-
-      const atletaIdStr = String(atleta.atleta_id);
-      const valorizacao = valuationMap[atletaIdStr];
-      let valHtml = "";
-      if (valorizacao !== undefined && valorizacao !== null && valorizacao !== 0) {
-        const valColor = valorizacao >= 0 ? "text-emerald-500" : "text-rose-500";
-        const sinal = valorizacao > 0 ? "+" : "";
-        valHtml = `<div class="text-[11px] font-black ${valColor} leading-tight">${sinal}${valorizacao.toFixed(2)}</div>`;
-      }
-
-      return `
-        <div class="atleta-card">
-          <div class="atleta-info">
-            <img src="${atleta.foto?.replace("FORMATO", "140x140") || ""}" />
-            <div class="atleta-dados">
-              <div class="atleta-posicao">${sigla}</div>
-              <div class="atleta-nome" style="line-height: 1.2;">${atleta.apelido}</div>
-              ${valHtml}
-            </div>
-          </div>
-          <div class="atleta-stats">
-            <div class="pontuacao-wrapper">
-              <span class="pontuacao ${pontuacaoClass}">${pontuacao}</span>${emojiSpan}
-            </div>
-            <div class="scouts-wrapper">${scoutsList || '<span class="no-scout">—</span>'}</div>
-          </div>
-        </div>
-      `;
-    }).join("");
-  };
-
-  const modalHtml = `
-    <div id="modal-scouts" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm" onclick="if(event.target === this) fecharModalScouts()">
-      <div class="relative w-full max-w-md mx-3 bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
-        <div class="sticky top-0 bg-white z-10 border-b border-gray-100 px-4 py-3 flex justify-between items-center">
-          <h3 class="font-black text-lg text-gray-800" style="font-family: 'FontJogos', sans-serif;">SCOUTS DA PARTIDA</h3>
-          <button onclick="fecharModalScouts()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          </button>
-        </div>
-        <div class="bg-gradient-to-r from-orange-50 to-white px-4 pb-3">
-          <div class="flex gap-2">
-            <button id="modal-tab-casa" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]">
-              <img src="./ESCUDOS_BRASILEIRAO/${timeCasa.id}.png" class="w-5 h-5 object-contain" onerror="this.src='${timeCasa.escudos["30x30"]}'"> ${timeCasa.abreviacao}
-            </button>
-            <button id="modal-tab-fora" class="flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200">
-              <img src="./ESCUDOS_BRASILEIRAO/${timeFora.id}.png" class="w-5 h-5 object-contain" onerror="this.src='${timeFora.escudos["30x30"]}'"> ${timeFora.abreviacao}
-            </button>
-          </div>
-        </div>
-        <div class="modal-body p-4 space-y-2"></div>
+  const casaId = partida.clube_casa_id;
+  const foraId = partida.clube_visitante_id;
+  const casaNome = currentClubes[casaId]?.abreviacao || "CASA";
+  const foraNome = currentClubes[foraId]?.abreviacao || "FORA";
+  const atletas = Object.values(currentPontuados);
+  const atletasCasa = atletas.filter(a => a.clube_id === casaId && a.entrou_em_campo).sort((a,b) => b.pontuacao - a.pontuacao).slice(0,5);
+  const atletasFora = atletas.filter(a => a.clube_id === foraId && a.entrou_em_campo).sort((a,b) => b.pontuacao - a.pontuacao).slice(0,5);
+  const renderLista = (lista) => {
+    if (lista.length === 0) return `<div class="text-center py-2 text-gray-400 text-[10px]">Nenhum atleta em campo</div>`;
+    return lista.map(a => `
+      <div class="flex justify-between items-center py-1 border-b border-gray-50">
+        <span class="text-[11px] font-bold truncate">${a.apelido}</span>
+        <span class="text-[11px] font-black ${a.pontuacao >= 0 ? 'text-emerald-500' : 'text-rose-500'}">${a.pontuacao.toFixed(1)}</span>
       </div>
+    `).join("");
+  };
+  return `
+    <div class="grid grid-cols-2 gap-4">
+      <div><p class="text-center font-black text-[10px] uppercase mb-2">${casaNome}</p>${renderLista(atletasCasa)}</div>
+      <div><p class="text-center font-black text-[10px] uppercase mb-2">${foraNome}</p>${renderLista(atletasFora)}</div>
     </div>
   `;
-
-  document.body.insertAdjacentHTML('beforeend', modalHtml);
-  renderizarLista(partida.clube_casa_id);
-
-  const tabCasa = document.getElementById('modal-tab-casa');
-  const tabFora = document.getElementById('modal-tab-fora');
-  if (tabCasa && tabFora) {
-    tabCasa.onclick = () => {
-      tabCasa.className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]";
-      tabFora.className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200";
-      renderizarLista(partida.clube_casa_id);
-    };
-    tabFora.onclick = () => {
-      tabFora.className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-white bg-[#ff6321]";
-      tabCasa.className = "flex-1 flex items-center justify-center gap-2 py-2 rounded-full font-bold text-black bg-gray-200";
-      renderizarLista(partida.clube_visitante_id);
-    };
-  }
 }
 
-// ========== CARREGAR JOGOS ==========
-window.carregarJogos = async function() {
+// ========== FUNÇÃO PARA CARREGAR UMA RODADA ESPECÍFICA (SETAS) ==========
+async function carregarRodada(rodada) {
   if (jogosRenderizando) return;
   jogosRenderizando = true;
   renderLoader();
   try {
-    let mercado, partidasData;
-    if (window.preloadedJogosData) {
-      mercado = window.preloadedJogosData.mercado;
-      partidasData = window.preloadedJogosData.partidas;
-      delete window.preloadedJogosData;
-    } else {
-      const [resMerc, resPart] = await Promise.all([
-        fetch(API_CARTOLA.MERCADO_STATUS),
-        fetch(API_CARTOLA.PARTIDAS)
-      ]);
-      if (!resMerc.ok || !resPart.ok) throw new Error("Falha na API");
-      mercado = await resMerc.json();
-      partidasData = await resPart.json();
+    const { partidas: novasPartidas, clubes: novosClubes } = await buscarPartidas(rodada);
+    let novosPontuados = {};
+    const rodadaAtualAPI = mercadoStatus.rodada_atual;
+    if (rodada < rodadaAtualAPI) {
+      novosPontuados = await buscarPontuados(rodada);
     }
-    const partidas = partidasData.partidas || [];
-    const clubes = partidasData.clubes || {};
-    if (!partidas.length) {
-      mainContent.innerHTML = `<div class="pt-6">${renderStatusMercado(mercado)}</div><div class="text-center py-20 text-gray-400">Nenhum jogo</div>`;
-    } else {
-      const cards = partidas.map(p => renderCardPartida(p, clubes)).join("");
-      mainContent.innerHTML = `<div class="pt-6">${renderStatusMercado(mercado)}</div><section class="px-4">${cards}</section>`;
-      document.querySelectorAll(".match-card").forEach(card => {
-        const id = parseInt(card.dataset.partidaId);
-        const partida = partidas.find(p => p.partida_id === id);
-        if (partida) {
-          card.addEventListener("click", (e) => {
-            e.stopPropagation();
-            abrirModalScouts(partida, clubes);
-          });
-        }
-      });
-    }
+    currentPartidas = novasPartidas;
+    currentClubes = novosClubes;
+    currentPontuados = novosPontuados;
+    currentRodada = rodada;
+
+    const main = document.getElementById("main-content");
+    const seletorHtml = renderSeletorRodada(rodada, maxRodadaGlobal);
+    const statusHtml = renderStatusMercado(mercadoStatus);
+    const cardsHtml = currentPartidas.map(p => renderCardPartida(p, rodada, rodadaAtualAPI)).join("");
+    main.innerHTML = `${seletorHtml}${statusHtml}<section class="px-4">${cardsHtml}</section>`;
+    // A delegação global já está ativa, nenhum novo listener necessário
   } catch (err) {
     console.error(err);
-    renderError(err.message);
+    renderError(`Erro ao carregar rodada ${rodada}: ${err.message}`);
+    setTimeout(() => window.carregarJogos(), 2000);
+  } finally {
+    jogosRenderizando = false;
+  }
+}
+
+// ========== DELEGAÇÃO DE EVENTOS GLOBAL ==========
+function setupGlobalDelegation() {
+  const main = document.getElementById("main-content");
+  if (!main) return;
+
+  // Remove listener antigo para evitar duplicação
+  main.removeEventListener('click', window.globalClickHandler);
+  
+  const clickHandler = (e) => {
+    // Botão anterior
+    const prevBtn = e.target.closest('.btn-rodada-prev');
+    if (prevBtn && !prevBtn.disabled) {
+      e.stopPropagation();
+      const novaRodada = currentRodada - 1;
+      if (novaRodada >= 1) carregarRodada(novaRodada);
+      return;
+    }
+    // Botão próximo
+    const nextBtn = e.target.closest('.btn-rodada-next');
+    if (nextBtn && !nextBtn.disabled) {
+      e.stopPropagation();
+      const novaRodada = currentRodada + 1;
+      if (novaRodada <= maxRodadaGlobal) carregarRodada(novaRodada);
+      return;
+    }
+    // Botão de expandir TOP 5
+    const btn = e.target.closest('.expand-top5-btn');
+    if (btn) {
+      e.stopPropagation();
+      const card = btn.closest('.match-card-v2');
+      const container = card.querySelector('.top5-container');
+      const isHidden = container.classList.contains('hidden');
+      if (isHidden) {
+        const partidaId = parseInt(card.dataset.partidaId);
+        const partida = currentPartidas.find(p => p.partida_id === partidaId);
+        if (partida) {
+          container.innerHTML = gerarTop5Html(partida);
+          container.classList.remove('hidden');
+          btn.innerHTML = '▲ ESCONDER TOP 5';
+        }
+      } else {
+        container.classList.add('hidden');
+        btn.innerHTML = '▼ MOSTRAR TOP 5';
+      }
+      return;
+    }
+    // Clique no card (para scouts da partida)
+    const card = e.target.closest('.match-card-v2');
+    if (card && !e.target.closest('.expand-top5-btn')) {
+      const partidaId = parseInt(card.dataset.partidaId);
+      const partida = currentPartidas.find(p => p.partida_id === partidaId);
+      if (partida) abrirModalScouts(partida);
+    }
+  };
+  main.addEventListener('click', clickHandler);
+  window.globalClickHandler = clickHandler;
+}
+
+// ========== CARREGAR JOGOS INICIAL ==========
+window.carregarJogos = async function() {
+  if (jogosRenderizando) return;
+  jogosRenderizando = true;
+  renderLoader();
+
+  try {
+    const resMerc = await fetch(API_CARTOLA.MERCADO_STATUS);
+    if (!resMerc.ok) throw new Error(`Status API: ${resMerc.status}`);
+    mercadoStatus = await resMerc.json();
+    const rodadaAtualAPI = mercadoStatus.rodada_atual;
+    maxRodadaGlobal = rodadaAtualAPI || 38;
+
+    let rodadaSelecionada = rodadaAtualAPI;
+    
+    const { partidas, clubes } = await buscarPartidas(rodadaSelecionada);
+    
+    let pontuados = {};
+    let valuation = null;
+    if (rodadaSelecionada < rodadaAtualAPI) {
+      pontuados = await buscarPontuados(rodadaSelecionada);
+      valuation = await buscarValorizacao();
+    }
+
+    currentPartidas = partidas;
+    currentClubes = clubes;
+    currentPontuados = pontuados;
+    currentValuation = valuation;
+    currentRodada = rodadaSelecionada;
+
+    const main = document.getElementById("main-content");
+    const seletorHtml = renderSeletorRodada(rodadaSelecionada, maxRodadaGlobal);
+    const statusHtml = renderStatusMercado(mercadoStatus);
+    const cardsHtml = partidas.map(p => renderCardPartida(p, rodadaSelecionada, rodadaAtualAPI)).join("");
+    main.innerHTML = `${seletorHtml}${statusHtml}<section class="px-4">${cardsHtml}</section>`;
+
+    setupGlobalDelegation();
+  } catch(err) {
+    console.error(err);
+    renderError(err.message || "Falha ao carregar dados");
   } finally {
     jogosRenderizando = false;
   }
 };
 
-if (btnJogos) {
-  btnJogos.addEventListener("click", () => window.carregarJogos());
-  console.log("Botão JOGOS ativado");
-}
-
-console.log("✅ jogos_rodada.js carregado com valorização AWS e status corrigido (PRE_JOGO -> AGUARDANDO)");
+// ========== INICIALIZAÇÃO ==========
+document.addEventListener('DOMContentLoaded', () => {
+  const btnJogos = document.getElementById("btn-jogos");
+  if (btnJogos) {
+    btnJogos.addEventListener("click", () => window.carregarJogos());
+    console.log("✅ jogos_rodada.js carregado (status corrigido para rodadas anteriores)");
+  } else {
+    console.warn("Botão JOGOS não encontrado");
+  }
+});
