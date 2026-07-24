@@ -178,7 +178,17 @@ const historicoSerieA = [
   { nome: "ESMERALDINO", rdd: 18, val: 11.19, re: 0.00, pen: 0.00 },
   { nome: "GRAN ROYALLE", rdd: 18, val: 11.37, re: 0.00, pen: 0.00 },
   { nome: "NUCA FINA", rdd: 18, val: 9.67, re: 0.00, pen: 0.00 },
-  { nome: "TIMON", rdd: 18, val: 8.49, re: 0.00, pen: 0.00 }
+  { nome: "TIMON", rdd: 18, val: 8.49, re: 0.00, pen: 0.00 },
+  { nome: "NILTIN SLR", rdd: 19, val: 7.44, re: 0.00, pen: 0.00 },
+  { nome: "SUPER MARIO", rdd: 19, val: 8.02, re: 0.00, pen: 0.00 },
+  { nome: "PINSHER 10", rdd: 19, val: 6.04, re: 0.00, pen: 0.00 },
+  { nome: "JOSA UNITED", rdd: 19, val: 7.34, re: 0.00, pen: 0.00 },
+  { nome: "ACGTD", rdd: 19, val: 6.67, re: 0.00, pen: 0.00 },
+  { nome: "PJRC11", rdd: 19, val: 0.59, re: 0.00, pen: 0.00 },
+  { nome: "ESMERALDINO", rdd: 19, val: 6.84, re: 0.00, pen: 0.00 },
+  { nome: "GRAN ROYALLE", rdd: 19, val: 2.64, re: 0.00, pen: 0.00 },
+  { nome: "NUCA FINA", rdd: 19, val: 3.74, re: 0.00, pen: 0.00 },
+  { nome: "TIMON", rdd: 19, val: 9.36, re: 0.00, pen: 0.00 }
 ];
 
 const historicoSerieB = [
@@ -361,5 +371,15 @@ const historicoSerieB = [
   { nome: "VELHO BUIAS", rdd: 18, val: 11.79, re: 0.00, pen: 0.00 },
   { nome: "WR AC", rdd: 18, val: 11.08, re: 0.00, pen: 0.00 },
   { nome: "EMBAIXADOR", rdd: 18, val: 11.64, re: 0.00, pen: 0.00 },
-  { nome: "PATYMEIRAS", rdd: 18, val: 9.98, re: 0.00, pen: 0.00 }
+  { nome: "PATYMEIRAS", rdd: 18, val: 9.98, re: 0.00, pen: 0.00 },
+  { nome: "GOLD SOLAR", rdd: 19, val: 0.20, re: 0.00, pen: 0.00 },
+  { nome: "BANZE", rdd: 19, val: 0.17, re: 0.00, pen: 0.00 },
+  { nome: "DIOGO BNF", rdd: 19, val: -0.10, re: 0.00, pen: 0.00 },
+  { nome: "WANTUIR FC", rdd: 19, val: 6.42, re: 0.00, pen: 0.00 },
+  { nome: "TAC EC", rdd: 19, val: 8.65, re: 0.00, pen: 0.00 },
+  { nome: "FURACAO BMP", rdd: 19, val: 5.16, re: 0.00, pen: 0.00 },
+  { nome: "VELHO BUIAS", rdd: 19, val: 4.59, re: 0.00, pen: 0.00 },
+  { nome: "WR AC", rdd: 19, val: 5.40, re: 0.00, pen: 0.00 },
+  { nome: "EMBAIXADOR", rdd: 19, val: -1.81, re: 0.00, pen: 0.00 },
+  { nome: "PATYMEIRAS", rdd: 19, val: 0.10, re: 0.00, pen: 0.00 }
 ];
